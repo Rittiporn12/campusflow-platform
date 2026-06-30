@@ -46,3 +46,7 @@ This project follows a simple changelog format to make the development history c
 - Added initial Prisma schema with `Organization`, `Department`, `Location`, and `User` models.
 - Added `UserRole` and `UserStatus` enums.
 - Added Prisma Client instance in `apps/api/src/lib/prisma.ts`.
+- Added `docker-compose.yml` for local PostgreSQL development.
+- Added local PostgreSQL Docker documentation in `docker/README.md`.
+- Added initial Prisma migration for the core schema.
+- Documented local database setup in `apps/api/README.md`.

@@ -33,16 +33,21 @@ This folder contains the backend API for CampusFlow.
 - PostgreSQL datasource configuration
 - Initial database schema
 - Prisma Client instance
+- Local PostgreSQL development setup with Docker Compose
 
 ## Current Route
 
+```txt
 GET /health
+```
 
 Expected response:
 
-- success: true
-- message: CampusFlow API is healthy.
-- data.status: ok
+```txt
+success: true
+message: CampusFlow API is healthy.
+data.status: ok
+```
 
 ## Current Prisma Models
 
@@ -60,39 +65,59 @@ Expected response:
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Run development server:
 
+```bash
 npm run dev
+```
 
 Build project:
 
+```bash
 npm run build
+```
 
 Start production build:
 
+```bash
 npm start
+```
 
 Type check:
 
+```bash
 npm run check
+```
+
+## Prisma Commands
 
 Format Prisma schema:
 
+```bash
 npm run prisma:format
+```
 
 Generate Prisma Client:
 
+```bash
 npm run prisma:generate
+```
 
 Run Prisma migration:
 
+```bash
 npm run prisma:migrate
+```
 
 Open Prisma Studio:
 
+```bash
 npm run prisma:studio
+```
 
 ## Environment Variables
 
@@ -100,13 +125,85 @@ Create `.env` from `.env.example` when needed.
 
 Required variables:
 
-- PORT
-- NODE_ENV
-- CORS_ORIGIN
-- DATABASE_URL
+```txt
+PORT
+NODE_ENV
+CORS_ORIGIN
+DATABASE_URL
+```
+
+Example local `.env`:
+
+```env
+PORT=4000
+NODE_ENV=development
+CORS_ORIGIN=http://localhost:5173
+
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/campusflow?schema=public"
+```
+
+Important:
+
+- Do not commit `.env`.
+- Use `.env.example` to document required variables.
+- Use local Docker database only for development.
+
+## Local Database Setup
+
+CampusFlow uses PostgreSQL for local development.
+
+Start PostgreSQL from the project root:
+
+```bash
+docker compose up -d
+```
+
+Check running containers:
+
+```bash
+docker ps
+```
+
+Then go to the API folder:
+
+```bash
+cd apps/api
+```
+
+Run Prisma migration:
+
+```bash
+npm run prisma:migrate
+```
+
+Open Prisma Studio:
+
+```bash
+npm run prisma:studio
+```
+
+## Health Check
+
+After starting the API server:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```txt
+http://localhost:4000/health
+```
+
+Expected result:
+
+```txt
+CampusFlow API is healthy.
+```
 
 ## Current Status
 
-Status: Prisma and PostgreSQL base setup completed
+Status: Prisma, PostgreSQL, and local Docker database setup completed.
 
 Authentication and business modules have not been added yet.
