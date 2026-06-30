@@ -31,6 +31,12 @@ This project follows a simple changelog format to make the development history c
 - Added logout behavior.
 - Added current authenticated user integration using `GET /api/auth/me`.
 - Displayed basic current user information in the app layout.
+- Added ticket list API integration using `GET /api/tickets`.
+- Added frontend ticket API helper.
+- Displayed real tickets from the backend.
+- Added loading, error, and empty states for the ticket list page.
+- Displayed basic ticket fields such as title, status, priority, location, and created date when available.
+- Kept create ticket, ticket detail, status update, assignment, and comments UI for later milestones.
 
 ### Changed
 
