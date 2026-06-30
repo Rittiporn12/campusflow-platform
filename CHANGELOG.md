@@ -37,6 +37,14 @@ This project follows a simple changelog format to make the development history c
 - Added loading, error, and empty states for the ticket list page.
 - Displayed basic ticket fields such as title, status, priority, location, and created date when available.
 - Kept create ticket, ticket detail, status update, assignment, and comments UI for later milestones.
+- Added ticket detail API integration using `GET /api/tickets/:id`.
+- Added ticket detail page connected to the backend.
+- Displayed real ticket detail data from the backend.
+- Added loading, error, and unavailable or not found states for the ticket detail page.
+- Displayed basic ticket fields such as title, description, status, priority, location, category, requester, assigned technician, created date, and updated date when available.
+- Displayed comments and status logs as read-only when included in the API response.
+- Added navigation back to the ticket list.
+- Kept create ticket, status update, assignment, and comments form UI for later milestones.
 
 ### Changed
 
