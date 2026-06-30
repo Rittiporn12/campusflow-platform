@@ -35,3 +35,5 @@ This project follows a simple changelog format to make the development history c
 - Added `docs/api-design.md` to describe planned API groups, route conventions, authentication strategy, authorization rules, and MVP API scope.
 - Added `docs/security-notes.md` to document authentication, authorization, environment variable, file upload, webhook, and API security direction.
 - Added `docs/testing-plan.md` to document manual testing, Postman testing, role permission testing, smoke testing, regression testing, and future automated testing.
+- Added initial monorepo folder structure with `apps/web`, `apps/api`, `packages/shared`, `postman`, and `docker` placeholders.
+- Added root `.gitignore` for dependencies, environment variables, build outputs, logs, OS files, IDE files, temporary files, and uploads.

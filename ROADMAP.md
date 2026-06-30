@@ -33,7 +33,7 @@ Suggested commit messages:
 
 ## Milestone 1: Project Planning Documents
 
-Status: In Progress
+Status: Completed
 
 Goals:
 
@@ -65,7 +65,7 @@ Suggested commit message:
 
 ## Milestone 2: Initial Monorepo Structure
 
-Status: Planned
+Status: Completed
 
 Goals:
 

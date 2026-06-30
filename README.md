@@ -139,6 +139,7 @@ Completed:
 - API design documentation added
 - Security notes documentation added
 - Testing plan documentation added
+- Initial monorepo folder structure added
 
 Next planned work:
 
@@ -153,6 +154,14 @@ Current structure:
 
 ```txt
 campusflow-platform/
+├── apps/
+│   ├── web/
+│   │   └── README.md
+│   └── api/
+│       └── README.md
+├── packages/
+│   └── shared/
+│       └── README.md
 ├── docs/
 │   ├── system-overview.md
 │   ├── modules.md
@@ -160,12 +169,17 @@ campusflow-platform/
 │   ├── api-design.md
 │   ├── security-notes.md
 │   └── testing-plan.md
+├── postman/
+│   └── README.md
+├── docker/
+│   └── README.md
 ├── AGENTS.md
 ├── PROJECT_CONTEXT.md
 ├── PROJECT_PLAN.md
 ├── ROADMAP.md
 ├── README.md
 ├── CHANGELOG.md
+├── .gitignore
 └── .gitkeep
 ```
 
