@@ -132,21 +132,21 @@ Completed development order:
 9. Postman environment setup
 10. Postman collection for Auth API and Ticket API
 11. Manual API testing documentation
+12. Frontend base setup
 
 Next planned milestones:
 
-1. Frontend base setup
-2. Frontend authentication UI
-3. Frontend ticket pages
-4. Asset management
-5. Booking system
-6. Inventory system
-7. Dashboard and reports
-8. n8n automation
-9. AI-ready knowledge base
-10. Docker and deployment documentation
-11. QA documentation improvements
-12. Portfolio showcase preparation
+1. Frontend authentication UI
+2. Frontend ticket pages
+3. Asset management
+4. Booking system
+5. Inventory system
+6. Dashboard and reports
+7. n8n automation
+8. AI-ready knowledge base
+9. Docker and deployment documentation
+10. QA documentation improvements
+11. Portfolio showcase preparation
 
 ## Current Status
 
@@ -192,18 +192,21 @@ Completed:
 - Postman local environment added
 - Postman collection for Auth API and Ticket API added
 - Manual API test cases for Auth API and Ticket API added
+- Frontend base setup completed
+- Vite, React, and TypeScript frontend skeleton added in `apps/web`
+- Placeholder frontend routes added for Login, Dashboard, Tickets, and Ticket Detail
 
 Current milestone:
 
-- Frontend base setup
+- Frontend Authentication UI
 
 Next planned work:
 
-- Initialize the frontend application inside `apps/web`
-- Add React + TypeScript + Vite frontend structure
-- Add placeholder routes for Login, Dashboard, Tickets, and Ticket Detail
-- Add frontend API base URL environment example
-- Add basic frontend README instructions
+- Build the frontend login page UI
+- Build the frontend authentication state structure
+- Connect login flow to the existing Auth API
+- Add basic protected route handling
+- Add logout behavior
 
 ## API Features Completed
 
@@ -248,6 +251,20 @@ Current structure:
 campusflow-platform/
 ├── apps/
 │   ├── web/
+│   │   ├── src/
+│   │   │   ├── layouts/
+│   │   │   ├── lib/
+│   │   │   ├── pages/
+│   │   │   ├── styles/
+│   │   │   ├── App.tsx
+│   │   │   └── main.tsx
+│   │   ├── .env.example
+│   │   ├── index.html
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── tsconfig.json
+│   │   ├── tsconfig.node.json
+│   │   ├── vite.config.ts
 │   │   └── README.md
 │   └── api/
 │       ├── prisma/
@@ -300,7 +317,7 @@ campusflow-platform/
 └── .gitkeep
 ```
 
-The structure will expand as the frontend, additional modules, automation, deployment, and testing assets are added.
+The structure will expand as additional modules, automation, deployment, and testing assets are added.
 
 ## Local Development
 
@@ -333,7 +350,7 @@ npx prisma migrate dev
 Run seed data:
 
 ```bash
-npm run seed
+npm run db:seed
 ```
 
 Start the backend development server:
@@ -352,6 +369,38 @@ Health check:
 
 ```txt
 GET http://localhost:4000/health
+```
+
+### Frontend Web App
+
+Go to the frontend app:
+
+```bash
+cd apps/web
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the frontend development server:
+
+```bash
+npm run dev
+```
+
+Build the frontend app:
+
+```bash
+npm run build
+```
+
+Local frontend app:
+
+```txt
+http://localhost:5173
 ```
 
 ### Postman Testing
