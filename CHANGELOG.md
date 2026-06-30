@@ -80,6 +80,14 @@ This project follows a simple changelog format to make the development history c
 - Cleared the comment textarea after successful submission.
 - Displayed a clear permission error message when the backend returns `403 Forbidden`.
 - Kept edit comment and delete comment UI for later milestones.
+- Added dashboard overview page using existing ticket data from `GET /api/tickets`.
+- Added dashboard loading and error states.
+- Added summary cards for ticket counts.
+- Displayed total tickets, open tickets, in-progress tickets, and resolved or closed tickets.
+- Added recent tickets section.
+- Linked recent tickets to ticket detail pages.
+- Used the existing frontend ticket API helper.
+- Kept advanced charts, reports, asset management, booking, and inventory for later milestones.
 
 ### Changed
 
