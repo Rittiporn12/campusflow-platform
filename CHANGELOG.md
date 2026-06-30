@@ -22,6 +22,7 @@ This project follows a simple changelog format to make the development history c
 - Added basic layout shell.
 - Added API base URL environment example.
 - Added frontend README setup instructions.
+- Updated root `README.md` to reflect the current project status.
 
 ### Changed
 
