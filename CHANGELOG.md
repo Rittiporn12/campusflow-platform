@@ -53,6 +53,14 @@ This project follows a simple changelog format to make the development history c
 - Added loading, success, and error states for ticket creation.
 - Refreshed the ticket list after successful ticket creation.
 - Kept status update, assignment, and comments UI for later milestones.
+- Added ticket status update API integration using `PATCH /api/tickets/:id/status`.
+- Added a status update section on the ticket detail page.
+- Displayed the current ticket status.
+- Added status select input and update status button.
+- Added loading, success, and error states for status updates.
+- Refreshed ticket detail data after successful status update.
+- Displayed a clear permission error message when the backend returns `403 Forbidden`.
+- Kept assignment UI and comments form UI for later milestones.
 
 ### Changed
 
