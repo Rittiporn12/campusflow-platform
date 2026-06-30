@@ -2,6 +2,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
 import {
+  assignTicket,
   getTicketById,
   updateTicketStatus,
   type TicketDetail,
@@ -44,9 +45,12 @@ export default function TicketDetailPage() {
   const [ticket, setTicket] = useState<TicketDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [isAssigningTicket, setIsAssigningTicket] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
+  const [assignmentMessage, setAssignmentMessage] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<TicketStatus>("PENDING");
+  const [technicianId, setTechnicianId] = useState("");
 
   const loadTicket = useCallback(async () => {
     if (!id) {
@@ -142,6 +146,43 @@ export default function TicketDetailPage() {
     }
   }
 
+  async function handleAssignTicket(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedTechnicianId = technicianId.trim();
+
+    if (!id || !trimmedTechnicianId) {
+      setAssignmentMessage("Please enter a technician ID.");
+      return;
+    }
+
+    setIsAssigningTicket(true);
+    setAssignmentMessage("");
+
+    try {
+      const response = await assignTicket(id, {
+        technicianId: trimmedTechnicianId,
+      });
+
+      setAssignmentMessage(response.message || "Ticket assigned successfully.");
+      setTechnicianId("");
+      await loadTicket();
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.response?.status === 403) {
+        setAssignmentMessage("You do not have permission to assign this ticket.");
+      } else {
+        setAssignmentMessage(
+          axiosError.response?.data?.message ||
+            "Unable to assign ticket. Please check the technician ID and try again.",
+        );
+      }
+    } finally {
+      setIsAssigningTicket(false);
+    }
+  }
+
   return (
     <section className="page-section">
       <Link className="secondary-link" to="/tickets">
@@ -203,6 +244,43 @@ export default function TicketDetailPage() {
             </form>
 
             {statusMessage ? <p className="form-message">{statusMessage}</p> : null}
+          </article>
+
+          <article className="detail-panel">
+            <h2>Assign technician</h2>
+            <p>
+              Current assigned technician:{" "}
+              {ticket.assignedTo?.name ?? "Unassigned"}
+            </p>
+
+            <form className="status-update-form" onSubmit={handleAssignTicket}>
+              <label className="form-field" htmlFor="technician-id">
+                <span>Technician ID</span>
+                <input
+                  id="technician-id"
+                  value={technicianId}
+                  onChange={(event) => setTechnicianId(event.target.value)}
+                  placeholder="Paste technician user ID"
+                />
+              </label>
+
+              <p className="helper-text">
+                Use a technician user ID from seed data, database records, or the
+                Postman environment.
+              </p>
+
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isAssigningTicket}
+              >
+                {isAssigningTicket ? "Assigning..." : "Assign ticket"}
+              </button>
+            </form>
+
+            {assignmentMessage ? (
+              <p className="form-message">{assignmentMessage}</p>
+            ) : null}
           </article>
 
           <article className="detail-panel">

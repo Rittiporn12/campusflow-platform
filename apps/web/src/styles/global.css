@@ -220,6 +220,12 @@ a {
   margin-bottom: 0;
 }
 
+.helper-text {
+  color: #5d6c83;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
 .status-update-form {
   display: grid;
   gap: 16px;

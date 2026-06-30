@@ -141,6 +141,18 @@ type UpdateTicketStatusResponse = {
   };
 };
 
+export type AssignTicketInput = {
+  technicianId: string;
+};
+
+type AssignTicketResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    ticket: unknown;
+  };
+};
+
 function getAuthHeaders() {
   const token = getAuthToken();
 
@@ -209,6 +221,22 @@ export async function updateTicketStatus(
   const response = await api.patch<UpdateTicketStatusResponse>(
     `/api/tickets/${ticketId}/status`,
     input,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return response.data;
+}
+
+export async function assignTicket(ticketId: string, input: AssignTicketInput) {
+  const payload: AssignTicketInput = {
+    technicianId: input.technicianId.trim(),
+  };
+
+  const response = await api.patch<AssignTicketResponse>(
+    `/api/tickets/${ticketId}/assign`,
+    payload,
     {
       headers: getAuthHeaders(),
     },
