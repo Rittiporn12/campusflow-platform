@@ -81,40 +81,8 @@ export default function TicketDetailPage() {
   }, [id]);
 
   useEffect(() => {
-    let isMounted = true;
-
-    async function loadInitialTicket() {
-      try {
-        if (!id) {
-          throw new Error("Ticket ID is missing.");
-        }
-
-        const data = await getTicketById(id);
-
-        if (isMounted) {
-          setTicket(data);
-          setSelectedStatus(data.status);
-          setErrorMessage("");
-        }
-      } catch {
-        if (isMounted) {
-          setErrorMessage(
-            "Unable to load this ticket. It may not exist or you may not have access.",
-          );
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    loadInitialTicket();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
+    loadTicket();
+  }, [loadTicket]);
 
   async function handleStatusUpdate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
