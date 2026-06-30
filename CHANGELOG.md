@@ -23,6 +23,14 @@ This project follows a simple changelog format to make the development history c
 - Added API base URL environment example.
 - Added frontend README setup instructions.
 - Updated root `README.md` to reflect the current project status.
+- Added Login page UI.
+- Connected Login page to the Auth API.
+- Stored JWT token after successful login.
+- Added frontend auth route protection.
+- Protected dashboard and ticket routes.
+- Added logout behavior.
+- Added current authenticated user integration using `GET /api/auth/me`.
+- Displayed basic current user information in the app layout.
 
 ### Changed
 
