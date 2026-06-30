@@ -12,6 +12,10 @@ This project follows a simple changelog format to make the development history c
 - Added `PROJECT_CONTEXT.md` to document the CampusFlow concept, planned modules, users, tech stack, and development strategy.
 - Added `AGENTS.md` to guide future Codex usage and project development rules.
 - Added `README.md` with project overview, purpose, modules, tech stack, development strategy, and current status.
+- Added Postman local environment setup for CampusFlow API testing.
+- Added Postman collection coverage for the Auth API and Ticket API.
+- Added manual API testing documentation for the Auth API and Ticket API.
+- Covered authentication flow, ticket creation, ticket list and detail, status update, assignment, and comments in API testing documentation.
 
 ### Changed
 
