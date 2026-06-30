@@ -70,6 +70,16 @@ This project follows a simple changelog format to make the development history c
 - Refreshed ticket detail data after successful assignment.
 - Displayed a clear permission error message when the backend returns `403 Forbidden`.
 - Kept comments form UI for a later milestone.
+- Added ticket comments API integration using `POST /api/tickets/:id/comments`.
+- Added a comments section on the ticket detail page.
+- Displayed existing ticket comments as read-only.
+- Added comment textarea and add comment button.
+- Added frontend validation for empty comments.
+- Added loading, success, and error states for adding comments.
+- Refreshed ticket detail data after successful comment creation.
+- Cleared the comment textarea after successful submission.
+- Displayed a clear permission error message when the backend returns `403 Forbidden`.
+- Kept edit comment and delete comment UI for later milestones.
 
 ### Changed
 
