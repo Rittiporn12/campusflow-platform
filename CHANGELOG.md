@@ -33,3 +33,5 @@ This project follows a simple changelog format to make the development history c
 - Added `docs/modules.md` to describe planned modules, responsibilities, priorities, and future expansion ideas.
 - Added `docs/database-design.md` to describe planned entities, relationships, MVP schema scope, and future Prisma implementation notes.
 - Added `docs/api-design.md` to describe planned API groups, route conventions, authentication strategy, authorization rules, and MVP API scope.
+- Added `docs/security-notes.md` to document authentication, authorization, environment variable, file upload, webhook, and API security direction.
+- Added `docs/testing-plan.md` to document manual testing, Postman testing, role permission testing, smoke testing, regression testing, and future automated testing.

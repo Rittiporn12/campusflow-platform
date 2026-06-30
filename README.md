@@ -137,6 +137,8 @@ Completed:
 - Module documentation added
 - Database design documentation added
 - API design documentation added
+- Security notes documentation added
+- Testing plan documentation added
 
 Next planned work:
 
@@ -155,7 +157,9 @@ campusflow-platform/
 │   ├── system-overview.md
 │   ├── modules.md
 │   ├── database-design.md
-│   └── api-design.md
+│   ├── api-design.md
+│   ├── security-notes.md
+│   └── testing-plan.md
 ├── AGENTS.md
 ├── PROJECT_CONTEXT.md
 ├── PROJECT_PLAN.md
