@@ -130,6 +130,9 @@ Completed:
 - Project context documented
 - Codex agent guidelines added
 - Initial README created
+- Initial changelog created
+- Project plan added
+- Roadmap added
 
 Next planned work:
 
@@ -146,6 +149,8 @@ Current structure:
 campusflow-platform/
 ├── AGENTS.md
 ├── PROJECT_CONTEXT.md
+├── PROJECT_PLAN.md
+├── ROADMAP.md
 ├── README.md
 ├── CHANGELOG.md
 └── .gitkeep

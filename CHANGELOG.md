@@ -27,3 +27,5 @@ This project follows a simple changelog format to make the development history c
 
 - Initialized the CampusFlow repository.
 - Added early project context and documentation foundation.
+- Added `PROJECT_PLAN.md` with project goals, target users, modules, development strategy, MVP scope, and portfolio plan.
+- Added `ROADMAP.md` with planned development milestones from documentation to deployment and QA showcase.
