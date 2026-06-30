@@ -45,6 +45,14 @@ This project follows a simple changelog format to make the development history c
 - Displayed comments and status logs as read-only when included in the API response.
 - Added navigation back to the ticket list.
 - Kept create ticket, status update, assignment, and comments form UI for later milestones.
+- Added Create Ticket UI on the frontend.
+- Integrated ticket category loading using `GET /api/ticket-categories`.
+- Integrated ticket creation using `POST /api/tickets`.
+- Added form fields for title, description, category, priority, and location when supported by the backend.
+- Added frontend validation for required fields.
+- Added loading, success, and error states for ticket creation.
+- Refreshed the ticket list after successful ticket creation.
+- Kept status update, assignment, and comments UI for later milestones.
 
 ### Changed
 
