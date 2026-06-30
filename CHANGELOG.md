@@ -58,3 +58,6 @@ This project follows a simple changelog format to make the development history c
 - Added bcrypt password hashing.
 - Added authentication middleware and basic role middleware.
 - Added Zod validation for authentication inputs.
+- Added repair ticket database schema with `TicketCategory`, `Ticket`, `TicketComment`, and `TicketStatusLog` models.
+- Added `TicketStatus` and `TicketPriority` enums.
+- Added demo ticket categories to the seed script.

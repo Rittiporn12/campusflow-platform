@@ -179,6 +179,8 @@ Future possible tables:
 
 ## Repair Ticket Tables
 
+Status: Basic ticket database schema implemented.
+
 ### ticket_categories
 
 Stores ticket categories.
@@ -620,6 +622,13 @@ Notes:
 - Avoid storing sensitive user data in AI logs.
 
 ## Initial MVP Database Scope
+
+Current implemented ticket schema includes:
+
+- ticket_categories
+- tickets
+- ticket_comments
+- ticket_status_logs
 
 The first database implementation should focus only on:
 

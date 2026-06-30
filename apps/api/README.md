@@ -55,11 +55,17 @@ data.status: ok
 - Department
 - Location
 - User
+- TicketCategory
+- Ticket
+- TicketComment
+- TicketStatusLog
 
 ## Current Prisma Enums
 
 - UserRole
 - UserStatus
+- TicketStatus
+- TicketPriority
 
 ## Local Development
 
@@ -230,6 +236,7 @@ The seed script also creates:
 - Demo organization
 - Demo departments
 - Demo locations
+- Demo ticket categories
 
 Important:
 

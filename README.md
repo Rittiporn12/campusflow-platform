@@ -148,6 +148,8 @@ Completed:
 - Demo users, organization, departments, and locations added
 - Authentication backend added
 - Register, login, and current user API routes added
+- Repair ticket database schema added
+- Demo ticket categories addedcode CHANGELOG.md
 
 Next planned work:
 

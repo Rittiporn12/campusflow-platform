@@ -163,6 +163,55 @@ async function main() {
     },
   });
 
+  const ticketCategories = [
+    {
+      name: "IT",
+      description:
+        "Computer, software, hardware, and technical support issues.",
+    },
+    {
+      name: "Electrical",
+      description: "Electrical system, light, power outlet, and wiring issues.",
+    },
+    {
+      name: "Air Conditioner",
+      description: "Air conditioner repair and maintenance issues.",
+    },
+    {
+      name: "Plumbing",
+      description: "Water, pipe, toilet, and plumbing issues.",
+    },
+    {
+      name: "Internet",
+      description: "Network, Wi-Fi, router, and internet connection issues.",
+    },
+    {
+      name: "Furniture",
+      description: "Desk, chair, cabinet, and furniture issues.",
+    },
+    {
+      name: "Other",
+      description: "Other repair or maintenance requests.",
+    },
+  ];
+
+  for (const category of ticketCategories) {
+    await prisma.ticketCategory.upsert({
+      where: {
+        name: category.name,
+      },
+      update: {
+        description: category.description,
+        isActive: true,
+      },
+      create: {
+        name: category.name,
+        description: category.description,
+        isActive: true,
+      },
+    });
+  }
+
   console.log("CampusFlow demo data seeded successfully.");
   console.log("");
   console.log("Demo accounts:");

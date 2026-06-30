@@ -18,6 +18,22 @@ enum UserStatus {
   INACTIVE
 }
 
+enum TicketStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  WAITING_PARTS
+  COMPLETED
+  CANCELLED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
 model Organization {
   id          String       @id @default(cuid())
   name        String
@@ -55,6 +71,7 @@ model Location {
   description    String?
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   users          User[]
+  tickets        Ticket[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
@@ -74,8 +91,83 @@ model User {
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
   department     Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
   location       Location?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+
+  createdTickets   Ticket[]          @relation("CreatedTickets")
+  assignedTickets  Ticket[]          @relation("AssignedTickets")
+  ticketComments   TicketComment[]
+  ticketStatusLogs TicketStatusLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model TicketCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  tickets     Ticket[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("ticket_categories")
+}
+
+model Ticket {
+  id           String         @id @default(cuid())
+  title        String
+  description  String
+  status       TicketStatus   @default(PENDING)
+  priority     TicketPriority @default(MEDIUM)
+  categoryId   String
+  createdById  String
+  assignedToId String?
+  locationId   String?
+
+  category   TicketCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdBy  User           @relation("CreatedTickets", fields: [createdById], references: [id], onDelete: Cascade)
+  assignedTo User?          @relation("AssignedTickets", fields: [assignedToId], references: [id], onDelete: SetNull)
+  location   Location?      @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  comments   TicketComment[]
+  statusLogs TicketStatusLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tickets")
+}
+
+model TicketComment {
+  id         String  @id @default(cuid())
+  ticketId   String
+  userId     String
+  message    String
+  isInternal Boolean @default(false)
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ticket_comments")
+}
+
+model TicketStatusLog {
+  id          String        @id @default(cuid())
+  ticketId    String
+  oldStatus   TicketStatus?
+  newStatus   TicketStatus
+  changedById String
+  note        String?
+
+  ticket    Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  changedBy User   @relation(fields: [changedById], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("ticket_status_logs")
 }
