@@ -61,6 +61,15 @@ This project follows a simple changelog format to make the development history c
 - Refreshed ticket detail data after successful status update.
 - Displayed a clear permission error message when the backend returns `403 Forbidden`.
 - Kept assignment UI and comments form UI for later milestones.
+- Added ticket assignment API integration using `PATCH /api/tickets/:id/assign`.
+- Added an assignment section on the ticket detail page.
+- Displayed the current assigned technician.
+- Added technicianId input and assign ticket button.
+- Added helper text explaining that technicianId can be taken from seed data, database records, or the Postman environment.
+- Added loading, success, and error states for assignment.
+- Refreshed ticket detail data after successful assignment.
+- Displayed a clear permission error message when the backend returns `403 Forbidden`.
+- Kept comments form UI for a later milestone.
 
 ### Changed
 
