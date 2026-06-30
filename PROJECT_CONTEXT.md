@@ -241,18 +241,24 @@ The recommended development order is:
 3. Backend base setup
 4. Database and Prisma setup
 5. Authentication backend
-6. Frontend base setup
-7. Frontend authentication
-8. Repair ticket backend
-9. Repair ticket frontend
-10. Asset management
-11. Booking system
-12. Inventory system
-13. Dashboard and reports
-14. n8n automation
-15. AI-ready knowledge base
-16. Docker and deployment
-17. QA documentation and portfolio showcase
+6. Repair ticket backend
+7. Postman and manual API testing for Auth and Ticket APIs
+8. Frontend base setup
+9. Frontend authentication
+10. Repair ticket frontend
+11. Basic dashboard overview
+12. Asset management
+13. Booking system
+14. Inventory system
+15. Dashboard and reports expansion
+16. n8n automation
+17. AI-ready knowledge base
+18. Docker and deployment
+19. QA documentation and portfolio showcase
+
+Current completed production-like module:
+
+- Repair ticket workflow, including backend API, Postman testing, manual API testing documentation, and frontend UI for ticket list, detail, creation, status update, assignment, comments, and dashboard overview.
 
 ## Important Rules
 

@@ -186,7 +186,7 @@ Suggested commit message:
 
 ## Milestone 6: Frontend Base Setup
 
-Status: Planned
+Status: Completed
 
 Goals:
 
@@ -198,16 +198,12 @@ Goals:
 - Add placeholder pages
 - Add responsive styling
 
-Planned pages:
+Implemented pages:
 
 - Login
-- Register
 - Dashboard
 - Tickets
 - Ticket Detail
-- Assets
-- Bookings
-- Not Found
 
 Suggested commit message:
 
@@ -217,12 +213,11 @@ Suggested commit message:
 
 ## Milestone 7: Frontend Authentication
 
-Status: Planned
+Status: Completed
 
 Goals:
 
 - Connect login form to backend
-- Connect register form to backend
 - Store access token
 - Add protected routes
 - Add logout
@@ -269,7 +264,7 @@ Suggested commit message:
 
 ## Milestone 9: Repair Ticket Frontend
 
-Status: Planned
+Status: Completed
 
 Goals:
 
@@ -288,7 +283,26 @@ Suggested commit message:
 
 ---
 
-## Milestone 10: Asset Management
+## Milestone 10: Frontend Dashboard Overview
+
+Status: Completed
+
+Goals:
+
+- Add dashboard overview page using existing ticket data
+- Add summary cards for ticket counts
+- Show total, open, in-progress, and resolved or closed tickets
+- Add recent tickets section
+- Link recent tickets to ticket detail pages
+- Defer advanced charts and reports
+
+Suggested commit message:
+
+- `feat: add dashboard ticket overview`
+
+---
+
+## Milestone 11: Asset Management
 
 Status: Planned
 
@@ -307,7 +321,7 @@ Suggested commit message:
 
 ---
 
-## Milestone 11: Booking System
+## Milestone 12: Booking System
 
 Status: Planned
 
@@ -326,7 +340,7 @@ Suggested commit message:
 
 ---
 
-## Milestone 12: Inventory and Spare Parts
+## Milestone 13: Inventory and Spare Parts
 
 Status: Planned
 
@@ -345,14 +359,13 @@ Suggested commit message:
 
 ---
 
-## Milestone 13: Dashboard and Reports
+## Milestone 14: Dashboard and Reports Expansion
 
 Status: Planned
 
 Goals:
 
 - Add dashboard summary API
-- Add dashboard cards
 - Add charts
 - Add recent activity section
 - Show ticket, asset, inventory, and booking summaries
@@ -363,7 +376,7 @@ Suggested commit message:
 
 ---
 
-## Milestone 14: n8n Automation Integration
+## Milestone 15: n8n Automation Integration
 
 Status: Planned
 
@@ -389,7 +402,7 @@ Suggested commit message:
 
 ---
 
-## Milestone 15: AI-Ready Knowledge Base
+## Milestone 16: AI-Ready Knowledge Base
 
 Status: Planned
 
@@ -407,7 +420,7 @@ Suggested commit message:
 
 ---
 
-## Milestone 16: Docker and Deployment Documentation
+## Milestone 17: Docker and Deployment Documentation
 
 Status: Planned
 
@@ -425,14 +438,14 @@ Suggested commit message:
 
 ---
 
-## Milestone 17: QA Documentation and Portfolio Showcase
+## Milestone 18: QA Documentation and Portfolio Showcase
 
 Status: Planned
 
 Goals:
 
-- Add Postman collection
-- Add manual test cases
+- Improve Postman collection coverage as modules are added
+- Expand manual test cases beyond Auth and Ticket APIs
 - Add bug report examples
 - Add screenshots
 - Add demo accounts

@@ -14,7 +14,7 @@ This folder contains the frontend application for CampusFlow.
 
 Status: Frontend in active development
 
-The frontend base is initialized and several core workflow screens are partially implemented. The app currently includes the Vite, React, and TypeScript setup, routing, layout structure, API base URL configuration, authentication UI, protected route handling, current user display, and early ticket workflow pages.
+The frontend base is initialized and the first production-like workflow is implemented around repair tickets. The app currently includes the Vite, React, and TypeScript setup, routing, layout structure, API base URL configuration, authentication UI, protected route handling, current user display, ticket workflow pages, and a basic dashboard overview.
 
 Implemented frontend work includes:
 
@@ -29,8 +29,10 @@ Implemented frontend work includes:
 - Create ticket UI
 - Ticket status update UI
 - Ticket assignment UI
+- Ticket comments UI
+- Dashboard overview using existing ticket data
 
-The frontend is not complete yet. Dashboard features, ticket comments UI, broader ticket workflow polish, role-based UI behavior, and future modules will be added in later milestones.
+The frontend is not complete yet. The completed production-like workflow is currently the ticket workflow. Advanced dashboard reporting, role-based UI polish, asset management, booking, inventory, and other future modules will be added in later milestones.
 
 ## Local Development
 

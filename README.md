@@ -139,20 +139,21 @@ Completed development order:
 16. Frontend create ticket UI
 17. Frontend ticket status update UI
 18. Frontend ticket assignment UI
+19. Frontend ticket comments UI
+20. Frontend ticket workflow review and cleanup
+21. Frontend dashboard overview UI
 
 Next planned milestones:
 
-1. Frontend Ticket Comments UI
-2. Frontend dashboard foundation
-3. Asset management
-4. Booking system
-5. Inventory system
-6. Dashboard and reports
-7. n8n automation
-8. AI-ready knowledge base
-9. Docker and deployment documentation
-10. QA documentation improvements
-11. Portfolio showcase preparation
+1. Asset Management planning or backend design
+2. Booking system
+3. Inventory system
+4. Dashboard and reports expansion
+5. n8n automation
+6. AI-ready knowledge base
+7. Docker and deployment documentation
+8. QA documentation improvements
+9. Portfolio showcase preparation
 
 ## Current Status
 
@@ -210,17 +211,22 @@ Completed:
 - Create ticket UI added
 - Ticket status update UI added
 - Ticket assignment UI added
+- Ticket comments UI added
+- Frontend ticket workflow review and cleanup completed
+- Dashboard overview UI added using existing ticket data
+
+Current production-like completed module:
+
+- Repair ticket workflow, including backend API, Postman testing, manual API testing documentation, and frontend UI for list, detail, create, status update, assignment, comments, and dashboard overview.
 
 Current milestone:
 
-- Frontend Ticket Comments UI
+- Asset Management planning or backend design
 
 Next planned work:
 
-- Add a simple ticket comments form to the ticket detail page
-- Connect the comments form to the existing Ticket Comments API
-- Refresh or update ticket comments after successful submission
-- Keep the implementation small and focused on comments only
+- Start Asset Management planning or backend design after documentation is current
+- Keep the next module scoped and avoid starting multiple systems at once
 
 ## API Features Completed
 

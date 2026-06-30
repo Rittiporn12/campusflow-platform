@@ -99,13 +99,13 @@ Status:
 
 API testing will be done with Postman.
 
-Postman collection should be added in a later phase.
+The current Postman collection covers the Auth API and Ticket API. Future modules should extend the collection as they are implemented.
 
 API testing should cover:
 
 - Auth API
-- User API
 - Ticket API
+- User API in a later phase
 - Asset API
 - Booking API
 - Inventory API
@@ -115,12 +115,12 @@ API testing should cover:
 
 ## Postman Collection Plan
 
-Planned folder structure in Postman:
+Current and planned folder structure in Postman:
 
 - Health Check
 - Auth
-- Users
 - Tickets
+- Users
 - Assets
 - Bookings
 - Inventory
@@ -132,17 +132,21 @@ Planned folder structure in Postman:
 
 ## Postman Environment Variables
 
-Planned Postman variables:
+Current and planned Postman variables:
 
 - baseUrl
-- accessToken
-- adminToken
-- technicianToken
-- userToken
+- authToken
 - ticketId
-- assetId
-- bookingId
-- inventoryItemId
+- categoryId
+- technicianId
+- adminEmail
+- technicianEmail
+- userEmail
+- managerEmail
+- defaultPassword
+- assetId in a later phase
+- bookingId in a later phase
+- inventoryItemId in a later phase
 
 Example baseUrl values:
 

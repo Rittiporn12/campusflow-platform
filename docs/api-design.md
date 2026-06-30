@@ -1,10 +1,10 @@
 # CampusFlow API Design
 
-This document describes the planned API design for CampusFlow.
+This document describes the API design for CampusFlow.
 
-The backend API will be implemented later using Node.js, Express, TypeScript, Prisma, and PostgreSQL.
+The current backend API is implemented using Node.js, Express, TypeScript, Prisma, and PostgreSQL.
 
-This document is only a planning document for the early phase.
+This document includes implemented Auth and Ticket API behavior plus planned API groups for later modules.
 
 ## API Goals
 
@@ -301,8 +301,7 @@ Request body:
 - description
 - categoryId
 - priority
-- locationId
-- assetId optional
+- locationId optional
 
 Expected behavior:
 
@@ -334,7 +333,7 @@ Role behavior:
 - ADMIN sees all tickets.
 - MANAGER sees all tickets or report-level data.
 
-Planned query parameters:
+Implemented query parameters:
 
 - page
 - limit
@@ -343,6 +342,9 @@ Planned query parameters:
 - categoryId
 - assignedToId
 - search
+
+Planned later query parameters:
+
 - startDate
 - endDate
 
