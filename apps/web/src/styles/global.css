@@ -154,6 +154,47 @@ a {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.summary-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 24px;
+}
+
+.summary-card {
+  display: grid;
+  gap: 8px;
+  border: 1px solid #d9e1ec;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 18px;
+}
+
+.summary-card span {
+  color: #5d6c83;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.summary-card strong {
+  color: #172033;
+  font-size: 1.8rem;
+}
+
+.dashboard-panel {
+  margin-top: 16px;
+}
+
+.dashboard-ticket {
+  gap: 10px;
+}
+
+.dashboard-ticket div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
 .ticket-card {
   display: grid;
   gap: 16px;
@@ -440,6 +481,10 @@ p {
   }
 
   .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-grid {
     grid-template-columns: 1fr;
   }
 }
