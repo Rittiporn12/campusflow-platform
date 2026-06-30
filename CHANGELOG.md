@@ -83,7 +83,11 @@ This project follows a simple changelog format to make the development history c
 
 ### Changed
 
-- No changes yet.
+- Reviewed the completed frontend ticket workflow.
+- Cleaned up frontend ticket workflow code where needed.
+- Improved ticket workflow consistency by reusing the ticket detail loading helper.
+- Kept existing ticket features working, including ticket list, ticket detail, create ticket, update status, assign ticket, and add comment.
+- No new ticket features were added in this cleanup milestone.
 
 ### Fixed
 
