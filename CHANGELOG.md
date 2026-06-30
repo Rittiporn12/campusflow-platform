@@ -29,3 +29,5 @@ This project follows a simple changelog format to make the development history c
 - Added early project context and documentation foundation.
 - Added `PROJECT_PLAN.md` with project goals, target users, modules, development strategy, MVP scope, and portfolio plan.
 - Added `ROADMAP.md` with planned development milestones from documentation to deployment and QA showcase.
+- Added `docs/system-overview.md` to describe system purpose, workflows, roles, architecture direction, and security direction.
+- Added `docs/modules.md` to describe planned modules, responsibilities, priorities, and future expansion ideas.

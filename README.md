@@ -133,6 +133,8 @@ Completed:
 - Initial changelog created
 - Project plan added
 - Roadmap added
+- System overview documentation added
+- Module documentation added
 
 Next planned work:
 
@@ -147,6 +149,9 @@ Current structure:
 
 ```txt
 campusflow-platform/
+├── docs/
+│   ├── system-overview.md
+│   └── modules.md
 ├── AGENTS.md
 ├── PROJECT_CONTEXT.md
 ├── PROJECT_PLAN.md
