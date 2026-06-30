@@ -61,3 +61,11 @@ This project follows a simple changelog format to make the development history c
 - Added repair ticket database schema with `TicketCategory`, `Ticket`, `TicketComment`, and `TicketStatusLog` models.
 - Added `TicketStatus` and `TicketPriority` enums.
 - Added demo ticket categories to the seed script.
+- Added repair ticket backend API routes.
+- Added ticket category list endpoint.
+- Added ticket creation endpoint.
+- Added ticket list and ticket detail endpoints.
+- Added ticket assignment endpoint for admins.
+- Added ticket status update endpoint for admins and assigned technicians.
+- Added ticket comment endpoint.
+- Added role-based ticket access rules.

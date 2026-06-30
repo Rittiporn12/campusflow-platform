@@ -237,7 +237,7 @@ Suggested commit message:
 
 ## Milestone 8: Repair Ticket Backend
 
-Status: Planned
+Status: Completed
 
 Goals:
 

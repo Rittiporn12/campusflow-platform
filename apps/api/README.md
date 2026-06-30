@@ -324,3 +324,47 @@ Use this checklist after changing authentication code:
 - Authenticated user can access `/api/auth/me`
 - Unauthenticated user cannot access `/api/auth/me`
 - Invalid token returns authentication error
+
+## Ticket API
+
+Current ticket routes:
+
+- `GET /api/ticket-categories`
+- `POST /api/tickets`
+- `GET /api/tickets`
+- `GET /api/tickets/:id`
+- `PATCH /api/tickets/:id/status`
+- `PATCH /api/tickets/:id/assign`
+- `POST /api/tickets/:id/comments`
+
+Implemented ticket features:
+
+- Get active ticket categories
+- Create repair ticket
+- List tickets with pagination and filters
+- View ticket detail
+- Assign ticket to technician
+- Update ticket status
+- Add ticket comments
+- Add ticket status logs
+- Role-based ticket access rules
+
+Role behavior:
+
+- User can create tickets and view own tickets.
+- Technician can view and update assigned tickets.
+- Admin can view, assign, and manage all tickets.
+- Manager can view ticket data for reporting.
+
+Manual test checklist:
+
+- Authenticated user can get ticket categories.
+- User can create ticket.
+- User can view own ticket list.
+- User cannot view another user's ticket.
+- Admin can view all tickets.
+- Admin can assign ticket to technician.
+- Assigned technician can update ticket status.
+- Unassigned technician cannot update ticket status.
+- Ticket status update creates status log.
+- Ticket comment can be added by permitted users.

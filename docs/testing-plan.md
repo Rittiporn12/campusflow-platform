@@ -262,6 +262,20 @@ A manager should not always be able to:
 
 ## Repair Ticket Test Areas
 
+Status: Ready for manual API testing.
+
+Current implemented ticket test areas:
+
+- Get ticket categories
+- Create ticket
+- List tickets by role
+- View ticket detail by permission
+- Assign ticket to technician
+- Update ticket status
+- Add ticket comment
+- Check ticket status log
+- Check forbidden access for unrelated users
+
 Ticket tests should cover:
 
 ### Create Ticket

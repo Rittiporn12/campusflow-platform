@@ -273,6 +273,18 @@ Access:
 
 ## Ticket API
 
+Status: Basic ticket API implemented.
+
+Implemented routes:
+
+- `GET /api/ticket-categories`
+- `POST /api/tickets`
+- `GET /api/tickets`
+- `GET /api/tickets/:id`
+- `PATCH /api/tickets/:id/status`
+- `PATCH /api/tickets/:id/assign`
+- `POST /api/tickets/:id/comments`
+
 ### POST /api/tickets
 
 Purpose:

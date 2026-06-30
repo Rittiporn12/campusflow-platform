@@ -149,7 +149,9 @@ Completed:
 - Authentication backend added
 - Register, login, and current user API routes added
 - Repair ticket database schema added
-- Demo ticket categories addedcode CHANGELOG.md
+- Demo ticket categories added
+- Repair ticket backend API added
+- Ticket category, creation, list, detail, assignment, status update, and comment routes added
 
 Next planned work:
 
