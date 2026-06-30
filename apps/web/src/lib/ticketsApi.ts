@@ -1,7 +1,7 @@
 import { api } from "./api";
 import { getAuthToken } from "./auth";
 
-type TicketStatus =
+export type TicketStatus =
   | "PENDING"
   | "ASSIGNED"
   | "IN_PROGRESS"
@@ -129,6 +129,18 @@ type CreateTicketResponse = {
   };
 };
 
+export type UpdateTicketStatusInput = {
+  status: TicketStatus;
+};
+
+type UpdateTicketStatusResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    ticket: unknown;
+  };
+};
+
 function getAuthHeaders() {
   const token = getAuthToken();
 
@@ -182,6 +194,21 @@ export async function createTicket(input: CreateTicketInput) {
   const response = await api.post<CreateTicketResponse>(
     "/api/tickets",
     payload,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return response.data;
+}
+
+export async function updateTicketStatus(
+  ticketId: string,
+  input: UpdateTicketStatusInput,
+) {
+  const response = await api.patch<UpdateTicketStatusResponse>(
+    `/api/tickets/${ticketId}/status`,
+    input,
     {
       headers: getAuthHeaders(),
     },

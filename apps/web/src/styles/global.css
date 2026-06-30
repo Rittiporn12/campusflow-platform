@@ -220,6 +220,11 @@ a {
   margin-bottom: 0;
 }
 
+.status-update-form {
+  display: grid;
+  gap: 16px;
+}
+
 .detail-grid {
   display: grid;
   gap: 14px;

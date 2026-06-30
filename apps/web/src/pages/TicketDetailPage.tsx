@@ -1,6 +1,21 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { AxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
-import { getTicketById, type TicketDetail } from "../lib/ticketsApi";
+import {
+  getTicketById,
+  updateTicketStatus,
+  type TicketDetail,
+  type TicketStatus,
+} from "../lib/ticketsApi";
+
+const ticketStatuses: TicketStatus[] = [
+  "PENDING",
+  "ASSIGNED",
+  "IN_PROGRESS",
+  "WAITING_PARTS",
+  "COMPLETED",
+  "CANCELLED",
+];
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
@@ -28,28 +43,56 @@ export default function TicketDetailPage() {
   const { id } = useParams();
   const [ticket, setTicket] = useState<TicketDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<TicketStatus>("PENDING");
+
+  const loadTicket = useCallback(async () => {
+    if (!id) {
+      setErrorMessage("Ticket ID is missing.");
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const data = await getTicketById(id);
+
+      setTicket(data);
+      setSelectedStatus(data.status);
+      setErrorMessage("");
+    } catch {
+      setErrorMessage(
+        "Unable to load this ticket. It may not exist or you may not have access.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id]);
 
   useEffect(() => {
     let isMounted = true;
 
-    async function loadTicket() {
-      if (!id) {
-        setErrorMessage("Ticket ID is missing.");
-        setIsLoading(false);
-        return;
-      }
-
+    async function loadInitialTicket() {
       try {
+        if (!id) {
+          throw new Error("Ticket ID is missing.");
+        }
+
         const data = await getTicketById(id);
 
         if (isMounted) {
           setTicket(data);
+          setSelectedStatus(data.status);
           setErrorMessage("");
         }
       } catch {
         if (isMounted) {
-          setErrorMessage("Unable to load this ticket. It may not exist or you may not have access.");
+          setErrorMessage(
+            "Unable to load this ticket. It may not exist or you may not have access.",
+          );
         }
       } finally {
         if (isMounted) {
@@ -58,12 +101,46 @@ export default function TicketDetailPage() {
       }
     }
 
-    loadTicket();
+    loadInitialTicket();
 
     return () => {
       isMounted = false;
     };
   }, [id]);
+
+  async function handleStatusUpdate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!id || !selectedStatus) {
+      setStatusMessage("Please select a status.");
+      return;
+    }
+
+    setIsUpdatingStatus(true);
+    setStatusMessage("");
+
+    try {
+      const response = await updateTicketStatus(id, {
+        status: selectedStatus,
+      });
+
+      setStatusMessage(response.message || "Ticket status updated successfully.");
+      await loadTicket();
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.response?.status === 403) {
+        setStatusMessage("You do not have permission to update this ticket status.");
+      } else {
+        setStatusMessage(
+          axiosError.response?.data?.message ||
+            "Unable to update ticket status. Please try again.",
+        );
+      }
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  }
 
   return (
     <section className="page-section">
@@ -94,6 +171,38 @@ export default function TicketDetailPage() {
             </div>
 
             <p>{ticket.description}</p>
+          </article>
+
+          <article className="detail-panel">
+            <h2>Update status</h2>
+            <form className="status-update-form" onSubmit={handleStatusUpdate}>
+              <label className="form-field" htmlFor="ticket-status">
+                <span>Current status: {ticket.status}</span>
+                <select
+                  id="ticket-status"
+                  value={selectedStatus}
+                  onChange={(event) =>
+                    setSelectedStatus(event.target.value as TicketStatus)
+                  }
+                >
+                  {ticketStatuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isUpdatingStatus}
+              >
+                {isUpdatingStatus ? "Updating..." : "Update status"}
+              </button>
+            </form>
+
+            {statusMessage ? <p className="form-message">{statusMessage}</p> : null}
           </article>
 
           <article className="detail-panel">
