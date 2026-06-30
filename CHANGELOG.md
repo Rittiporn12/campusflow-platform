@@ -41,3 +41,8 @@ This project follows a simple changelog format to make the development history c
 - Added backend health check route at `GET /health`.
 - Added backend environment variable example file.
 - Added backend 404 and error handling middleware.
+- Added Prisma ORM setup in `apps/api`.
+- Added PostgreSQL datasource configuration.
+- Added initial Prisma schema with `Organization`, `Department`, `Location`, and `User` models.
+- Added `UserRole` and `UserStatus` enums.
+- Added Prisma Client instance in `apps/api/src/lib/prisma.ts`.

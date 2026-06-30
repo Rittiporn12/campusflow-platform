@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  TECHNICIAN
+  ADMIN
+  MANAGER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Organization {
+  id          String       @id @default(cuid())
+  name        String
+  code        String       @unique
+  description String?
+  departments Department[]
+  locations   Location[]
+  users       User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("organizations")
+}
+
+model Department {
+  id             String       @id @default(cuid())
+  organizationId String
+  name           String
+  description    String?
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  users          User[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("departments")
+}
+
+model Location {
+  id             String       @id @default(cuid())
+  organizationId String
+  name           String
+  building       String?
+  floor          String?
+  room           String?
+  description    String?
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  users          User[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("locations")
+}
+
+model User {
+  id             String        @id @default(cuid())
+  name           String
+  email          String        @unique
+  passwordHash   String
+  role           UserRole      @default(USER)
+  status         UserStatus    @default(ACTIVE)
+  organizationId String?
+  departmentId   String?
+  locationId     String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  department     Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  location       Location?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@map("users")
+}

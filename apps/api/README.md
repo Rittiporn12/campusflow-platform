@@ -9,11 +9,11 @@ This folder contains the backend API for CampusFlow.
 - TypeScript
 - dotenv
 - cors
+- Prisma ORM
+- PostgreSQL datasource
 
 ## Planned Stack
 
-- Prisma ORM
-- PostgreSQL
 - JWT authentication
 - bcrypt
 - Zod or another validation library
@@ -29,6 +29,10 @@ This folder contains the backend API for CampusFlow.
 - Health check route
 - 404 middleware
 - Error handler middleware
+- Prisma setup
+- PostgreSQL datasource configuration
+- Initial database schema
+- Prisma Client instance
 
 ## Current Route
 
@@ -39,6 +43,18 @@ Expected response:
 - success: true
 - message: CampusFlow API is healthy.
 - data.status: ok
+
+## Current Prisma Models
+
+- Organization
+- Department
+- Location
+- User
+
+## Current Prisma Enums
+
+- UserRole
+- UserStatus
 
 ## Local Development
 
@@ -62,6 +78,22 @@ Type check:
 
 npm run check
 
+Format Prisma schema:
+
+npm run prisma:format
+
+Generate Prisma Client:
+
+npm run prisma:generate
+
+Run Prisma migration:
+
+npm run prisma:migrate
+
+Open Prisma Studio:
+
+npm run prisma:studio
+
 ## Environment Variables
 
 Create `.env` from `.env.example` when needed.
@@ -71,9 +103,10 @@ Required variables:
 - PORT
 - NODE_ENV
 - CORS_ORIGIN
+- DATABASE_URL
 
 ## Current Status
 
-Status: Backend base setup completed
+Status: Prisma and PostgreSQL base setup completed
 
-Database, Prisma, authentication, and business modules have not been added yet.
+Authentication and business modules have not been added yet.

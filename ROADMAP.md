@@ -131,7 +131,7 @@ Suggested commit message:
 
 ## Milestone 4: Database and Prisma Setup
 
-Status: Planned
+Status: Completed
 
 Goals:
 
