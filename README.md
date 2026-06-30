@@ -144,6 +144,8 @@ Completed:
 - Initial PostgreSQL schema added
 - Local PostgreSQL Docker Compose setup added
 - Initial Prisma migration added
+- Demo seed data script added
+- Demo users, organization, departments, and locations added
 
 Next planned work:
 
@@ -164,7 +166,8 @@ campusflow-platform/
 │   └── api/
 │       ├── prisma/
 │       │   ├── migrations/
-│       │   └── schema.prisma
+│       │   ├── schema.prisma
+│       │   └── seed.ts
 │       ├── src/
 │       │   ├── config/
 │       │   ├── controllers/

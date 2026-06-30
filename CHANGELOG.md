@@ -50,3 +50,6 @@ This project follows a simple changelog format to make the development history c
 - Added local PostgreSQL Docker documentation in `docker/README.md`.
 - Added initial Prisma migration for the core schema.
 - Documented local database setup in `apps/api/README.md`.
+- Added seed script for local demo data.
+- Added demo organization, departments, locations, and user accounts for Admin, Technician, User, and Manager roles.
+- Added `db:seed` script in the API package.

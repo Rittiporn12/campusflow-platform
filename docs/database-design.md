@@ -675,3 +675,21 @@ Future demo data should include:
 - Several inventory items
 
 Demo accounts should be documented later in the README only after authentication is implemented.
+
+Current local seed data includes:
+
+- CampusFlow Demo Organization
+- IT Department
+- Facility Department
+- Main Office location
+- Computer Lab location
+- Admin demo account
+- Technician demo account
+- User demo account
+- Manager demo account
+
+Demo password for all accounts:
+
+- Password123!
+
+These accounts are for local development and portfolio demo only.
