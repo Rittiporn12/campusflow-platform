@@ -16,6 +16,12 @@ This project follows a simple changelog format to make the development history c
 - Added Postman collection coverage for the Auth API and Ticket API.
 - Added manual API testing documentation for the Auth API and Ticket API.
 - Covered authentication flow, ticket creation, ticket list and detail, status update, assignment, and comments in API testing documentation.
+- Added Vite, React, and TypeScript frontend skeleton inside `apps/web`.
+- Added basic frontend project structure.
+- Added placeholder routes for Login, Dashboard, Tickets, and Ticket Detail.
+- Added basic layout shell.
+- Added API base URL environment example.
+- Added frontend README setup instructions.
 
 ### Changed
 
