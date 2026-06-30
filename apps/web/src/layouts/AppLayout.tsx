@@ -1,6 +1,14 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { clearAuthToken } from "../lib/auth";
 
 export default function AppLayout() {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    clearAuthToken();
+    navigate("/login");
+  }
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -14,6 +22,10 @@ export default function AppLayout() {
           <NavLink to="/tickets">Tickets</NavLink>
           <NavLink to="/login">Login</NavLink>
         </nav>
+
+        <button className="logout-button" type="button" onClick={handleLogout}>
+          Logout
+        </button>
       </aside>
 
       <main className="main-content">

@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
 import { AxiosError } from "axios";
-import { login } from "../lib/auth";
+import { useNavigate } from "react-router-dom";
+import { login, setAuthToken } from "../lib/auth";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -26,10 +28,11 @@ export default function LoginPage() {
       });
 
       if (data.data.accessToken) {
-        localStorage.setItem("campusflow_access_token", data.data.accessToken);
+        setAuthToken(data.data.accessToken);
       }
 
       setMessage(data.message || "Login successful.");
+      navigate("/dashboard");
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
       const errorMessage =
