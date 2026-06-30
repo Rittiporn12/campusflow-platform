@@ -393,6 +393,15 @@ Frontend must not be trusted for:
 
 ## Security Priority for MVP
 
+Current implemented security features:
+
+- bcrypt password hashing
+- JWT access token creation
+- JWT authentication middleware
+- Basic role middleware
+- Zod input validation for auth routes
+- Safe authentication error messages
+
 The MVP should focus on:
 
 1. Password hashing

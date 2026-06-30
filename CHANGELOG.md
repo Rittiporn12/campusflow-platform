@@ -53,3 +53,8 @@ This project follows a simple changelog format to make the development history c
 - Added seed script for local demo data.
 - Added demo organization, departments, locations, and user accounts for Admin, Technician, User, and Manager roles.
 - Added `db:seed` script in the API package.
+- Added backend authentication module with register, login, and current user routes.
+- Added JWT access token support.
+- Added bcrypt password hashing.
+- Added authentication middleware and basic role middleware.
+- Added Zod validation for authentication inputs.

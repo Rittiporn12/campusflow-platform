@@ -236,3 +236,84 @@ Important:
 - These accounts are for local development and portfolio demo only.
 - Do not use these passwords in production.
 - Do not commit real production passwords or secrets.
+
+## Authentication API
+
+Current authentication routes:
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+
+### Register
+
+Use this command to register a new demo user:
+
+    curl -X POST http://localhost:4000/api/auth/register \
+      -H "Content-Type: application/json" \
+      -d '{"name":"New Demo User","email":"new-user@campusflow.dev","password":"Password123!"}'
+
+Expected result:
+
+- New user is created
+- User role is `USER`
+- Password is hashed before saving
+- Response includes user data and access token
+
+### Login
+
+Use this command to login with a demo admin account:
+
+    curl -X POST http://localhost:4000/api/auth/login \
+      -H "Content-Type: application/json" \
+      -d '{"email":"admin@campusflow.dev","password":"Password123!"}'
+
+Expected result:
+
+- User logs in successfully
+- Response includes user data
+- Response includes JWT access token
+
+### Current User
+
+Use this command to get the current authenticated user.
+
+Replace `ACCESS_TOKEN` with the token from the login response.
+
+    curl http://localhost:4000/api/auth/me \
+      -H "Authorization: Bearer ACCESS_TOKEN"
+
+Expected result:
+
+- Current user profile is returned
+- Organization, department, and location data may be included when available
+
+### Implemented Authentication Features
+
+Current implemented features:
+
+- Register
+- Login
+- Current user profile
+- Password hashing with bcrypt
+- JWT access token
+- Authentication middleware
+- Basic role middleware
+- Input validation with Zod
+- Safe authentication error responses
+
+### Manual Test Checklist
+
+Use this checklist after changing authentication code:
+
+- Health check route works
+- User can register with valid data
+- User cannot register with duplicate email
+- User cannot register with invalid email
+- User cannot register with short password
+- User can login with valid email and password
+- User cannot login with wrong password
+- User cannot login with non-existing email
+- Authenticated user can access `/api/auth/me`
+- Unauthenticated user cannot access `/api/auth/me`
+- Invalid token returns authentication error

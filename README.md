@@ -146,6 +146,8 @@ Completed:
 - Initial Prisma migration added
 - Demo seed data script added
 - Demo users, organization, departments, and locations added
+- Authentication backend added
+- Register, login, and current user API routes added
 
 Next planned work:
 

@@ -116,6 +116,14 @@ The planned API groups are:
 
 ## Auth API
 
+Status: Implemented basic version
+
+Implemented routes:
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+
 ### POST /api/auth/register
 
 Purpose:

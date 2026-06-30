@@ -157,7 +157,7 @@ Suggested commit message:
 
 ## Milestone 5: Authentication Backend
 
-Status: Planned
+Status: Completed
 
 Goals:
 
