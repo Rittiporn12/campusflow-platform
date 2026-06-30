@@ -37,3 +37,7 @@ This project follows a simple changelog format to make the development history c
 - Added `docs/testing-plan.md` to document manual testing, Postman testing, role permission testing, smoke testing, regression testing, and future automated testing.
 - Added initial monorepo folder structure with `apps/web`, `apps/api`, `packages/shared`, `postman`, and `docker` placeholders.
 - Added root `.gitignore` for dependencies, environment variables, build outputs, logs, OS files, IDE files, temporary files, and uploads.
+- Added backend base setup in `apps/api` using Node.js, Express, and TypeScript.
+- Added backend health check route at `GET /health`.
+- Added backend environment variable example file.
+- Added backend 404 and error handling middleware.

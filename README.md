@@ -158,6 +158,19 @@ campusflow-platform/
 │   ├── web/
 │   │   └── README.md
 │   └── api/
+│       ├── src/
+│       │   ├── config/
+│       │   ├── controllers/
+│       │   ├── middlewares/
+│       │   ├── modules/
+│       │   ├── routes/
+│       │   ├── utils/
+│       │   ├── app.ts
+│       │   └── server.ts
+│       ├── .env.example
+│       ├── package.json
+│       ├── package-lock.json
+│       ├── tsconfig.json
 │       └── README.md
 ├── packages/
 │   └── shared/

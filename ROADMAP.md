@@ -105,7 +105,7 @@ Suggested commit message:
 
 ## Milestone 3: Backend Base Setup
 
-Status: Planned
+Status: Completed
 
 Goals:
 
