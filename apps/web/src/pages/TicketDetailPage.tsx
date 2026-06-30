@@ -2,6 +2,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
 import {
+  addTicketComment,
   assignTicket,
   getTicketById,
   updateTicketStatus,
@@ -46,9 +47,12 @@ export default function TicketDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [isAssigningTicket, setIsAssigningTicket] = useState(false);
+  const [isAddingComment, setIsAddingComment] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [assignmentMessage, setAssignmentMessage] = useState("");
+  const [commentText, setCommentText] = useState("");
+  const [commentMessage, setCommentMessage] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<TicketStatus>("PENDING");
   const [technicianId, setTechnicianId] = useState("");
 
@@ -183,6 +187,45 @@ export default function TicketDetailPage() {
     }
   }
 
+  async function handleAddComment(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedComment = commentText.trim();
+
+    if (!id || !trimmedComment) {
+      setCommentMessage("Please enter a comment.");
+      return;
+    }
+
+    setIsAddingComment(true);
+    setCommentMessage("");
+
+    try {
+      const response = await addTicketComment(id, {
+        message: trimmedComment,
+      });
+
+      setCommentMessage(response.message || "Comment added successfully.");
+      setCommentText("");
+      await loadTicket();
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.response?.status === 403) {
+        setCommentMessage(
+          "You do not have permission to add a comment to this ticket.",
+        );
+      } else {
+        setCommentMessage(
+          axiosError.response?.data?.message ||
+            "Unable to add comment. Please try again.",
+        );
+      }
+    } finally {
+      setIsAddingComment(false);
+    }
+  }
+
   return (
     <section className="page-section">
       <Link className="secondary-link" to="/tickets">
@@ -311,6 +354,32 @@ export default function TicketDetailPage() {
 
           <article className="detail-panel">
             <h2>Comments</h2>
+
+            <form className="status-update-form" onSubmit={handleAddComment}>
+              <label className="form-field" htmlFor="ticket-comment">
+                <span>Add comment</span>
+                <textarea
+                  id="ticket-comment"
+                  rows={4}
+                  value={commentText}
+                  onChange={(event) => setCommentText(event.target.value)}
+                  placeholder="Write a ticket comment"
+                />
+              </label>
+
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isAddingComment}
+              >
+                {isAddingComment ? "Adding..." : "Add comment"}
+              </button>
+            </form>
+
+            {commentMessage ? (
+              <p className="form-message">{commentMessage}</p>
+            ) : null}
+
             {ticket.comments.length > 0 ? (
               <div className="activity-list">
                 {ticket.comments.map((comment) => (

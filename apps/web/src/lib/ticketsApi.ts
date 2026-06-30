@@ -153,6 +153,18 @@ type AssignTicketResponse = {
   };
 };
 
+export type AddTicketCommentInput = {
+  message: string;
+};
+
+type AddTicketCommentResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    comment: TicketComment;
+  };
+};
+
 function getAuthHeaders() {
   const token = getAuthToken();
 
@@ -236,6 +248,25 @@ export async function assignTicket(ticketId: string, input: AssignTicketInput) {
 
   const response = await api.patch<AssignTicketResponse>(
     `/api/tickets/${ticketId}/assign`,
+    payload,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return response.data;
+}
+
+export async function addTicketComment(
+  ticketId: string,
+  input: AddTicketCommentInput,
+) {
+  const payload: AddTicketCommentInput = {
+    message: input.message.trim(),
+  };
+
+  const response = await api.post<AddTicketCommentResponse>(
+    `/api/tickets/${ticketId}/comments`,
     payload,
     {
       headers: getAuthHeaders(),
