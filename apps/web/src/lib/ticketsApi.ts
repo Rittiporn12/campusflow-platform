@@ -9,7 +9,7 @@ type TicketStatus =
   | "COMPLETED"
   | "CANCELLED";
 
-type TicketPriority = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+export type TicketPriority = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 
 type TicketUser = {
   id: string;
@@ -18,7 +18,7 @@ type TicketUser = {
   role: "USER" | "TECHNICIAN" | "ADMIN" | "MANAGER";
 };
 
-type TicketCategory = {
+export type TicketCategory = {
   id: string;
   name: string;
   description: string | null;
@@ -106,37 +106,86 @@ type TicketDetailResponse = {
   };
 };
 
-export async function getTickets() {
+type TicketCategoriesResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    categories: TicketCategory[];
+  };
+};
+
+export type CreateTicketInput = {
+  title: string;
+  description: string;
+  categoryId: string;
+  priority: TicketPriority;
+};
+
+type CreateTicketResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    ticket: TicketDetail;
+  };
+};
+
+function getAuthHeaders() {
   const token = getAuthToken();
 
   if (!token) {
     throw new Error("Authentication token is missing.");
   }
 
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+export async function getTickets() {
   const response = await api.get<TicketListResponse>("/api/tickets", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   return response.data.data;
 }
 
 export async function getTicketById(ticketId: string) {
-  const token = getAuthToken();
-
-  if (!token) {
-    throw new Error("Authentication token is missing.");
-  }
-
   const response = await api.get<TicketDetailResponse>(
     `/api/tickets/${ticketId}`,
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     },
   );
 
   return response.data.data.ticket;
+}
+
+export async function getTicketCategories() {
+  const response = await api.get<TicketCategoriesResponse>(
+    "/api/ticket-categories",
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return response.data.data.categories;
+}
+
+export async function createTicket(input: CreateTicketInput) {
+  const payload: CreateTicketInput = {
+    title: input.title.trim(),
+    description: input.description.trim(),
+    categoryId: input.categoryId,
+    priority: input.priority,
+  };
+
+  const response = await api.post<CreateTicketResponse>(
+    "/api/tickets",
+    payload,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return response.data;
 }
