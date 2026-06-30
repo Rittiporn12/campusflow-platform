@@ -1,0 +1,733 @@
+{
+  "info": {
+    "_postman_id": "f7ace818-7d79-4caf-b40c-67b1bc00651c",
+    "name": "CampusFlow API",
+    "description": "CampusFlow API collection for testing the backend services of the Smart Campus Operations Platform.\n\nThis collection covers:\n\n- Authentication API\n    \n- Ticket API\n    \n\nBase URL is managed by the Postman environment variable:\n\n`{{baseUrl}}`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56206148",
+    "_collection_link": "https://go.postman.co/collection/56206148-f7ace818-7d79-4caf-b40c-67b1bc00651c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth API",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "    pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains success true\", function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains registered user data\", function () {",
+                  "    const response = pm.response.json();",
+                  "",
+                  "    pm.expect(response.data).to.have.property(\"user\");",
+                  "    pm.expect(response.data.user).to.have.property(\"id\");",
+                  "    pm.expect(response.data.user).to.have.property(\"email\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Postman Test User\",\n    \"email\": \"postman.user{{$timestamp}}@campusflow.dev\",\n    \"password\": \"{{defaultPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const token =",
+                  "  response.token ||",
+                  "  response.accessToken ||",
+                  "  response.data?.token ||",
+                  "  response.data?.accessToken;",
+                  "",
+                  "if (token) {",
+                  "  pm.environment.set(\"authToken\", token);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"{{adminEmail}}\",\n    \"password\": \"{{defaultPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains success true\", function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication endpoints for user registration, login, and current user profile."
+    },
+    {
+      "name": "Ticket API",
+      "item": [
+        {
+          "name": "Get Ticket Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const categories =",
+                  "    response.data?.categories ||",
+                  "    response.data?.ticketCategories ||",
+                  "    response.categories ||",
+                  "    response.ticketCategories ||",
+                  "    response.data ||",
+                  "    response;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains success true\", function () {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains category list\", function () {",
+                  "    pm.expect(categories).to.be.an(\"array\");",
+                  "    pm.expect(categories.length).to.be.greaterThan(0);",
+                  "});",
+                  "",
+                  "if (Array.isArray(categories) && categories.length > 0) {",
+                  "    const firstCategory = categories[0];",
+                  "",
+                  "    if (firstCategory.id) {",
+                  "        pm.environment.set(\"categoryId\", firstCategory.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ticket-categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ticket-categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const ticket =",
+                  "    response.data?.ticket ||",
+                  "    response.ticket ||",
+                  "    response.data;",
+                  "",
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "    pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains success true\", function () {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains created ticket data\", function () {",
+                  "    pm.expect(ticket).to.be.an(\"object\");",
+                  "    pm.expect(ticket).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "if (ticket && ticket.id) {",
+                  "    pm.environment.set(\"ticketId\", ticket.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Air conditioner not working\",\n    \"description\": \"The air conditioner in the library study area is not working properly.\",\n    \"categoryId\": \"{{categoryId}}\",\n    \"priority\": \"MEDIUM\",\n    \"location\": \"Library Building - Floor 2\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ticket Detail",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const ticket =",
+                  "    response.data?.ticket ||",
+                  "    response.ticket ||",
+                  "    response.data;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains success true\", function () {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains ticket data\", function () {",
+                  "    pm.expect(ticket).to.be.an(\"object\");",
+                  "    pm.expect(ticket).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Ticket ID matches environment ticketId\", function () {",
+                  "    pm.expect(ticket.id).to.eql(pm.environment.get(\"ticketId\"));",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ticket List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const tickets =",
+                  "    response.data?.tickets ||",
+                  "    response.data?.items ||",
+                  "    response.tickets ||",
+                  "    response.items ||",
+                  "    response.data ||",
+                  "    response;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "    if (response.success !== undefined) {",
+                  "        pm.expect(response.success).to.eql(true);",
+                  "    } else {",
+                  "        pm.expect(pm.response.code).to.eql(200);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains ticket list\", function () {",
+                  "    pm.expect(tickets).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "if (Array.isArray(tickets) && tickets.length > 0) {",
+                  "    pm.test(\"First ticket contains basic fields\", function () {",
+                  "        pm.expect(tickets[0]).to.have.property(\"id\");",
+                  "        pm.expect(tickets[0]).to.have.property(\"title\");",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Ticket Status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const ticket =",
+                  "    response.data?.ticket ||",
+                  "    response.ticket ||",
+                  "    response.data;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "    if (response.success !== undefined) {",
+                  "        pm.expect(response.success).to.eql(true);",
+                  "    } else {",
+                  "        pm.expect(pm.response.code).to.eql(200);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains updated ticket data\", function () {",
+                  "    pm.expect(ticket).to.be.an(\"object\");",
+                  "    pm.expect(ticket).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Ticket status is updated to IN_PROGRESS\", function () {",
+                  "    pm.expect(ticket.status).to.eql(\"IN_PROGRESS\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"IN_PROGRESS\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const ticket =",
+                  "    response.data?.ticket ||",
+                  "    response.ticket ||",
+                  "    response.data;",
+                  "",
+                  "const assignedTechnicianId =",
+                  "    ticket?.technicianId ||",
+                  "    ticket?.assignedToId ||",
+                  "    ticket?.assigneeId ||",
+                  "    ticket?.assignedTo?.id ||",
+                  "    ticket?.technician?.id;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "    if (response.success !== undefined) {",
+                  "        pm.expect(response.success).to.eql(true);",
+                  "    } else {",
+                  "        pm.expect(pm.response.code).to.eql(200);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains assigned ticket data\", function () {",
+                  "    pm.expect(ticket).to.be.an(\"object\");",
+                  "    pm.expect(ticket).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Ticket ID matches environment ticketId\", function () {",
+                  "    pm.expect(ticket.id).to.eql(pm.environment.get(\"ticketId\"));",
+                  "});",
+                  "",
+                  "pm.test(\"Ticket is assigned to technician\", function () {",
+                  "    pm.expect(assignedTechnicianId).to.eql(pm.environment.get(\"technicianId\"));",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"technicianId\": \"{{technicianId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/assign",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "assign"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Ticket Comment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const comment =",
+                  "    response.data?.comment ||",
+                  "    response.comment ||",
+                  "    response.data;",
+                  "",
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "    pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "    if (response.success !== undefined) {",
+                  "        pm.expect(response.success).to.eql(true);",
+                  "    } else {",
+                  "        pm.expect([200, 201]).to.include(pm.response.code);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains comment data\", function () {",
+                  "    pm.expect(comment).to.be.an(\"object\");",
+                  "    pm.expect(comment).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Comment contains content\", function () {",
+                  "    const commentText =",
+                  "        comment.content ||",
+                  "        comment.message ||",
+                  "        comment.body ||",
+                  "        comment.text;",
+                  "",
+                  "    pm.expect(commentText).to.be.a(\"string\");",
+                  "    pm.expect(commentText.length).to.be.greaterThan(0);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"message\": \"Technician has been notified and will inspect the issue.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "comments"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Ticket management endpoints for campus issue reporting, ticket tracking, assignment, status updates, and comments."
+    }
+  ]
+}
