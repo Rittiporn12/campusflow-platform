@@ -133,11 +133,17 @@ Completed development order:
 10. Postman collection for Auth API and Ticket API
 11. Manual API testing documentation
 12. Frontend base setup
+13. Frontend authentication UI
+14. Frontend ticket list UI
+15. Frontend ticket detail UI
+16. Frontend create ticket UI
+17. Frontend ticket status update UI
+18. Frontend ticket assignment UI
 
 Next planned milestones:
 
-1. Frontend authentication UI
-2. Frontend ticket pages
+1. Frontend Ticket Comments UI
+2. Frontend dashboard foundation
 3. Asset management
 4. Booking system
 5. Inventory system
@@ -195,18 +201,26 @@ Completed:
 - Frontend base setup completed
 - Vite, React, and TypeScript frontend skeleton added in `apps/web`
 - Placeholder frontend routes added for Login, Dashboard, Tickets, and Ticket Detail
+- Login page UI added
+- Login API integration added
+- Frontend auth route protection added
+- Current authenticated user integration added
+- Ticket list UI added
+- Ticket detail UI added
+- Create ticket UI added
+- Ticket status update UI added
+- Ticket assignment UI added
 
 Current milestone:
 
-- Frontend Authentication UI
+- Frontend Ticket Comments UI
 
 Next planned work:
 
-- Build the frontend login page UI
-- Build the frontend authentication state structure
-- Connect login flow to the existing Auth API
-- Add basic protected route handling
-- Add logout behavior
+- Add a simple ticket comments form to the ticket detail page
+- Connect the comments form to the existing Ticket Comments API
+- Refresh or update ticket comments after successful submission
+- Keep the implementation small and focused on comments only
 
 ## API Features Completed
 

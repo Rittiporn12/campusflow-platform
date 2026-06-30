@@ -12,11 +12,25 @@ This folder contains the frontend application for CampusFlow.
 
 ## Current Status
 
-Status: Frontend base initialized
+Status: Frontend in active development
 
-The current frontend is a minimal foundation only. It includes a basic Vite setup, routing, layout structure, placeholder pages, and API base URL configuration.
+The frontend base is initialized and several core workflow screens are partially implemented. The app currently includes the Vite, React, and TypeScript setup, routing, layout structure, API base URL configuration, authentication UI, protected route handling, current user display, and early ticket workflow pages.
 
-Real authentication, protected routes, dashboard features, and ticket management UI will be added in later milestones.
+Implemented frontend work includes:
+
+- Login page UI
+- Login API integration
+- JWT token storage for local development
+- Protected dashboard and ticket routes
+- Logout behavior
+- Current authenticated user integration
+- Ticket list UI
+- Ticket detail UI
+- Create ticket UI
+- Ticket status update UI
+- Ticket assignment UI
+
+The frontend is not complete yet. Dashboard features, ticket comments UI, broader ticket workflow polish, role-based UI behavior, and future modules will be added in later milestones.
 
 ## Local Development
 
@@ -60,7 +74,7 @@ Example local value:
 VITE_API_BASE_URL=http://localhost:4000
 ```
 
-## Placeholder Routes
+## Available Routes
 
 - `/login`
 - `/dashboard`
