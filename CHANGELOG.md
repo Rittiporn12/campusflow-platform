@@ -31,3 +31,5 @@ This project follows a simple changelog format to make the development history c
 - Added `ROADMAP.md` with planned development milestones from documentation to deployment and QA showcase.
 - Added `docs/system-overview.md` to describe system purpose, workflows, roles, architecture direction, and security direction.
 - Added `docs/modules.md` to describe planned modules, responsibilities, priorities, and future expansion ideas.
+- Added `docs/database-design.md` to describe planned entities, relationships, MVP schema scope, and future Prisma implementation notes.
+- Added `docs/api-design.md` to describe planned API groups, route conventions, authentication strategy, authorization rules, and MVP API scope.

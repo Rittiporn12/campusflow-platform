@@ -135,6 +135,8 @@ Completed:
 - Roadmap added
 - System overview documentation added
 - Module documentation added
+- Database design documentation added
+- API design documentation added
 
 Next planned work:
 
@@ -151,7 +153,9 @@ Current structure:
 campusflow-platform/
 ├── docs/
 │   ├── system-overview.md
-│   └── modules.md
+│   ├── modules.md
+│   ├── database-design.md
+│   └── api-design.md
 ├── AGENTS.md
 ├── PROJECT_CONTEXT.md
 ├── PROJECT_PLAN.md
