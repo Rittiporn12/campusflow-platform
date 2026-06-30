@@ -207,3 +207,32 @@ CampusFlow API is healthy.
 Status: Prisma, PostgreSQL, and local Docker database setup completed.
 
 Authentication and business modules have not been added yet.
+
+## Demo Seed Data
+
+The API includes a seed script for local demo data.
+
+Run seed command:
+
+npm run db:seed
+
+Demo accounts:
+
+| Role       | Email                     | Password     |
+| ---------- | ------------------------- | ------------ |
+| Admin      | admin@campusflow.dev      | Password123! |
+| Technician | technician@campusflow.dev | Password123! |
+| User       | user@campusflow.dev       | Password123! |
+| Manager    | manager@campusflow.dev    | Password123! |
+
+The seed script also creates:
+
+- Demo organization
+- Demo departments
+- Demo locations
+
+Important:
+
+- These accounts are for local development and portfolio demo only.
+- Do not use these passwords in production.
+- Do not commit real production passwords or secrets.
