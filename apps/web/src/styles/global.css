@@ -153,6 +153,11 @@ a {
   background: #174ea6;
 }
 
+.primary-button:disabled {
+  background: #8ca9d8;
+  cursor: not-allowed;
+}
+
 .form-message {
   border-radius: 8px;
   background: #eef4ff;
