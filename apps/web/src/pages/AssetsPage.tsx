@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { AxiosError } from "axios";
 import { Link } from "react-router-dom";
 import {
@@ -7,7 +7,23 @@ import {
   getAssets,
   type AssetCategory,
   type AssetListItem,
+  type AssetStatus,
 } from "../lib/assetsApi";
+
+type AssetStatusFilter = "ALL" | AssetStatus;
+
+const assetStatusFilters: AssetStatusFilter[] = [
+  "ALL",
+  "AVAILABLE",
+  "IN_USE",
+  "UNDER_MAINTENANCE",
+  "RETIRED",
+  "LOST",
+];
+
+function getAssetStatusBadgeClass(status: AssetStatus) {
+  return `badge badge-status badge-status-${status.toLowerCase().replace(/_/g, "-")}`;
+}
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
@@ -47,6 +63,8 @@ export default function AssetsPage() {
   const [model, setModel] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
   const [notes, setNotes] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<AssetStatusFilter>("ALL");
 
   const loadAssets = useCallback(async () => {
     setIsLoading(true);
@@ -155,6 +173,32 @@ export default function AssetsPage() {
       setIsCreating(false);
     }
   }
+
+  const filteredAssets = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    return assets.filter((asset) => {
+      const matchesStatus =
+        statusFilter === "ALL" || asset.status === statusFilter;
+
+      const searchableText = [
+        asset.name,
+        asset.assetCode,
+        asset.brand,
+        asset.model,
+        asset.serialNumber,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      const matchesSearch =
+        normalizedSearch.length === 0 ||
+        searchableText.includes(normalizedSearch);
+
+      return matchesStatus && matchesSearch;
+    });
+  }, [assets, searchTerm, statusFilter]);
 
   return (
     <section className="page-section">
@@ -275,13 +319,48 @@ export default function AssetsPage() {
         <p className="state-message state-message-error">{errorMessage}</p>
       ) : null}
 
+      {!isLoading && !errorMessage && assets.length > 0 ? (
+        <section className="filter-panel" aria-label="Asset filters">
+          <label className="form-field" htmlFor="asset-search">
+            <span>Search assets</span>
+            <input
+              id="asset-search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search name, code, brand, model, or serial number"
+            />
+          </label>
+
+          <label className="form-field" htmlFor="asset-status-filter">
+            <span>Status</span>
+            <select
+              id="asset-status-filter"
+              value={statusFilter}
+              onChange={(event) =>
+                setStatusFilter(event.target.value as AssetStatusFilter)
+              }
+            >
+              {assetStatusFilters.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+          </label>
+        </section>
+      ) : null}
+
       {!isLoading && !errorMessage && assets.length === 0 ? (
         <p className="state-message">No assets found.</p>
       ) : null}
 
-      {!isLoading && !errorMessage && assets.length > 0 ? (
+      {!isLoading && !errorMessage && assets.length > 0 && filteredAssets.length === 0 ? (
+        <p className="state-message">No assets match the current filters.</p>
+      ) : null}
+
+      {!isLoading && !errorMessage && filteredAssets.length > 0 ? (
         <div className="ticket-list">
-          {assets.map((asset) => (
+          {filteredAssets.map((asset) => (
             <article className="ticket-card" key={asset.id}>
               <div>
                 <h2>{asset.name}</h2>
@@ -289,8 +368,12 @@ export default function AssetsPage() {
               </div>
 
               <div className="ticket-meta">
-                <span>{asset.status}</span>
-                <span>{asset.category?.name ?? "Uncategorized"}</span>
+                <span className={getAssetStatusBadgeClass(asset.status)}>
+                  {asset.status}
+                </span>
+                <span className="badge badge-category">
+                  {asset.category?.name ?? "Uncategorized"}
+                </span>
                 <span>{asset.department?.name ?? "No department"}</span>
               </div>
 

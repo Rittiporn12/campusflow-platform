@@ -154,6 +154,17 @@ a {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.filter-panel {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+  border: 1px solid #d9e1ec;
+  border-radius: 8px;
+  background: #ffffff;
+  margin-top: 24px;
+  padding: 18px;
+}
+
 .summary-grid {
   display: grid;
   gap: 14px;
@@ -251,6 +262,40 @@ a {
   font-size: 0.82rem;
   font-weight: 700;
   padding: 6px 10px;
+}
+
+.ticket-meta .badge {
+  border: 1px solid transparent;
+}
+
+.ticket-meta .badge-category {
+  background: #eef4ff;
+  color: #174ea6;
+}
+
+.ticket-meta .badge-status-available {
+  background: #edf9f0;
+  color: #1f7a3d;
+}
+
+.ticket-meta .badge-status-in-use {
+  background: #eef4ff;
+  color: #174ea6;
+}
+
+.ticket-meta .badge-status-under-maintenance {
+  background: #fff7e6;
+  color: #956000;
+}
+
+.ticket-meta .badge-status-retired {
+  background: #f2f4f7;
+  color: #4f5f76;
+}
+
+.ticket-meta .badge-status-lost {
+  background: #fff4f4;
+  color: #a61f1f;
 }
 
 .secondary-link {
@@ -505,6 +550,10 @@ p {
   }
 
   .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-panel {
     grid-template-columns: 1fr;
   }
 

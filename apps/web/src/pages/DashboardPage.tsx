@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  getAssets,
+  type AssetListItem,
+} from "../lib/assetsApi";
+import {
   getTickets,
   type TicketListItem,
   type TicketStatus,
@@ -23,6 +27,7 @@ function isResolvedStatus(status: TicketStatus) {
 
 export default function DashboardPage() {
   const [tickets, setTickets] = useState<TicketListItem[]>([]);
+  const [assets, setAssets] = useState<AssetListItem[]>([]);
   const [totalTickets, setTotalTickets] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,13 +35,17 @@ export default function DashboardPage() {
   useEffect(() => {
     let isMounted = true;
 
-    async function loadDashboardTickets() {
+    async function loadDashboardData() {
       try {
-        const data = await getTickets();
+        const [ticketData, assetData] = await Promise.all([
+          getTickets(),
+          getAssets(),
+        ]);
 
         if (isMounted) {
-          setTickets(data.items);
-          setTotalTickets(data.meta.total);
+          setTickets(ticketData.items);
+          setTotalTickets(ticketData.meta.total);
+          setAssets(assetData);
           setErrorMessage("");
         }
       } catch {
@@ -50,7 +59,7 @@ export default function DashboardPage() {
       }
     }
 
-    loadDashboardTickets();
+    loadDashboardData();
 
     return () => {
       isMounted = false;
@@ -64,6 +73,17 @@ export default function DashboardPage() {
       resolved: tickets.filter((ticket) => isResolvedStatus(ticket.status)).length,
     };
   }, [tickets]);
+
+  const assetSummary = useMemo(() => {
+    return {
+      total: assets.length,
+      available: assets.filter((asset) => asset.status === "AVAILABLE").length,
+      inUse: assets.filter((asset) => asset.status === "IN_USE").length,
+      underMaintenance: assets.filter(
+        (asset) => asset.status === "UNDER_MAINTENANCE",
+      ).length,
+    };
+  }, [assets]);
 
   const recentTickets = tickets.slice(0, 5);
 
@@ -100,6 +120,26 @@ export default function DashboardPage() {
             <article className="summary-card">
               <span>Resolved or closed</span>
               <strong>{summary.resolved}</strong>
+            </article>
+
+            <article className="summary-card">
+              <span>Total assets</span>
+              <strong>{assetSummary.total}</strong>
+            </article>
+
+            <article className="summary-card">
+              <span>Available</span>
+              <strong>{assetSummary.available}</strong>
+            </article>
+
+            <article className="summary-card">
+              <span>In use</span>
+              <strong>{assetSummary.inUse}</strong>
+            </article>
+
+            <article className="summary-card">
+              <span>Under maintenance</span>
+              <strong>{assetSummary.underMaintenance}</strong>
             </article>
           </div>
 

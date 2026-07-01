@@ -19,6 +19,10 @@ const assetStatuses: AssetStatus[] = [
   "LOST",
 ];
 
+function getAssetStatusBadgeClass(status: AssetStatus) {
+  return `badge badge-status badge-status-${status.toLowerCase().replace(/_/g, "-")}`;
+}
+
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
     dateStyle: "medium",
@@ -240,8 +244,12 @@ export default function AssetDetailPage() {
         <div className="detail-stack">
           <article className="detail-panel">
             <div className="ticket-meta">
-              <span>{asset.status}</span>
-              <span>{asset.category?.name ?? "Uncategorized"}</span>
+              <span className={getAssetStatusBadgeClass(asset.status)}>
+                {asset.status}
+              </span>
+              <span className="badge badge-category">
+                {asset.category?.name ?? "Uncategorized"}
+              </span>
               <span>{asset.assetCode || "No asset code"}</span>
             </div>
 
