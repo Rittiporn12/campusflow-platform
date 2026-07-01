@@ -88,6 +88,15 @@ This project follows a simple changelog format to make the development history c
 - Linked recent tickets to ticket detail pages.
 - Used the existing frontend ticket API helper.
 - Kept advanced charts, reports, asset management, booking, and inventory for later milestones.
+- Added Asset Management Prisma schema.
+- Added `AssetStatus` enum.
+- Added `AssetCategory` model.
+- Added `Asset` model.
+- Added `AssetStatusLog` model.
+- Added asset relationships to existing models such as `Organization`, `Department`, `Location`, and `User`.
+- Added demo asset categories in seed data.
+- Added Prisma migration for the asset management schema.
+- Kept Asset API routes, controllers, services, Postman requests, and frontend asset UI for later milestones.
 
 ### Changed
 
