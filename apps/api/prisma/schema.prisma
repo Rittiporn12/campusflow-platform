@@ -34,6 +34,14 @@ enum TicketPriority {
   CRITICAL
 }
 
+enum AssetStatus {
+  AVAILABLE
+  IN_USE
+  UNDER_MAINTENANCE
+  RETIRED
+  LOST
+}
+
 model Organization {
   id          String       @id @default(cuid())
   name        String
@@ -42,6 +50,7 @@ model Organization {
   departments Department[]
   locations   Location[]
   users       User[]
+  assets      Asset[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
@@ -55,6 +64,7 @@ model Department {
   description    String?
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   users          User[]
+  assets         Asset[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
@@ -72,6 +82,7 @@ model Location {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   users          User[]
   tickets        Ticket[]
+  assets         Asset[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
@@ -96,6 +107,7 @@ model User {
   assignedTickets  Ticket[]          @relation("AssignedTickets")
   ticketComments   TicketComment[]
   ticketStatusLogs TicketStatusLog[]
+  assetStatusLogs  AssetStatusLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,6 +125,62 @@ model TicketCategory {
   updatedAt   DateTime @updatedAt
 
   @@map("ticket_categories")
+}
+
+model AssetCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  assets      Asset[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("asset_categories")
+}
+
+model Asset {
+  id             String      @id @default(cuid())
+  assetCode      String      @unique
+  name           String
+  description    String?
+  status         AssetStatus @default(AVAILABLE)
+  categoryId     String
+  organizationId String?
+  departmentId   String?
+  locationId     String?
+  serialNumber   String?
+  brand          String?
+  model          String?
+  notes          String?
+
+  category     AssetCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  department   Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  location     Location?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
+
+  statusLogs AssetStatusLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("assets")
+}
+
+model AssetStatusLog {
+  id          String       @id @default(cuid())
+  assetId     String
+  fromStatus  AssetStatus?
+  toStatus    AssetStatus
+  changedById String
+  note        String?
+
+  asset     Asset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  changedBy User  @relation(fields: [changedById], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("asset_status_logs")
 }
 
 model Ticket {

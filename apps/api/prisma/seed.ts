@@ -212,6 +212,54 @@ async function main() {
     });
   }
 
+  const assetCategories = [
+    {
+      name: "Computer",
+      description: "Desktop computers, notebooks, and shared workstations.",
+    },
+    {
+      name: "Projector",
+      description: "Classroom and meeting room projector equipment.",
+    },
+    {
+      name: "Air Conditioner",
+      description: "Air conditioner units and related cooling equipment.",
+    },
+    {
+      name: "Printer",
+      description: "Printers, scanners, and multifunction devices.",
+    },
+    {
+      name: "Router",
+      description: "Network routers, switches, and Wi-Fi equipment.",
+    },
+    {
+      name: "Furniture",
+      description: "Desks, chairs, cabinets, and other furniture assets.",
+    },
+    {
+      name: "Lab Equipment",
+      description: "Shared laboratory and classroom equipment.",
+    },
+  ];
+
+  for (const category of assetCategories) {
+    await prisma.assetCategory.upsert({
+      where: {
+        name: category.name,
+      },
+      update: {
+        description: category.description,
+        isActive: true,
+      },
+      create: {
+        name: category.name,
+        description: category.description,
+        isActive: true,
+      },
+    });
+  }
+
   console.log("CampusFlow demo data seeded successfully.");
   console.log("");
   console.log("Demo accounts:");
