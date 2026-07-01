@@ -8,14 +8,14 @@ export type AssetStatus =
   | "RETIRED"
   | "LOST";
 
-type AssetCategory = {
+export type AssetCategory = {
   id: string;
   name: string;
   description: string | null;
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
-} | null;
+};
 
 type AssetOrganization = {
   id: string;
@@ -69,7 +69,7 @@ export type AssetListItem = {
   brand: string | null;
   model: string | null;
   notes: string | null;
-  category: AssetCategory;
+  category: AssetCategory | null;
   organization: AssetOrganization;
   department: AssetDepartment;
   location: AssetLocation;
@@ -95,6 +95,48 @@ type AssetDetailPayload = {
   data?: {
     asset?: AssetDetail;
   };
+};
+
+type AssetCategoriesPayload = {
+  categories?: AssetCategory[];
+  data?: {
+    categories?: AssetCategory[];
+  };
+};
+
+type AssetMutationPayload = {
+  success: boolean;
+  message: string;
+  asset?: AssetDetail;
+  data?: {
+    asset?: AssetDetail;
+  };
+};
+
+export type CreateAssetInput = {
+  assetCode: string;
+  name: string;
+  categoryId: string;
+  description?: string;
+  brand?: string;
+  model?: string;
+  serialNumber?: string;
+  notes?: string;
+};
+
+export type UpdateAssetInput = {
+  name?: string;
+  categoryId?: string;
+  description?: string;
+  brand?: string;
+  model?: string;
+  serialNumber?: string;
+  notes?: string;
+};
+
+export type UpdateAssetStatusInput = {
+  status: AssetStatus;
+  note?: string;
 };
 
 function getAuthHeaders() {
@@ -123,6 +165,24 @@ function normalizeAsset(payload: AssetDetailPayload) {
   return payload.asset ?? payload.data?.asset ?? null;
 }
 
+function normalizeCategories(payload: AssetCategoriesPayload) {
+  return payload.categories ?? payload.data?.categories ?? [];
+}
+
+function normalizeMutation(payload: AssetMutationPayload) {
+  return {
+    success: payload.success,
+    message: payload.message,
+    asset: payload.asset ?? payload.data?.asset ?? null,
+  };
+}
+
+function removeEmptyOptionalFields<T extends Record<string, string>>(input: T) {
+  return Object.fromEntries(
+    Object.entries(input).filter(([, value]) => value.trim().length > 0),
+  ) as Partial<T>;
+}
+
 export async function getAssets() {
   const response = await api.get<AssetListPayload>("/api/assets", {
     headers: getAuthHeaders(),
@@ -137,4 +197,77 @@ export async function getAssetById(assetId: string) {
   });
 
   return normalizeAsset(response.data);
+}
+
+export async function getAssetCategories() {
+  const response = await api.get<AssetCategoriesPayload>("/api/asset-categories", {
+    headers: getAuthHeaders(),
+  });
+
+  return normalizeCategories(response.data);
+}
+
+export async function createAsset(input: CreateAssetInput) {
+  const payload = {
+    assetCode: input.assetCode.trim(),
+    name: input.name.trim(),
+    categoryId: input.categoryId,
+    ...removeEmptyOptionalFields({
+      description: input.description ?? "",
+      brand: input.brand ?? "",
+      model: input.model ?? "",
+      serialNumber: input.serialNumber ?? "",
+      notes: input.notes ?? "",
+    }),
+  };
+
+  const response = await api.post<AssetMutationPayload>("/api/assets", payload, {
+    headers: getAuthHeaders(),
+  });
+
+  return normalizeMutation(response.data);
+}
+
+export async function updateAsset(assetId: string, input: UpdateAssetInput) {
+  const payload = removeEmptyOptionalFields({
+    name: input.name ?? "",
+    categoryId: input.categoryId ?? "",
+    description: input.description ?? "",
+    brand: input.brand ?? "",
+    model: input.model ?? "",
+    serialNumber: input.serialNumber ?? "",
+    notes: input.notes ?? "",
+  });
+
+  const response = await api.patch<AssetMutationPayload>(
+    `/api/assets/${assetId}`,
+    payload,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return normalizeMutation(response.data);
+}
+
+export async function updateAssetStatus(
+  assetId: string,
+  input: UpdateAssetStatusInput,
+) {
+  const payload = {
+    status: input.status,
+    ...removeEmptyOptionalFields({
+      note: input.note ?? "",
+    }),
+  };
+
+  const response = await api.patch<AssetMutationPayload>(
+    `/api/assets/${assetId}/status`,
+    payload,
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return normalizeMutation(response.data);
 }

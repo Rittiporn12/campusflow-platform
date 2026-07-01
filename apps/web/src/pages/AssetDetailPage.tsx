@@ -1,6 +1,23 @@
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { AxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
-import { getAssetById, type AssetDetail } from "../lib/assetsApi";
+import {
+  getAssetById,
+  getAssetCategories,
+  updateAsset,
+  updateAssetStatus,
+  type AssetCategory,
+  type AssetDetail,
+  type AssetStatus,
+} from "../lib/assetsApi";
+
+const assetStatuses: AssetStatus[] = [
+  "AVAILABLE",
+  "IN_USE",
+  "UNDER_MAINTENANCE",
+  "RETIRED",
+  "LOST",
+];
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
@@ -31,8 +48,23 @@ function formatLocation(asset: AssetDetail) {
 export default function AssetDetailPage() {
   const { id } = useParams();
   const [asset, setAsset] = useState<AssetDetail | null>(null);
+  const [categories, setCategories] = useState<AssetCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isUpdatingAsset, setIsUpdatingAsset] = useState(false);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [editMessage, setEditMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editCategoryId, setEditCategoryId] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editBrand, setEditBrand] = useState("");
+  const [editModel, setEditModel] = useState("");
+  const [editSerialNumber, setEditSerialNumber] = useState("");
+  const [editNotes, setEditNotes] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<AssetStatus>("AVAILABLE");
+  const [statusNote, setStatusNote] = useState("");
 
   const loadAsset = useCallback(async () => {
     if (!id) {
@@ -47,6 +79,16 @@ export default function AssetDetailPage() {
       const data = await getAssetById(id);
 
       setAsset(data);
+      if (data) {
+        setEditName(data.name);
+        setEditCategoryId(data.categoryId);
+        setEditDescription(data.description ?? "");
+        setEditBrand(data.brand ?? "");
+        setEditModel(data.model ?? "");
+        setEditSerialNumber(data.serialNumber ?? "");
+        setEditNotes(data.notes ?? "");
+        setSelectedStatus(data.status);
+      }
       setErrorMessage("");
     } catch {
       setErrorMessage(
@@ -60,6 +102,120 @@ export default function AssetDetailPage() {
   useEffect(() => {
     loadAsset();
   }, [loadAsset]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadCategories() {
+      try {
+        const data = await getAssetCategories();
+
+        if (isMounted) {
+          setCategories(data);
+        }
+      } catch {
+        if (isMounted) {
+          setEditMessage("Unable to load asset categories.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingCategories(false);
+        }
+      }
+    }
+
+    loadCategories();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  async function handleAssetUpdate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedName = editName.trim();
+    const selectedCategory = categories.find(
+      (category) => category.id === editCategoryId,
+    );
+
+    if (!id || !trimmedName || !selectedCategory) {
+      setEditMessage("Please enter a name and category.");
+      return;
+    }
+
+    if (trimmedName.length < 2) {
+      setEditMessage("Asset name must be at least 2 characters long.");
+      return;
+    }
+
+    setIsUpdatingAsset(true);
+    setEditMessage("");
+
+    try {
+      const response = await updateAsset(id, {
+        name: trimmedName,
+        categoryId: selectedCategory.id,
+        description: editDescription,
+        brand: editBrand,
+        model: editModel,
+        serialNumber: editSerialNumber,
+        notes: editNotes,
+      });
+
+      setEditMessage(response.message || "Asset updated successfully.");
+      await loadAsset();
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.response?.status === 403) {
+        setEditMessage("You do not have permission to update this asset.");
+      } else {
+        setEditMessage(
+          axiosError.response?.data?.message ||
+            "Unable to update asset. Please check the form and try again.",
+        );
+      }
+    } finally {
+      setIsUpdatingAsset(false);
+    }
+  }
+
+  async function handleStatusUpdate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!id || !selectedStatus) {
+      setStatusMessage("Please select a status.");
+      return;
+    }
+
+    setIsUpdatingStatus(true);
+    setStatusMessage("");
+
+    try {
+      const response = await updateAssetStatus(id, {
+        status: selectedStatus,
+        note: statusNote,
+      });
+
+      setStatusMessage(response.message || "Asset status updated successfully.");
+      setStatusNote("");
+      await loadAsset();
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.response?.status === 403) {
+        setStatusMessage("You do not have permission to update this asset status.");
+      } else {
+        setStatusMessage(
+          axiosError.response?.data?.message ||
+            "Unable to update asset status. Please try again.",
+        );
+      }
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  }
 
   return (
     <section className="page-section">
@@ -120,6 +276,141 @@ export default function AssetDetailPage() {
                 <dd>{asset.status}</dd>
               </div>
             </dl>
+          </article>
+
+          <article className="detail-panel">
+            <h2>Update asset</h2>
+            <form className="status-update-form" onSubmit={handleAssetUpdate}>
+              <div className="form-grid">
+                <label className="form-field" htmlFor="edit-asset-name">
+                  <span>Name</span>
+                  <input
+                    id="edit-asset-name"
+                    value={editName}
+                    onChange={(event) => setEditName(event.target.value)}
+                  />
+                </label>
+
+                <label className="form-field" htmlFor="edit-asset-category">
+                  <span>Category</span>
+                  <select
+                    id="edit-asset-category"
+                    value={editCategoryId}
+                    onChange={(event) => setEditCategoryId(event.target.value)}
+                    disabled={isLoadingCategories}
+                  >
+                    <option value="">Select category</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <label className="form-field" htmlFor="edit-asset-description">
+                <span>Description</span>
+                <textarea
+                  id="edit-asset-description"
+                  value={editDescription}
+                  onChange={(event) => setEditDescription(event.target.value)}
+                  rows={3}
+                />
+              </label>
+
+              <div className="form-grid">
+                <label className="form-field" htmlFor="edit-asset-brand">
+                  <span>Brand</span>
+                  <input
+                    id="edit-asset-brand"
+                    value={editBrand}
+                    onChange={(event) => setEditBrand(event.target.value)}
+                  />
+                </label>
+
+                <label className="form-field" htmlFor="edit-asset-model">
+                  <span>Model</span>
+                  <input
+                    id="edit-asset-model"
+                    value={editModel}
+                    onChange={(event) => setEditModel(event.target.value)}
+                  />
+                </label>
+              </div>
+
+              <label className="form-field" htmlFor="edit-asset-serial-number">
+                <span>Serial number</span>
+                <input
+                  id="edit-asset-serial-number"
+                  value={editSerialNumber}
+                  onChange={(event) => setEditSerialNumber(event.target.value)}
+                />
+              </label>
+
+              <label className="form-field" htmlFor="edit-asset-notes">
+                <span>Notes</span>
+                <textarea
+                  id="edit-asset-notes"
+                  value={editNotes}
+                  onChange={(event) => setEditNotes(event.target.value)}
+                  rows={3}
+                />
+              </label>
+
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isUpdatingAsset || isLoadingCategories}
+              >
+                {isUpdatingAsset ? "Saving..." : "Save asset"}
+              </button>
+            </form>
+
+            {editMessage ? <p className="form-message">{editMessage}</p> : null}
+          </article>
+
+          <article className="detail-panel">
+            <h2>Update status</h2>
+            <form className="status-update-form" onSubmit={handleStatusUpdate}>
+              <label className="form-field" htmlFor="asset-status">
+                <span>Current status: {asset.status}</span>
+                <select
+                  id="asset-status"
+                  value={selectedStatus}
+                  onChange={(event) =>
+                    setSelectedStatus(event.target.value as AssetStatus)
+                  }
+                >
+                  {assetStatuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="form-field" htmlFor="asset-status-note">
+                <span>Note</span>
+                <textarea
+                  id="asset-status-note"
+                  value={statusNote}
+                  onChange={(event) => setStatusNote(event.target.value)}
+                  placeholder="Optional status change note"
+                  rows={3}
+                />
+              </label>
+
+              <button
+                className="primary-button"
+                type="submit"
+                disabled={isUpdatingStatus}
+              >
+                {isUpdatingStatus ? "Updating..." : "Update status"}
+              </button>
+            </form>
+
+            {statusMessage ? <p className="form-message">{statusMessage}</p> : null}
           </article>
 
           <article className="detail-panel">
