@@ -69,5 +69,64 @@ export const assetListQuerySchema = z.object({
   search: z.string().trim().min(1).max(100).optional(),
 });
 
+export const updateAssetSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(2, "Asset name must be at least 2 characters long.")
+      .max(150, "Asset name must be less than 150 characters.")
+      .optional(),
+
+    description: z
+      .string()
+      .trim()
+      .max(1000, "Description must be less than 1000 characters.")
+      .optional(),
+
+    categoryId: z.string().trim().min(1, "Category is required.").optional(),
+    departmentId: z.string().trim().min(1).optional(),
+    locationId: z.string().trim().min(1).optional(),
+
+    serialNumber: z
+      .string()
+      .trim()
+      .max(120, "Serial number must be less than 120 characters.")
+      .optional(),
+
+    brand: z
+      .string()
+      .trim()
+      .max(100, "Brand must be less than 100 characters.")
+      .optional(),
+
+    model: z
+      .string()
+      .trim()
+      .max(100, "Model must be less than 100 characters.")
+      .optional(),
+
+    notes: z
+      .string()
+      .trim()
+      .max(2000, "Notes must be less than 2000 characters.")
+      .optional(),
+  })
+  .refine((value) => Object.keys(value).length > 0, {
+    message: "At least one asset field is required.",
+  });
+
+export const updateAssetStatusSchema = z.object({
+  status: assetStatusSchema,
+
+  note: z
+    .string()
+    .trim()
+    .max(1000, "Note must be less than 1000 characters.")
+    .optional(),
+});
+
 export type CreateAssetInput = z.infer<typeof createAssetSchema>;
 export type AssetListQueryInput = z.infer<typeof assetListQuerySchema>;
+export type UpdateAssetInput = z.infer<typeof updateAssetSchema>;
+export type UpdateAssetStatusInput = z.infer<typeof updateAssetStatusSchema>;

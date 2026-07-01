@@ -1022,6 +1022,119 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Update Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const asset =",
+                  "    response.data?.asset ||",
+                  "    response.asset ||",
+                  "    response.data;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "    if (response.success !== undefined) {",
+                  "        pm.expect(response.success).to.eql(true);",
+                  "    } else {",
+                  "        pm.expect(pm.response.code).to.eql(200);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains updated asset data\", function () {",
+                  "    pm.expect(asset).to.be.an(\"object\");",
+                  "    pm.expect(asset).to.have.property(\"id\");",
+                  "    pm.expect(asset.id).to.eql(pm.environment.get(\"assetId\"));",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Postman Test Projector\",\n    \"description\": \"Updated asset from Postman.\",\n    \"brand\": \"Epson\",\n    \"model\": \"EB-X06 Updated\",\n    \"notes\": \"Updated during Asset API Batch 2 testing.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/{{assetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assets",
+                "{{assetId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Asset Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"UNDER_MAINTENANCE\",\n    \"note\": \"Asset is under maintenance from Postman test.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/{{assetId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assets",
+                "{{assetId}}",
+                "status"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "description": "Asset management endpoints for campus asset categories and future asset tracking features."

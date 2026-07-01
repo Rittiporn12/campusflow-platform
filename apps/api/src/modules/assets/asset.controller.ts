@@ -4,7 +4,20 @@ import { assetService } from "./asset.service.js";
 import {
   assetListQuerySchema,
   createAssetSchema,
+  updateAssetSchema,
+  updateAssetStatusSchema,
 } from "./asset.validation.js";
+
+const getCurrentUser = (req: Request) => {
+  if (!req.user) {
+    throw new HttpError(401, "Authentication required.");
+  }
+
+  return {
+    id: req.user.id,
+    role: req.user.role,
+  };
+};
 
 const getRouteParam = (req: Request, paramName: string) => {
   const value = req.params[paramName];
@@ -79,6 +92,60 @@ export const assetController = {
     return res.status(200).json({
       success: true,
       message: "Asset detail retrieved successfully.",
+      data: {
+        asset,
+      },
+    });
+  },
+
+  async updateAsset(req: Request, res: Response) {
+    const result = updateAssetSchema.safeParse(req.body);
+
+    if (!result.success) {
+      throw new HttpError(
+        400,
+        "Invalid update asset input.",
+        result.error.flatten(),
+      );
+    }
+
+    const assetId = getRouteParam(req, "id");
+
+    const asset = await assetService.updateAsset(assetId, result.data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Asset updated successfully.",
+      data: {
+        asset,
+      },
+    });
+  },
+
+  async updateAssetStatus(req: Request, res: Response) {
+    const currentUser = getCurrentUser(req);
+
+    const result = updateAssetStatusSchema.safeParse(req.body);
+
+    if (!result.success) {
+      throw new HttpError(
+        400,
+        "Invalid update asset status input.",
+        result.error.flatten(),
+      );
+    }
+
+    const assetId = getRouteParam(req, "id");
+
+    const asset = await assetService.updateAssetStatus(
+      assetId,
+      result.data,
+      currentUser,
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Asset status updated successfully.",
       data: {
         asset,
       },

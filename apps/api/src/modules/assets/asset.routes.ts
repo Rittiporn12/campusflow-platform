@@ -35,4 +35,18 @@ router.get(
   asyncHandler(assetController.getAssetById),
 );
 
+router.patch(
+  "/assets/:id/status",
+  requireAuth,
+  requireRoles("ADMIN"),
+  asyncHandler(assetController.updateAssetStatus),
+);
+
+router.patch(
+  "/assets/:id",
+  requireAuth,
+  requireRoles("ADMIN"),
+  asyncHandler(assetController.updateAsset),
+);
+
 export default router;

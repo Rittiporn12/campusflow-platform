@@ -3,6 +3,8 @@ import { HttpError } from "../../utils/http-error.js";
 import type {
   AssetListQueryInput,
   CreateAssetInput,
+  UpdateAssetInput,
+  UpdateAssetStatusInput,
 } from "./asset.validation.js";
 
 const assetListInclude = {
@@ -21,6 +23,66 @@ const assetListInclude = {
     },
   },
   location: true,
+};
+
+const assetDetailInclude = {
+  ...assetListInclude,
+  statusLogs: {
+    orderBy: {
+      createdAt: "asc" as const,
+    },
+    include: {
+      changedBy: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      },
+    },
+  },
+};
+
+type CurrentUser = {
+  id: string;
+  role: "USER" | "TECHNICIAN" | "ADMIN" | "MANAGER";
+};
+
+const validateAssetCategory = async (categoryId: string) => {
+  const category = await prisma.assetCategory.findUnique({
+    where: {
+      id: categoryId,
+    },
+  });
+
+  if (!category || !category.isActive) {
+    throw new HttpError(400, "Invalid asset category.");
+  }
+};
+
+const validateAssetDepartment = async (departmentId: string) => {
+  const department = await prisma.department.findUnique({
+    where: {
+      id: departmentId,
+    },
+  });
+
+  if (!department) {
+    throw new HttpError(400, "Invalid department.");
+  }
+};
+
+const validateAssetLocation = async (locationId: string) => {
+  const location = await prisma.location.findUnique({
+    where: {
+      id: locationId,
+    },
+  });
+
+  if (!location) {
+    throw new HttpError(400, "Invalid location.");
+  }
 };
 
 export const assetService = {
@@ -46,15 +108,7 @@ export const assetService = {
       throw new HttpError(409, "Asset code is already in use.");
     }
 
-    const category = await prisma.assetCategory.findUnique({
-      where: {
-        id: input.categoryId,
-      },
-    });
-
-    if (!category || !category.isActive) {
-      throw new HttpError(400, "Invalid asset category.");
-    }
+    await validateAssetCategory(input.categoryId);
 
     if (input.organizationId) {
       const organization = await prisma.organization.findUnique({
@@ -69,27 +123,11 @@ export const assetService = {
     }
 
     if (input.departmentId) {
-      const department = await prisma.department.findUnique({
-        where: {
-          id: input.departmentId,
-        },
-      });
-
-      if (!department) {
-        throw new HttpError(400, "Invalid department.");
-      }
+      await validateAssetDepartment(input.departmentId);
     }
 
     if (input.locationId) {
-      const location = await prisma.location.findUnique({
-        where: {
-          id: input.locationId,
-        },
-      });
-
-      if (!location) {
-        throw new HttpError(400, "Invalid location.");
-      }
+      await validateAssetLocation(input.locationId);
     }
 
     return prisma.asset.create({
@@ -185,22 +223,7 @@ export const assetService = {
         id: assetId,
       },
       include: {
-        ...assetListInclude,
-        statusLogs: {
-          orderBy: {
-            createdAt: "asc",
-          },
-          include: {
-            changedBy: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-              },
-            },
-          },
-        },
+        ...assetDetailInclude,
       },
     });
 
@@ -209,5 +232,102 @@ export const assetService = {
     }
 
     return asset;
+  },
+
+  async updateAsset(assetId: string, input: UpdateAssetInput) {
+    const existingAsset = await prisma.asset.findUnique({
+      where: {
+        id: assetId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!existingAsset) {
+      throw new HttpError(404, "Asset not found.");
+    }
+
+    if (input.categoryId) {
+      await validateAssetCategory(input.categoryId);
+    }
+
+    if (input.departmentId) {
+      await validateAssetDepartment(input.departmentId);
+    }
+
+    if (input.locationId) {
+      await validateAssetLocation(input.locationId);
+    }
+
+    return prisma.asset.update({
+      where: {
+        id: assetId,
+      },
+      data: {
+        name: input.name,
+        description: input.description,
+        categoryId: input.categoryId,
+        departmentId: input.departmentId,
+        locationId: input.locationId,
+        serialNumber: input.serialNumber,
+        brand: input.brand,
+        model: input.model,
+        notes: input.notes,
+      },
+      include: assetListInclude,
+    });
+  },
+
+  async updateAssetStatus(
+    assetId: string,
+    input: UpdateAssetStatusInput,
+    currentUser: CurrentUser,
+  ) {
+    const existingAsset = await prisma.asset.findUnique({
+      where: {
+        id: assetId,
+      },
+      select: {
+        id: true,
+        status: true,
+      },
+    });
+
+    if (!existingAsset) {
+      throw new HttpError(404, "Asset not found.");
+    }
+
+    const updatedAsset = await prisma.$transaction(async (tx) => {
+      await tx.asset.update({
+        where: {
+          id: assetId,
+        },
+        data: {
+          status: input.status,
+        },
+      });
+
+      if (existingAsset.status !== input.status) {
+        await tx.assetStatusLog.create({
+          data: {
+            assetId,
+            fromStatus: existingAsset.status,
+            toStatus: input.status,
+            changedById: currentUser.id,
+            note: input.note,
+          },
+        });
+      }
+
+      return tx.asset.findUniqueOrThrow({
+        where: {
+          id: assetId,
+        },
+        include: assetDetailInclude,
+      });
+    });
+
+    return updatedAsset;
   },
 };
