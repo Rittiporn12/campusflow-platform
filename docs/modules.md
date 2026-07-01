@@ -122,6 +122,14 @@ The first backend phase should focus on basic asset tracking. More advanced main
 - Asset
 - AssetStatusLog in a later phase for status history and audit-style tracking
 
+### Current Completed Capabilities
+
+- View asset list
+- View asset detail
+- Create asset
+- Update asset information
+- Update asset status
+
 ### Planned Features
 
 - View asset categories
@@ -134,6 +142,15 @@ The first backend phase should focus on basic asset tracking. More advanced main
 - Link asset to repair ticket in a later phase
 - View asset maintenance history in a later phase
 - Track warranty information
+
+### Remaining Future Work
+
+- Delete or archive asset
+- Advanced asset filtering and search
+- Asset dashboard metrics and analytics
+- QR code support
+- Asset image upload
+- Asset assignment history
 
 ### Example Assets
 

@@ -354,17 +354,54 @@ Negative cases:
 
 ## Asset Test Areas
 
-Asset tests should be added when the asset module is implemented.
+Status: Ready for manual API and frontend testing for the implemented asset workflow.
 
-Planned tests:
+Current implemented asset test areas:
 
+- View asset categories.
 - Admin creates asset.
 - Admin edits asset.
 - Admin views asset detail.
-- Asset can link to ticket.
-- Manager views asset maintenance history.
+- Admin updates asset status.
+- Admin verifies asset status history.
 - User cannot manage asset.
 - Invalid asset category returns validation error.
+
+Remaining later-phase asset tests:
+
+- Delete or archive asset.
+- Advanced asset filtering and search.
+- Asset dashboard metrics and analytics.
+- Asset can link to ticket.
+- Manager views asset maintenance history.
+
+### Asset Frontend Manual Checklist
+
+Preconditions:
+
+- Backend API is running.
+- Frontend app is running.
+- Database has been migrated and seeded.
+- Admin account is available.
+
+Checklist:
+
+1. Login as admin.
+2. Navigate to `/assets`.
+3. Verify the asset list loads.
+4. Create a new asset with asset code, name, and category.
+5. Open the created asset detail page.
+6. Update asset information.
+7. Update asset status.
+8. Refresh the asset detail page and verify the latest data still appears.
+9. Run `npm run build` in `apps/web`.
+
+Common issues:
+
+- `401 Unauthorized` can happen when the auth token is missing or expired.
+- The category select can be empty if seed data has not been run.
+- `404 Not Found` can happen when `assetId` does not exist.
+- Validation errors can happen when required fields are missing.
 
 ## Booking Test Areas
 

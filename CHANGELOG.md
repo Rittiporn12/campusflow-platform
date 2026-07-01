@@ -123,6 +123,14 @@ This project follows a simple changelog format to make the development history c
 - Added Postman requests for asset update and asset status update.
 - Verified asset update authentication and manual Postman testing.
 - Kept frontend Asset UI and delete/archive asset for later milestones.
+- Added asset list page.
+- Added asset detail page.
+- Added create asset UI.
+- Added update asset UI.
+- Added update asset status UI.
+- Integrated the frontend with the existing Asset APIs.
+- Verified the manual frontend asset flow and production build.
+- Kept delete/archive asset, advanced filtering, and dashboard asset analytics for later milestones.
 
 ### Changed
 
