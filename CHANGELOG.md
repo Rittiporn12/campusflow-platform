@@ -109,6 +109,13 @@ This project follows a simple changelog format to make the development history c
 - Added post-response tests for the asset categories response.
 - Verified the asset categories endpoint through Postman.
 - Kept `POST /api/assets`, asset list, asset detail, asset status update, and frontend asset UI for later milestones.
+- Added Create Asset Postman request.
+- Added asset list API using `GET /api/assets`.
+- Added asset detail API using `GET /api/assets/:id`.
+- Added backend service, controller, and route logic for asset list and detail.
+- Added Postman requests and tests for asset list and asset detail.
+- Added `assetId` environment handling in Postman.
+- Kept asset update, asset status update, asset delete/archive, frontend asset UI, and advanced asset filters for later milestones.
 
 ### Changed
 
