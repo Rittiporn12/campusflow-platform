@@ -54,6 +54,7 @@ export default function AppLayout() {
         <nav className="nav-list" aria-label="Main navigation">
           <NavLink to="/dashboard">Dashboard</NavLink>
           <NavLink to="/tickets">Tickets</NavLink>
+          <NavLink to="/assets">Assets</NavLink>
         </nav>
 
         <div className="user-summary">

@@ -214,6 +214,30 @@ a {
   margin: 0;
 }
 
+.asset-summary-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.asset-summary-grid div {
+  display: grid;
+  gap: 4px;
+}
+
+.asset-summary-grid dt {
+  color: #5d6c83;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.asset-summary-grid dd {
+  color: #26364d;
+  margin: 0;
+}
+
 .ticket-meta {
   display: flex;
   flex-wrap: wrap;
@@ -485,6 +509,10 @@ p {
   }
 
   .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-summary-grid {
     grid-template-columns: 1fr;
   }
 }
