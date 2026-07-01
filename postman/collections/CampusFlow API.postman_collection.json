@@ -728,6 +728,84 @@
         }
       ],
       "description": "Ticket management endpoints for campus issue reporting, ticket tracking, assignment, status updates, and comments."
+    },
+    {
+      "name": "Asset API",
+      "item": [
+        {
+          "name": "Get Asset Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const categories =",
+                  "  response.data?.categories ||",
+                  "  response.data?.assetCategories ||",
+                  "  response.categories ||",
+                  "  response.assetCategories ||",
+                  "  response.data ||",
+                  "  response;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "  if (response.success !== undefined) {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "  } else {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "  }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains asset category list\", function () {",
+                  "  pm.expect(categories).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "if (Array.isArray(categories) && categories.length > 0) {",
+                  "  pm.test(\"First asset category contains basic fields\", function () {",
+                  "    pm.expect(categories[0]).to.have.property(\"id\");",
+                  "    pm.expect(categories[0]).to.have.property(\"name\");",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/asset-categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "asset-categories"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Asset management endpoints for campus asset categories and future asset tracking features."
     }
   ]
 }
