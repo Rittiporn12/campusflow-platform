@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma.js";
 import { HttpError } from "../../utils/http-error.js";
 import type {
+  ArchiveAssetInput,
   AssetListQueryInput,
   CreateAssetInput,
   UpdateAssetInput,
@@ -329,5 +330,57 @@ export const assetService = {
     });
 
     return updatedAsset;
+  },
+
+  async archiveAsset(
+    assetId: string,
+    input: ArchiveAssetInput,
+    currentUser: CurrentUser,
+  ) {
+    const existingAsset = await prisma.asset.findUnique({
+      where: {
+        id: assetId,
+      },
+      select: {
+        id: true,
+        status: true,
+      },
+    });
+
+    if (!existingAsset) {
+      throw new HttpError(404, "Asset not found.");
+    }
+
+    const archivedAsset = await prisma.$transaction(async (tx) => {
+      if (existingAsset.status !== "RETIRED") {
+        await tx.asset.update({
+          where: {
+            id: assetId,
+          },
+          data: {
+            status: "RETIRED",
+          },
+        });
+
+        await tx.assetStatusLog.create({
+          data: {
+            assetId,
+            fromStatus: existingAsset.status,
+            toStatus: "RETIRED",
+            changedById: currentUser.id,
+            note: input.note ?? "Asset archived.",
+          },
+        });
+      }
+
+      return tx.asset.findUniqueOrThrow({
+        where: {
+          id: assetId,
+        },
+        include: assetDetailInclude,
+      });
+    });
+
+    return archivedAsset;
   },
 };

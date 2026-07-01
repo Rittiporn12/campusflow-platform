@@ -126,7 +126,16 @@ export const updateAssetStatusSchema = z.object({
     .optional(),
 });
 
+export const archiveAssetSchema = z.object({
+  note: z
+    .string()
+    .trim()
+    .max(1000, "Note must be less than 1000 characters.")
+    .optional(),
+});
+
 export type CreateAssetInput = z.infer<typeof createAssetSchema>;
 export type AssetListQueryInput = z.infer<typeof assetListQuerySchema>;
 export type UpdateAssetInput = z.infer<typeof updateAssetSchema>;
 export type UpdateAssetStatusInput = z.infer<typeof updateAssetStatusSchema>;
+export type ArchiveAssetInput = z.infer<typeof archiveAssetSchema>;

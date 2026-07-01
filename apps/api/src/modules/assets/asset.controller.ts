@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { HttpError } from "../../utils/http-error.js";
 import { assetService } from "./asset.service.js";
 import {
+  archiveAssetSchema,
   assetListQuerySchema,
   createAssetSchema,
   updateAssetSchema,
@@ -146,6 +147,36 @@ export const assetController = {
     return res.status(200).json({
       success: true,
       message: "Asset status updated successfully.",
+      data: {
+        asset,
+      },
+    });
+  },
+
+  async archiveAsset(req: Request, res: Response) {
+    const currentUser = getCurrentUser(req);
+
+    const result = archiveAssetSchema.safeParse(req.body);
+
+    if (!result.success) {
+      throw new HttpError(
+        400,
+        "Invalid archive asset input.",
+        result.error.flatten(),
+      );
+    }
+
+    const assetId = getRouteParam(req, "id");
+
+    const asset = await assetService.archiveAsset(
+      assetId,
+      result.data,
+      currentUser,
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Asset archived successfully.",
       data: {
         asset,
       },

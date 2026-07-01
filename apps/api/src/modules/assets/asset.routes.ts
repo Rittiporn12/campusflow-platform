@@ -43,6 +43,13 @@ router.patch(
 );
 
 router.patch(
+  "/assets/:id/archive",
+  requireAuth,
+  requireRoles("ADMIN", "MANAGER"),
+  asyncHandler(assetController.archiveAsset),
+);
+
+router.patch(
   "/assets/:id",
   requireAuth,
   requireRoles("ADMIN"),
