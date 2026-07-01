@@ -480,6 +480,28 @@ a {
   cursor: not-allowed;
 }
 
+.danger-button {
+  border: 1px solid #f2c5c5;
+  border-radius: 8px;
+  background: #fff4f4;
+  color: #a61f1f;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 12px 16px;
+}
+
+.danger-button:hover {
+  background: #ffe7e7;
+}
+
+.danger-button:disabled {
+  background: #f2f4f7;
+  border-color: #d9e1ec;
+  color: #7a8799;
+  cursor: not-allowed;
+}
+
 .form-message {
   border-radius: 8px;
   background: #eef4ff;

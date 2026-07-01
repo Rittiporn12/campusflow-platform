@@ -2,6 +2,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
 import {
+  archiveAsset,
   getAssetById,
   getAssetCategories,
   updateAsset,
@@ -57,9 +58,11 @@ export default function AssetDetailPage() {
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isUpdatingAsset, setIsUpdatingAsset] = useState(false);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [isArchivingAsset, setIsArchivingAsset] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
+  const [archiveMessage, setArchiveMessage] = useState("");
   const [editName, setEditName] = useState("");
   const [editCategoryId, setEditCategoryId] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -218,6 +221,43 @@ export default function AssetDetailPage() {
       }
     } finally {
       setIsUpdatingStatus(false);
+    }
+  }
+
+  async function handleArchiveAsset() {
+    if (!id || !asset || asset.status === "RETIRED") {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Archive this asset? This will retire it from active use without deleting the record.",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setIsArchivingAsset(true);
+    setArchiveMessage("");
+
+    try {
+      const response = await archiveAsset(id);
+
+      setArchiveMessage(response.message || "Asset archived successfully.");
+      await loadAsset();
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+
+      if (axiosError.response?.status === 403) {
+        setArchiveMessage("You do not have permission to archive this asset.");
+      } else {
+        setArchiveMessage(
+          axiosError.response?.data?.message ||
+            "Unable to archive asset. Please try again.",
+        );
+      }
+    } finally {
+      setIsArchivingAsset(false);
     }
   }
 
@@ -419,6 +459,31 @@ export default function AssetDetailPage() {
             </form>
 
             {statusMessage ? <p className="form-message">{statusMessage}</p> : null}
+          </article>
+
+          <article className="detail-panel">
+            <h2>Archive asset</h2>
+            <p>
+              Retire this asset from active use without deleting its record or
+              history.
+            </p>
+
+            <button
+              className="danger-button"
+              type="button"
+              onClick={handleArchiveAsset}
+              disabled={isArchivingAsset || asset.status === "RETIRED"}
+            >
+              {asset.status === "RETIRED"
+                ? "Asset already retired"
+                : isArchivingAsset
+                  ? "Archiving..."
+                  : "Archive asset"}
+            </button>
+
+            {archiveMessage ? (
+              <p className="form-message">{archiveMessage}</p>
+            ) : null}
           </article>
 
           <article className="detail-panel">

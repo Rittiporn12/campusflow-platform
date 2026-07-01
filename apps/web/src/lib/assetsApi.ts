@@ -271,3 +271,15 @@ export async function updateAssetStatus(
 
   return normalizeMutation(response.data);
 }
+
+export async function archiveAsset(assetId: string) {
+  const response = await api.patch<AssetMutationPayload>(
+    `/api/assets/${assetId}/archive`,
+    {},
+    {
+      headers: getAuthHeaders(),
+    },
+  );
+
+  return normalizeMutation(response.data);
+}
