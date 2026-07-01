@@ -104,6 +104,11 @@ This project follows a simple changelog format to make the development history c
 - Returned a consistent API response shape for asset category lookup.
 - Verified the endpoint with TypeScript check and manual curl/Postman testing.
 - Kept create asset, asset list, asset detail, asset update, asset status update, Postman asset collection updates, and frontend asset UI for later milestones.
+- Added Asset API folder in the Postman collection.
+- Added `GET /api/asset-categories` request to the Postman collection.
+- Added post-response tests for the asset categories response.
+- Verified the asset categories endpoint through Postman.
+- Kept `POST /api/assets`, asset list, asset detail, asset status update, and frontend asset UI for later milestones.
 
 ### Changed
 
