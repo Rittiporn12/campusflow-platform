@@ -21,4 +21,18 @@ router.post(
   asyncHandler(assetController.createAsset),
 );
 
+router.get(
+  "/assets",
+  requireAuth,
+  requireRoles("ADMIN", "MANAGER", "TECHNICIAN"),
+  asyncHandler(assetController.getAssets),
+);
+
+router.get(
+  "/assets/:id",
+  requireAuth,
+  requireRoles("ADMIN", "MANAGER", "TECHNICIAN"),
+  asyncHandler(assetController.getAssetById),
+);
+
 export default router;

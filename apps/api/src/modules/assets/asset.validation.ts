@@ -60,4 +60,14 @@ export const createAssetSchema = z.object({
     .optional(),
 });
 
+export const assetListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(10),
+
+  status: assetStatusSchema.optional(),
+  categoryId: z.string().trim().min(1).optional(),
+  search: z.string().trim().min(1).max(100).optional(),
+});
+
 export type CreateAssetInput = z.infer<typeof createAssetSchema>;
+export type AssetListQueryInput = z.infer<typeof assetListQuerySchema>;

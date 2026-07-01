@@ -888,6 +888,140 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Asset List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const assets =",
+                  "  response.data?.assets ||",
+                  "  response.data?.items ||",
+                  "  response.assets ||",
+                  "  response.items ||",
+                  "  response.data ||",
+                  "  response;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "  if (response.success !== undefined) {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "  } else {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "  }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains asset list\", function () {",
+                  "  pm.expect(assets).to.be.an(\"array\");",
+                  "});",
+                  "",
+                  "if (Array.isArray(assets) && assets.length > 0) {",
+                  "  pm.environment.set(\"assetId\", assets[0].id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Asset Detail",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const asset =",
+                  "  response.data?.asset ||",
+                  "  response.asset ||",
+                  "  response.data;",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "  if (response.success !== undefined) {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "  } else {",
+                  "    pm.expect(pm.response.code).to.eql(200);",
+                  "  }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains asset detail\", function () {",
+                  "  pm.expect(asset).to.be.an(\"object\");",
+                  "  pm.expect(asset).to.have.property(\"id\");",
+                  "  pm.expect(asset.id).to.eql(pm.environment.get(\"assetId\"));",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/{{assetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assets",
+                "{{assetId}}"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "description": "Asset management endpoints for campus asset categories and future asset tracking features."
