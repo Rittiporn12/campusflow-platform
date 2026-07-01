@@ -8,6 +8,7 @@ The current testing scope covers:
 
 1. Authentication API
 2. Ticket API
+3. Asset API
 
 ## Test Environment
 
@@ -49,6 +50,17 @@ The current testing scope covers:
 | PATCH  | /api/tickets/:id/status   | Update ticket status        |
 | PATCH  | /api/tickets/:id/assign   | Assign ticket to technician |
 | POST   | /api/tickets/:id/comments | Add ticket comment          |
+
+### Asset API
+
+| Method | Endpoint               | Description         |
+| ------ | ---------------------- | ------------------- |
+| GET    | /api/asset-categories  | Get asset categories |
+| POST   | /api/assets            | Create a new asset  |
+| GET    | /api/assets            | Get asset list      |
+| GET    | /api/assets/:id        | Get asset detail    |
+| PATCH  | /api/assets/:id        | Update asset        |
+| PATCH  | /api/assets/:id/status | Update asset status |
 
 ## Test Case Format
 
@@ -282,3 +294,35 @@ Each test case should include:
 | Actual Result   | To be tested                                                                                                               |
 | Status          | Not Run                                                                                                                    |
 | Notes           | Use an invalid or non-existing ticket ID, such as `invalid-ticket-id` or a valid UUID that does not exist in the database. |
+
+### Asset API Test Cases
+
+#### TC-ASSET-001: Update Asset
+
+| Field           | Details                                                                                                                                                                                                                                         |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID    | TC-ASSET-001                                                                                                                                                                                                                                    |
+| API Group       | Asset API                                                                                                                                                                                                                                       |
+| Method          | PATCH                                                                                                                                                                                                                                           |
+| Endpoint        | `/api/assets/:id`                                                                                                                                                                                                                               |
+| Preconditions   | Backend API is running. Admin is logged in. `authToken` is available. `assetId` is available from asset creation, asset list, or the Postman environment.                                                                                        |
+| Request Body    | `{"name":"Updated Classroom Projector","description":"Updated projector asset record.","categoryId":"<categoryId>","locationId":"<locationId>","departmentId":"<departmentId>","serialNumber":"SN-123456","brand":"Epson","model":"EB-X49"}` |
+| Expected Result | API returns a successful response with the updated asset. The asset status is not changed by this endpoint.                                                                                                                                      |
+| Actual Result   | To be tested                                                                                                                                                                                                                                    |
+| Status          | Not Run                                                                                                                                                                                                                                         |
+| Notes           | Replace `:id` with a real asset ID. Common errors: `401` when token is missing, `403` when role is not allowed, `404` when assetId does not exist, and `400` when the body is invalid or empty.                                                  |
+
+#### TC-ASSET-002: Update Asset Status
+
+| Field           | Details                                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID    | TC-ASSET-002                                                                                                                                                        |
+| API Group       | Asset API                                                                                                                                                           |
+| Method          | PATCH                                                                                                                                                               |
+| Endpoint        | `/api/assets/:id/status`                                                                                                                                            |
+| Preconditions   | Backend API is running. Admin is logged in. `authToken` is available. `assetId` is available from asset creation, asset list, or the Postman environment.                 |
+| Request Body    | `{"status":"UNDER_MAINTENANCE","note":"Moved to maintenance after inspection."}`                                                                                     |
+| Expected Result | API returns a successful response with the updated asset status. A status log is created when the status changes.                                                    |
+| Actual Result   | To be tested                                                                                                                                                        |
+| Status          | Not Run                                                                                                                                                             |
+| Notes           | Replace `:id` with a real asset ID. Common errors: `401` when token is missing, `403` when role is not allowed, `404` when assetId does not exist, and `400` when the status/body is invalid. |

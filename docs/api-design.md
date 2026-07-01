@@ -469,7 +469,7 @@ Possible responses:
 
 ## Asset API
 
-Status: Planned.
+Status: Partially implemented.
 
 The first Asset API phase should provide basic asset category lookup and asset record management. QR codes, image upload, detailed maintenance history, asset assignment, inventory or spare parts relationships, and ticket-to-asset repair history can be added in later phases.
 
@@ -544,11 +544,48 @@ Access:
 
 Purpose:
 
-- Update asset.
+- Update editable asset information without changing asset status.
+
+Authentication:
+
+- Required.
 
 Access:
 
 - Admin only
+
+Example request body:
+
+```json
+{
+  "name": "Updated Classroom Projector",
+  "description": "Updated asset description.",
+  "categoryId": "asset-category-id",
+  "locationId": "location-id",
+  "departmentId": "department-id",
+  "serialNumber": "SN-123456",
+  "brand": "Epson",
+  "model": "EB-X49",
+  "notes": "Mounted in Room B301."
+}
+```
+
+Example response:
+
+```json
+{
+  "success": true,
+  "message": "Asset updated successfully.",
+  "data": {
+    "asset": {}
+  }
+}
+```
+
+Notes:
+
+- At least one editable field is required.
+- Asset status is not updated by this endpoint.
 
 ### PATCH /api/assets/:id/status
 
@@ -556,14 +593,34 @@ Purpose:
 
 - Update asset status.
 
+Authentication:
+
+- Required.
+
 Access:
 
 - Admin only in the first phase
 
-Request body:
+Example request body:
 
-- status
-- note optional
+```json
+{
+  "status": "UNDER_MAINTENANCE",
+  "note": "Moved to maintenance after inspection."
+}
+```
+
+Example response:
+
+```json
+{
+  "success": true,
+  "message": "Asset status updated successfully.",
+  "data": {
+    "asset": {}
+  }
+}
+```
 
 Valid statuses:
 
@@ -575,6 +632,7 @@ Valid statuses:
 
 Notes:
 
+- Creates an asset status log when the submitted status is different from the current status.
 - Asset repair history endpoints should be implemented after tickets can be linked to assets.
 - Asset image upload, QR code generation, asset assignment history, inventory or spare parts relationships, and maintenance status history should be separate later-phase API work.
 

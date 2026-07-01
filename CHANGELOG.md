@@ -116,6 +116,13 @@ This project follows a simple changelog format to make the development history c
 - Added Postman requests and tests for asset list and asset detail.
 - Added `assetId` environment handling in Postman.
 - Kept asset update, asset status update, asset delete/archive, frontend asset UI, and advanced asset filters for later milestones.
+- Added `PATCH /api/assets/:id`.
+- Added `PATCH /api/assets/:id/status`.
+- Added asset update validation, service, controller, and route logic.
+- Added asset status update support.
+- Added Postman requests for asset update and asset status update.
+- Verified asset update authentication and manual Postman testing.
+- Kept frontend Asset UI and delete/archive asset for later milestones.
 
 ### Changed
 
