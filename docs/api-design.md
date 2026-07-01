@@ -469,6 +469,22 @@ Possible responses:
 
 ## Asset API
 
+Status: Planned.
+
+The first Asset API phase should provide basic asset category lookup and asset record management. QR codes, image upload, detailed maintenance history, asset assignment, inventory or spare parts relationships, and ticket-to-asset repair history can be added in later phases.
+
+### GET /api/asset-categories
+
+Purpose:
+
+- Get active asset categories.
+
+Access:
+
+- Admin
+- Manager
+- Technician
+
 ### POST /api/assets
 
 Purpose:
@@ -478,6 +494,18 @@ Purpose:
 Access:
 
 - Admin only
+
+Request body:
+
+- name
+- assetCode
+- serialNumber optional
+- categoryId
+- locationId optional
+- status
+- purchaseDate optional
+- warrantyEndDate optional
+- notes optional
 
 ### GET /api/assets
 
@@ -489,7 +517,7 @@ Access:
 
 - Admin
 - Manager
-- Technician in a later phase
+- Technician
 
 Planned query parameters:
 
@@ -510,7 +538,7 @@ Access:
 
 - Admin
 - Manager
-- Technician in a later phase
+- Technician
 
 ### PATCH /api/assets/:id
 
@@ -522,17 +550,33 @@ Access:
 
 - Admin only
 
-### GET /api/assets/:id/tickets
+### PATCH /api/assets/:id/status
 
 Purpose:
 
-- Get repair history for an asset.
+- Update asset status.
 
 Access:
 
-- Admin
-- Manager
-- Technician in a later phase
+- Admin only in the first phase
+
+Request body:
+
+- status
+- note optional
+
+Valid statuses:
+
+- AVAILABLE
+- IN_USE
+- UNDER_MAINTENANCE
+- RETIRED
+- LOST
+
+Notes:
+
+- Asset repair history endpoints should be implemented after tickets can be linked to assets.
+- Asset image upload, QR code generation, asset assignment history, inventory or spare parts relationships, and maintenance status history should be separate later-phase API work.
 
 ## Booking API
 

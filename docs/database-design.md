@@ -316,6 +316,7 @@ Planned fields:
 - id
 - name
 - description
+- isActive
 - createdAt
 - updatedAt
 
@@ -340,6 +341,7 @@ Planned fields:
 - assetCode
 - serialNumber
 - categoryId
+- organizationId
 - locationId
 - status
 - purchaseDate
@@ -350,14 +352,40 @@ Planned fields:
 
 Planned statuses:
 
-- ACTIVE
-- IN_REPAIR
-- INACTIVE
+- AVAILABLE
+- IN_USE
+- UNDER_MAINTENANCE
 - RETIRED
+- LOST
 
 Notes:
 
-- Assets can be linked to repair tickets.
+- Asset code should be unique.
+- Asset category should reference `asset_categories`.
+- Asset location should reference `locations` when available.
+- Assets can be linked to repair tickets in a later phase.
+- Asset assignment history can be added in a later phase if assets need to be assigned to users, departments, or rooms over time.
+- Inventory and spare parts can be related to assets later through maintenance records or repair tickets.
+- Image uploads and QR codes should be added later after basic asset records are stable.
+
+### asset_status_logs
+
+Stores asset status changes in a later phase.
+
+Planned fields:
+
+- id
+- assetId
+- oldStatus
+- newStatus
+- changedById
+- note
+- createdAt
+
+Notes:
+
+- This table is useful for maintenance history and audit-style tracking.
+- It does not need to be part of the first asset backend implementation unless status history is required immediately.
 - Asset maintenance history can be generated from related tickets.
 
 ### asset_maintenance_history

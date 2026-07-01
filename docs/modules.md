@@ -112,17 +112,27 @@ Users can report problems, admins can assign technicians, and technicians can up
 
 ### Purpose
 
-This module manages organization assets and maintenance history.
+This module manages campus and organization assets such as computers, projectors, air conditioners, network devices, classroom equipment, office devices, and other shared resources.
+
+The first backend phase should focus on basic asset tracking. More advanced maintenance history, QR code scanning, and image uploads can be added after the core asset records are stable.
+
+### Planned Entities
+
+- AssetCategory
+- Asset
+- AssetStatusLog in a later phase for status history and audit-style tracking
 
 ### Planned Features
 
+- View asset categories
 - Add asset
-- Edit asset
+- Edit asset basic information
 - View asset detail
 - Assign asset to location
 - Categorize asset
-- Link asset to repair ticket
-- View asset maintenance history
+- Update asset status
+- Link asset to repair ticket in a later phase
+- View asset maintenance history in a later phase
 - Track warranty information
 
 ### Example Assets
@@ -148,9 +158,44 @@ This module manages organization assets and maintenance history.
 - Warranty end date
 - Notes
 
+### Planned Asset Statuses
+
+- AVAILABLE
+- IN_USE
+- UNDER_MAINTENANCE
+- RETIRED
+- LOST
+
+### Role Rules
+
+#### User
+
+- Should not manage assets in the first asset backend phase
+- May view limited asset information later if needed for ticket creation
+
+#### Technician
+
+- Can view asset list and asset detail for maintenance context
+- May update maintenance notes or status in a later phase if allowed
+
+#### Admin
+
+- Can create, view, update, and change status for assets
+- Can manage asset categories
+- Can assign assets to locations
+
+#### Manager
+
+- Can view asset list, asset detail, and asset summaries
+- Should not edit assets unless explicitly allowed later
+
 ### Future Ideas
 
 - QR code for asset scan
+- Asset image upload
+- Maintenance history and status timeline
+- Asset assignment history
+- Inventory and spare parts relationship for maintenance work
 - Asset repair cost summary
 - Asset lifetime report
 - Warranty expiration notification
