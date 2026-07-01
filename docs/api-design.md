@@ -633,6 +633,50 @@ Valid statuses:
 Notes:
 
 - Creates an asset status log when the submitted status is different from the current status.
+
+### PATCH /api/assets/:id/archive
+
+Purpose:
+
+- Safely archive or retire an asset without permanently deleting the asset record.
+
+Authentication:
+
+- Required.
+
+Access:
+
+- Admin
+- Manager
+
+Example request body:
+
+```json
+{}
+```
+
+Example response:
+
+```json
+{
+  "success": true,
+  "message": "Asset archived successfully.",
+  "data": {
+    "asset": {
+      "id": "asset-id",
+      "status": "RETIRED"
+    }
+  }
+}
+```
+
+Notes:
+
+- The current archive behavior sets the asset status to `RETIRED`.
+- This endpoint intentionally avoids hard deleting asset records.
+- The backend expects a JSON object body, so clients should send `{}` when no note is used.
+- Creates an asset status log when the archive action changes the asset status.
+
 - Asset repair history endpoints should be implemented after tickets can be linked to assets.
 - Asset image upload, QR code generation, asset assignment history, inventory or spare parts relationships, and maintenance status history should be separate later-phase API work.
 

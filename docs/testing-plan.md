@@ -364,16 +364,17 @@ Current implemented asset test areas:
 - Admin views asset detail.
 - Admin updates asset status.
 - Admin verifies asset status history.
+- Admin archives or retires asset safely.
 - User cannot manage asset.
 - Invalid asset category returns validation error.
 
 Remaining later-phase asset tests:
 
-- Delete or archive asset.
 - Advanced asset filtering and search.
 - Asset dashboard metrics and analytics.
 - Asset can link to ticket.
 - Manager views asset maintenance history.
+- Hard delete is intentionally not part of the current asset workflow.
 
 ### Asset Frontend Manual Checklist
 
@@ -393,8 +394,12 @@ Checklist:
 5. Open the created asset detail page.
 6. Update asset information.
 7. Update asset status.
-8. Refresh the asset detail page and verify the latest data still appears.
-9. Run `npm run build` in `apps/web`.
+8. Archive or retire the asset from the asset detail page.
+9. Confirm the archive action.
+10. Verify the asset status changes to `RETIRED`.
+11. Verify the archive button is disabled or hidden after retirement.
+12. Refresh the asset detail page and verify the latest data still appears.
+13. Run `npm run build` in `apps/web`.
 
 Common issues:
 

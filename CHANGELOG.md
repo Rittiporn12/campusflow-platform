@@ -131,6 +131,12 @@ This project follows a simple changelog format to make the development history c
 - Integrated the frontend with the existing Asset APIs.
 - Verified the manual frontend asset flow and production build.
 - Kept delete/archive asset, advanced filtering, and dashboard asset analytics for later milestones.
+- Added archive/retire asset API using `PATCH /api/assets/:id/archive`.
+- Added Archive Asset request to the Postman collection.
+- Added frontend Archive/Retire action on the asset detail page.
+- Used safe archive behavior instead of hard deleting asset records.
+- Verified manual backend, Postman, frontend, and production build testing.
+- Kept hard delete, advanced asset reports, and charts for later if needed.
 
 ### Changed
 

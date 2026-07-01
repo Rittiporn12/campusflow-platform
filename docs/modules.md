@@ -114,13 +114,13 @@ Users can report problems, admins can assign technicians, and technicians can up
 
 This module manages campus and organization assets such as computers, projectors, air conditioners, network devices, classroom equipment, office devices, and other shared resources.
 
-The first backend phase should focus on basic asset tracking. More advanced maintenance history, QR code scanning, and image uploads can be added after the core asset records are stable.
+The current implemented phase supports core asset tracking and a safe archive/retire workflow. More advanced maintenance history, QR code scanning, and image uploads can be added after the core asset records are stable.
 
 ### Planned Entities
 
 - AssetCategory
 - Asset
-- AssetStatusLog in a later phase for status history and audit-style tracking
+- AssetStatusLog for status history and audit-style tracking
 
 ### Current Completed Capabilities
 
@@ -129,6 +129,7 @@ The first backend phase should focus on basic asset tracking. More advanced main
 - Create asset
 - Update asset information
 - Update asset status
+- Archive or retire asset safely
 
 ### Planned Features
 
@@ -139,18 +140,20 @@ The first backend phase should focus on basic asset tracking. More advanced main
 - Assign asset to location
 - Categorize asset
 - Update asset status
+- Archive or retire asset safely
 - Link asset to repair ticket in a later phase
 - View asset maintenance history in a later phase
 - Track warranty information
 
 ### Remaining Future Work
 
-- Delete or archive asset
 - Advanced asset filtering and search
-- Asset dashboard metrics and analytics
+- Asset dashboard analytics and charts
+- Maintenance history improvements
 - QR code support
 - Asset image upload
 - Asset assignment history
+- Hard delete is intentionally not implemented for safety.
 
 ### Example Assets
 

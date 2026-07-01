@@ -326,3 +326,18 @@ Each test case should include:
 | Actual Result   | To be tested                                                                                                                                                        |
 | Status          | Not Run                                                                                                                                                             |
 | Notes           | Replace `:id` with a real asset ID. Common errors: `401` when token is missing, `403` when role is not allowed, `404` when assetId does not exist, and `400` when the status/body is invalid. |
+
+#### TC-ASSET-003: Archive Asset
+
+| Field           | Details                                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID    | TC-ASSET-003                                                                                                                                                        |
+| API Group       | Asset API                                                                                                                                                           |
+| Method          | PATCH                                                                                                                                                               |
+| Endpoint        | `{{baseUrl}}/api/assets/{{assetId}}/archive`                                                                                                                        |
+| Preconditions   | Backend API is running. Admin or another allowed role is logged in. `authToken` is available. `assetId` is available from asset creation, asset list, or the Postman environment. |
+| Request Body    | `{}`                                                                                                                                                                |
+| Expected Result | API returns `success: true`, and the asset status becomes `RETIRED`.                                                                                                 |
+| Actual Result   | To be tested                                                                                                                                                        |
+| Status          | Not Run                                                                                                                                                             |
+| Notes           | Common errors: `401` when token is missing or invalid, `403` when role is not allowed, `404` when `assetId` does not exist, and `400` when the request body is missing or invalid. |
