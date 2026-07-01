@@ -214,32 +214,25 @@ async function main() {
 
   const assetCategories = [
     {
-      name: "Computer",
-      description: "Desktop computers, notebooks, and shared workstations.",
+      name: "Computer Equipment",
+      description:
+        "Desktop computers, notebooks, monitors, and shared workstations.",
     },
     {
-      name: "Projector",
+      name: "Network Devices",
+      description: "Routers, switches, access points, and network equipment.",
+    },
+    {
+      name: "Projectors",
       description: "Classroom and meeting room projector equipment.",
     },
     {
-      name: "Air Conditioner",
+      name: "Air Conditioners",
       description: "Air conditioner units and related cooling equipment.",
     },
     {
-      name: "Printer",
-      description: "Printers, scanners, and multifunction devices.",
-    },
-    {
-      name: "Router",
-      description: "Network routers, switches, and Wi-Fi equipment.",
-    },
-    {
-      name: "Furniture",
-      description: "Desks, chairs, cabinets, and other furniture assets.",
-    },
-    {
-      name: "Lab Equipment",
-      description: "Shared laboratory and classroom equipment.",
+      name: "Office Equipment",
+      description: "Printers, scanners, desks, chairs, and office devices.",
     },
   ];
 
