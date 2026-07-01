@@ -97,6 +97,13 @@ This project follows a simple changelog format to make the development history c
 - Added demo asset categories in seed data.
 - Added Prisma migration for the asset management schema.
 - Kept Asset API routes, controllers, services, Postman requests, and frontend asset UI for later milestones.
+- Added the first Asset Management backend API endpoint.
+- Added `GET /api/asset-categories`.
+- Added asset category service, controller, and route following the existing backend module pattern.
+- Used Prisma to fetch asset categories from the database.
+- Returned a consistent API response shape for asset category lookup.
+- Verified the endpoint with TypeScript check and manual curl/Postman testing.
+- Kept create asset, asset list, asset detail, asset update, asset status update, Postman asset collection updates, and frontend asset UI for later milestones.
 
 ### Changed
 
