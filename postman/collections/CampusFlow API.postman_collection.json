@@ -803,6 +803,91 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Create Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "",
+                  "const asset =",
+                  "  response.data?.asset ||",
+                  "  response.asset ||",
+                  "  response.data;",
+                  "",
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is successful\", function () {",
+                  "  if (response.success !== undefined) {",
+                  "    pm.expect(response.success).to.eql(true);",
+                  "  } else {",
+                  "    pm.expect([200, 201]).to.include(pm.response.code);",
+                  "  }",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains created asset data\", function () {",
+                  "  pm.expect(asset).to.be.an(\"object\");",
+                  "  pm.expect(asset).to.have.property(\"id\");",
+                  "  pm.expect(asset).to.have.property(\"name\");",
+                  "});",
+                  "",
+                  "if (asset && asset.id) {",
+                  "  pm.environment.set(\"assetId\", asset.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetCode\": \"ASSET-POSTMAN-001\",\n  \"name\": \"Postman Test Projector\",\n  \"description\": \"Asset created from Postman for API testing.\",\n  \"categoryId\": \"{{assetCategoryId}}\",\n  \"status\": \"AVAILABLE\",\n  \"brand\": \"Epson\",\n  \"model\": \"EB-X06\",\n  \"serialNumber\": \"SN-POSTMAN-001\",\n  \"notes\": \"Created during Asset API testing.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/api/assets",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "assets"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "description": "Asset management endpoints for campus asset categories and future asset tracking features."
