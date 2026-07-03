@@ -9,6 +9,7 @@ import {
   type TicketDetail,
   type TicketStatus,
 } from "../lib/ticketsApi";
+import { formatTicketPriority, formatTicketStatus } from "../lib/displayLabels";
 
 const ticketStatuses: TicketStatus[] = [
   "PENDING",
@@ -132,7 +133,7 @@ export default function TicketDetailPage() {
     const trimmedTechnicianId = technicianId.trim();
 
     if (!id || !trimmedTechnicianId) {
-      setAssignmentMessage("Please enter a technician ID.");
+      setAssignmentMessage("Please enter a technician reference.");
       return;
     }
 
@@ -155,7 +156,7 @@ export default function TicketDetailPage() {
       } else {
         setAssignmentMessage(
           axiosError.response?.data?.message ||
-            "Unable to assign ticket. Please check the technician ID and try again.",
+            "Unable to assign ticket. Please check the technician reference and try again.",
         );
       }
     } finally {
@@ -204,12 +205,22 @@ export default function TicketDetailPage() {
 
   return (
     <section className="page-section">
-      <Link className="secondary-link" to="/tickets">
-        Back to tickets
-      </Link>
+      <div className="detail-page-header">
+        <Link className="secondary-link" to="/tickets">
+          Back to tickets
+        </Link>
 
-      <p className="eyebrow">Ticket detail</p>
-      <h1>{ticket ? ticket.title : `Ticket ${id ?? ""}`}</h1>
+        <div>
+          <p className="eyebrow">Ticket detail</p>
+          <h1>{ticket ? ticket.title : `Ticket ${id ?? ""}`}</h1>
+          {ticket ? (
+            <p>
+              Repair request opened by {ticket.createdBy.name} on{" "}
+              {formatDate(ticket.createdAt)}.
+            </p>
+          ) : null}
+        </div>
+      </div>
 
       {isLoading ? <p className="state-message">Loading ticket...</p> : null}
 
@@ -222,179 +233,208 @@ export default function TicketDetailPage() {
       ) : null}
 
       {!isLoading && !errorMessage && ticket ? (
-        <div className="detail-stack">
-          <article className="detail-panel">
-            <div className="ticket-meta">
-              <span className={getTicketStatusBadgeClass(ticket.status)}>
-                {ticket.status}
-              </span>
-              <span className={getTicketPriorityBadgeClass(ticket.priority)}>
-                {ticket.priority}
-              </span>
-              <span className="badge badge-category">{ticket.category.name}</span>
-            </div>
+        <div className="detail-layout">
+          <div className="detail-main">
+            <article className="detail-panel detail-overview-card">
+              <div className="detail-overview-header">
+                <div>
+                  <p className="eyebrow">Ticket overview</p>
+                  <h2>{ticket.title}</h2>
+                </div>
 
-            <p>{ticket.description}</p>
-          </article>
+                <div className="ticket-meta">
+                  <span className={getTicketStatusBadgeClass(ticket.status)}>
+                    {formatTicketStatus(ticket.status)}
+                  </span>
+                  <span className={getTicketPriorityBadgeClass(ticket.priority)}>
+                    {formatTicketPriority(ticket.priority)}
+                  </span>
+                </div>
+              </div>
 
-          <article className="detail-panel">
-            <h2>Update status</h2>
-            <form className="status-update-form" onSubmit={handleStatusUpdate}>
-              <label className="form-field" htmlFor="ticket-status">
-                <span>Current status: {ticket.status}</span>
-                <select
-                  id="ticket-status"
-                  value={selectedStatus}
-                  onChange={(event) =>
-                    setSelectedStatus(event.target.value as TicketStatus)
-                  }
+              <div className="detail-highlight-grid">
+                <div>
+                  <span>Category</span>
+                  <strong>{ticket.category.name}</strong>
+                </div>
+                <div>
+                  <span>Location</span>
+                  <strong>{formatLocation(ticket)}</strong>
+                </div>
+                <div>
+                  <span>Requester</span>
+                  <strong>{ticket.createdBy.name}</strong>
+                </div>
+                <div>
+                  <span>Created</span>
+                  <strong>{formatDate(ticket.createdAt)}</strong>
+                </div>
+              </div>
+            </article>
+
+            <article className="detail-panel">
+              <div className="section-heading">
+                <h2>Issue details</h2>
+              </div>
+              <p>{ticket.description}</p>
+
+              <dl className="detail-grid">
+                <div>
+                  <dt>Assigned technician</dt>
+                  <dd>{ticket.assignedTo?.name ?? "Unassigned"}</dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd>{formatDate(ticket.updatedAt)}</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article className="detail-panel">
+              <div className="section-heading">
+                <h2>Comments</h2>
+              </div>
+
+              <form className="status-update-form" onSubmit={handleAddComment}>
+                <label className="form-field" htmlFor="ticket-comment">
+                  <span>Add comment</span>
+                  <textarea
+                    id="ticket-comment"
+                    rows={4}
+                    value={commentText}
+                    onChange={(event) => setCommentText(event.target.value)}
+                    placeholder="Write a ticket comment"
+                  />
+                </label>
+
+                <button
+                  className="primary-button"
+                  type="submit"
+                  disabled={isAddingComment}
                 >
-                  {ticketStatuses.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
+                  {isAddingComment ? "Adding..." : "Add comment"}
+                </button>
+              </form>
+
+              {commentMessage ? (
+                <p className="form-message">{commentMessage}</p>
+              ) : null}
+
+              {ticket.comments.length > 0 ? (
+                <div className="activity-list comment-list">
+                  {ticket.comments.map((comment) => (
+                    <div className="activity-item comment-item" key={comment.id}>
+                      <div className="activity-item-header">
+                        <strong>{comment.user.name}</strong>
+                        <span>{formatDate(comment.createdAt)}</span>
+                      </div>
+                      <p>{comment.message}</p>
+                    </div>
                   ))}
-                </select>
-              </label>
+                </div>
+              ) : (
+                <p className="empty-copy">No comments yet.</p>
+              )}
+            </article>
 
-              <button
-                className="primary-button"
-                type="submit"
-                disabled={isUpdatingStatus}
-              >
-                {isUpdatingStatus ? "Updating..." : "Update status"}
-              </button>
-            </form>
+            <article className="detail-panel">
+              <div className="section-heading">
+                <h2>Status history</h2>
+              </div>
+              {ticket.statusLogs.length > 0 ? (
+                <div className="activity-list">
+                  {ticket.statusLogs.map((log) => (
+                    <div className="activity-item" key={log.id}>
+                      <strong>
+                        {log.oldStatus ? formatTicketStatus(log.oldStatus) : "New"} to{" "}
+                        {formatTicketStatus(log.newStatus)}
+                      </strong>
+                      <span>
+                        {log.changedBy.name} - {formatDate(log.createdAt)}
+                      </span>
+                      {log.note ? <p>{log.note}</p> : null}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="empty-copy">No status history yet.</p>
+              )}
+            </article>
+          </div>
 
-            {statusMessage ? <p className="form-message">{statusMessage}</p> : null}
-          </article>
-
-          <article className="detail-panel">
-            <h2>Assign technician</h2>
-            <p>
-              Current assigned technician:{" "}
-              {ticket.assignedTo?.name ?? "Unassigned"}
-            </p>
-
-            <form className="status-update-form" onSubmit={handleAssignTicket}>
-              <label className="form-field" htmlFor="technician-id">
-                <span>Technician ID</span>
-                <input
-                  id="technician-id"
-                  value={technicianId}
-                  onChange={(event) => setTechnicianId(event.target.value)}
-                  placeholder="Paste technician user ID"
-                />
-              </label>
-
+          <aside className="detail-sidebar">
+            <article className="detail-panel action-panel">
+              <h2>Status workflow</h2>
               <p className="helper-text">
-                Use a technician user ID from seed data, database records, or the
-                Postman environment.
+                Move this repair request to the next visible workflow state.
+              </p>
+              <form className="status-update-form" onSubmit={handleStatusUpdate}>
+                <label className="form-field" htmlFor="ticket-status">
+                  <span>Current status: {formatTicketStatus(ticket.status)}</span>
+                  <select
+                    id="ticket-status"
+                    value={selectedStatus}
+                    onChange={(event) =>
+                      setSelectedStatus(event.target.value as TicketStatus)
+                    }
+                  >
+                    {ticketStatuses.map((status) => (
+                      <option key={status} value={status}>
+                        {formatTicketStatus(status)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <button
+                  className="primary-button"
+                  type="submit"
+                  disabled={isUpdatingStatus}
+                >
+                  {isUpdatingStatus ? "Updating..." : "Update status"}
+                </button>
+              </form>
+
+              {statusMessage ? <p className="form-message">{statusMessage}</p> : null}
+            </article>
+
+            <article className="detail-panel action-panel">
+              <h2>Assignment</h2>
+              <p>
+                Current assigned technician:{" "}
+                <strong>{ticket.assignedTo?.name ?? "Unassigned"}</strong>
               </p>
 
-              <button
-                className="primary-button"
-                type="submit"
-                disabled={isAssigningTicket}
-              >
-                {isAssigningTicket ? "Assigning..." : "Assign ticket"}
-              </button>
-            </form>
+              <form className="status-update-form" onSubmit={handleAssignTicket}>
+                <label className="form-field" htmlFor="technician-id">
+                  <span>Technician reference</span>
+                  <input
+                    id="technician-id"
+                    value={technicianId}
+                    onChange={(event) => setTechnicianId(event.target.value)}
+                    placeholder="Enter technician reference"
+                  />
+                </label>
 
-            {assignmentMessage ? (
-              <p className="form-message">{assignmentMessage}</p>
-            ) : null}
-          </article>
+                <p className="helper-text">
+                  Use the technician reference from seed data, testing records, or
+                  the Postman environment until technician search is available.
+                </p>
 
-          <article className="detail-panel">
-            <h2>Ticket information</h2>
-            <dl className="detail-grid">
-              <div>
-                <dt>Location</dt>
-                <dd>{formatLocation(ticket)}</dd>
-              </div>
-              <div>
-                <dt>Requester</dt>
-                <dd>{ticket.createdBy.name}</dd>
-              </div>
-              <div>
-                <dt>Assigned technician</dt>
-                <dd>{ticket.assignedTo?.name ?? "Unassigned"}</dd>
-              </div>
-              <div>
-                <dt>Created</dt>
-                <dd>{formatDate(ticket.createdAt)}</dd>
-              </div>
-              <div>
-                <dt>Updated</dt>
-                <dd>{formatDate(ticket.updatedAt)}</dd>
-              </div>
-            </dl>
-          </article>
+                <button
+                  className="primary-button"
+                  type="submit"
+                  disabled={isAssigningTicket}
+                >
+                  {isAssigningTicket ? "Assigning..." : "Assign ticket"}
+                </button>
+              </form>
 
-          <article className="detail-panel">
-            <h2>Comments</h2>
-
-            <form className="status-update-form" onSubmit={handleAddComment}>
-              <label className="form-field" htmlFor="ticket-comment">
-                <span>Add comment</span>
-                <textarea
-                  id="ticket-comment"
-                  rows={4}
-                  value={commentText}
-                  onChange={(event) => setCommentText(event.target.value)}
-                  placeholder="Write a ticket comment"
-                />
-              </label>
-
-              <button
-                className="primary-button"
-                type="submit"
-                disabled={isAddingComment}
-              >
-                {isAddingComment ? "Adding..." : "Add comment"}
-              </button>
-            </form>
-
-            {commentMessage ? (
-              <p className="form-message">{commentMessage}</p>
-            ) : null}
-
-            {ticket.comments.length > 0 ? (
-              <div className="activity-list">
-                {ticket.comments.map((comment) => (
-                  <div className="activity-item" key={comment.id}>
-                    <strong>{comment.user.name}</strong>
-                    <span>{formatDate(comment.createdAt)}</span>
-                    <p>{comment.message}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>No comments yet.</p>
-            )}
-          </article>
-
-          <article className="detail-panel">
-            <h2>Status history</h2>
-            {ticket.statusLogs.length > 0 ? (
-              <div className="activity-list">
-                {ticket.statusLogs.map((log) => (
-                  <div className="activity-item" key={log.id}>
-                    <strong>
-                      {log.oldStatus ?? "New"} to {log.newStatus}
-                    </strong>
-                    <span>
-                      {log.changedBy.name} - {formatDate(log.createdAt)}
-                    </span>
-                    {log.note ? <p>{log.note}</p> : null}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>No status history yet.</p>
-            )}
-          </article>
+              {assignmentMessage ? (
+                <p className="form-message">{assignmentMessage}</p>
+              ) : null}
+            </article>
+          </aside>
         </div>
       ) : null}
     </section>

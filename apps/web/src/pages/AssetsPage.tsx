@@ -10,6 +10,7 @@ import {
   type AssetListItem,
   type AssetStatus,
 } from "../lib/assetsApi";
+import { formatAssetStatus } from "../lib/displayLabels";
 
 type AssetStatusFilter = "ALL" | AssetStatus;
 
@@ -390,7 +391,7 @@ export default function AssetsPage() {
             >
               {assetStatusFilters.map((status) => (
                 <option key={status} value={status}>
-                  {status}
+                  {status === "ALL" ? "All statuses" : formatAssetStatus(status)}
                 </option>
               ))}
             </select>
@@ -436,7 +437,7 @@ export default function AssetsPage() {
 
               <div className="resource-cell" data-label="Status">
                 <span className={getAssetStatusBadgeClass(asset.status)}>
-                  {asset.status}
+                  {formatAssetStatus(asset.status)}
                 </span>
               </div>
 

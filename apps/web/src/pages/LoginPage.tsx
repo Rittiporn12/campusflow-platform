@@ -47,51 +47,70 @@ export default function LoginPage() {
 
   return (
     <main className="auth-page">
-      <section className="auth-card">
-        <div className="auth-header">
-          <p className="eyebrow">Authentication</p>
-          <h1>CampusFlow</h1>
-          <p>Smart Campus Operations Platform</p>
+      <section className="auth-shell" aria-label="CampusFlow login">
+        <div className="auth-brand-panel">
+          <div className="brand">
+            <span className="brand-mark">CF</span>
+            <span>CampusFlow</span>
+          </div>
+
+          <div>
+            <p className="eyebrow">Smart campus operations</p>
+            <h1>Run campus work from one internal console.</h1>
+            <p>
+              Track repair tickets, manage assets, and keep operations work
+              visible for campus teams.
+            </p>
+          </div>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <label className="form-field" htmlFor="email">
-            <span>Email</span>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="admin@campusflow.dev"
-            />
-          </label>
+        <section className="auth-card">
+          <div className="auth-header">
+            <p className="eyebrow">Authentication</p>
+            <h2>Sign in</h2>
+            <p>Use the demo admin account to review the current workflow.</p>
+          </div>
 
-          <label className="form-field" htmlFor="password">
-            <span>Password</span>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Password123!"
-            />
-          </label>
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <label className="form-field" htmlFor="email">
+              <span>Email</span>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="admin@campusflow.dev"
+              />
+            </label>
 
-          <button className="primary-button" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            <label className="form-field" htmlFor="password">
+              <span>Password</span>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Password123!"
+              />
+            </label>
 
-        {message ? <p className="form-message">{message}</p> : null}
+            <button className="primary-button" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
-        <div className="demo-hint">
-          <span>Demo account</span>
-          <strong>admin@campusflow.dev / Password123!</strong>
-        </div>
+          {message ? <p className="form-message">{message}</p> : null}
+
+          <div className="demo-hint">
+            <span>Demo account</span>
+            <strong>admin@campusflow.dev</strong>
+            <strong>Password123!</strong>
+          </div>
+        </section>
       </section>
     </main>
   );

@@ -10,6 +10,7 @@ import {
   type TicketListItem,
   type TicketPriority,
 } from "../lib/ticketsApi";
+import { formatTicketPriority, formatTicketStatus } from "../lib/displayLabels";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
@@ -259,10 +260,10 @@ export default function TicketsPage() {
                   setPriority(event.target.value as TicketPriority)
                 }
               >
-                <option value="LOW">LOW</option>
-                <option value="MEDIUM">MEDIUM</option>
-                <option value="HIGH">HIGH</option>
-                <option value="CRITICAL">CRITICAL</option>
+                <option value="LOW">{formatTicketPriority("LOW")}</option>
+                <option value="MEDIUM">{formatTicketPriority("MEDIUM")}</option>
+                <option value="HIGH">{formatTicketPriority("HIGH")}</option>
+                <option value="CRITICAL">{formatTicketPriority("CRITICAL")}</option>
               </select>
             </label>
           </div>
@@ -308,13 +309,13 @@ export default function TicketsPage() {
 
               <div className="resource-cell" data-label="Status">
                 <span className={getTicketStatusBadgeClass(ticket.status)}>
-                  {ticket.status}
+                  {formatTicketStatus(ticket.status)}
                 </span>
               </div>
 
               <div className="resource-cell" data-label="Priority">
                 <span className={getTicketPriorityBadgeClass(ticket.priority)}>
-                  {ticket.priority}
+                  {formatTicketPriority(ticket.priority)}
                 </span>
               </div>
 

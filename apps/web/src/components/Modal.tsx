@@ -29,14 +29,17 @@ export default function Modal({
         onClick={(event) => event.stopPropagation()}
       >
         <div className="modal-header">
-          <h2 id="modal-title">{title}</h2>
+          <div>
+            <p className="eyebrow">CampusFlow action</p>
+            <h2 id="modal-title">{title}</h2>
+          </div>
           <button
             className="modal-close-button"
             type="button"
             onClick={onClose}
             aria-label="Close modal"
           >
-            Close
+            X
           </button>
         </div>
 

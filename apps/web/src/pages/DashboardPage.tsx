@@ -9,6 +9,11 @@ import {
   type TicketListItem,
   type TicketStatus,
 } from "../lib/ticketsApi";
+import {
+  formatAssetStatus,
+  formatTicketPriority,
+  formatTicketStatus,
+} from "../lib/displayLabels";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
@@ -220,10 +225,10 @@ export default function DashboardPage() {
 
                       <div className="ticket-meta">
                         <span className={getTicketStatusBadgeClass(ticket.status)}>
-                          {ticket.status}
+                          {formatTicketStatus(ticket.status)}
                         </span>
                         <span className={getTicketPriorityBadgeClass(ticket.priority)}>
-                          {ticket.priority}
+                          {formatTicketPriority(ticket.priority)}
                         </span>
                       </div>
 
@@ -257,7 +262,7 @@ export default function DashboardPage() {
 
                       <div className="ticket-meta">
                         <span className={getAssetStatusBadgeClass(asset.status)}>
-                          {asset.status}
+                          {formatAssetStatus(asset.status)}
                         </span>
                         <span className="badge badge-category">
                           {asset.category?.name ?? "Uncategorized"}
