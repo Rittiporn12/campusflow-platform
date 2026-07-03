@@ -1,234 +1,306 @@
-# CampusFlow — Smart Campus Operations Platform
+<div align="center">
 
-CampusFlow is an active full-stack portfolio project that simulates a smart campus or internal operations platform for campus repair requests, asset tracking, and operations visibility.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:020617,45:0f172a,75:1e3a8a,100:334155&height=190&section=header&text=CampusFlow&fontSize=48&fontColor=f8fafc&fontAlignY=38&desc=Smart%20Campus%20Operations%20Platform%20%7C%20React%20%7C%20Express%20%7C%20PostgreSQL&descSize=15&descAlignY=58" alt="CampusFlow Header" />
 
-It is built to demonstrate practical work across frontend development, backend API design, database modeling, authentication, role-based authorization, QA documentation, Postman testing, and portfolio-ready project documentation.
+<br />
 
-CampusFlow is intentionally developed in small milestones. It is not presented as a finished enterprise product; it is a portfolio-ready showcase of clean, maintainable full-stack development across API design, database modeling, frontend workflows, testing, and documentation.
+<img src="https://img.shields.io/badge/React-Frontend-61dafb?style=for-the-badge&labelColor=020617" alt="React Badge" />
+<img src="https://img.shields.io/badge/TypeScript-Fullstack-3178c6?style=for-the-badge&labelColor=020617" alt="TypeScript Badge" />
+<img src="https://img.shields.io/badge/Express-Backend-f8fafc?style=for-the-badge&labelColor=020617" alt="Express Badge" />
+<img src="https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&labelColor=020617" alt="PostgreSQL Badge" />
+<img src="https://img.shields.io/badge/Prisma-ORM-2d3748?style=for-the-badge&labelColor=020617" alt="Prisma Badge" />
+<img src="https://img.shields.io/badge/JWT-Auth-f43f5e?style=for-the-badge&labelColor=020617" alt="JWT Badge" />
 
-## Current Project Status
+<br />
+<br />
 
-Status: Portfolio-ready core workflow, active development continues
+<p>
+  <b>A full-stack portfolio project for campus repair tickets, asset tracking, and operations visibility.</b>
+</p>
 
-Current production-like completed areas:
+<p>
+  CampusFlow demonstrates practical frontend workflows, backend API design, relational database modeling,
+  authentication, role-based authorization, Postman testing, and responsive admin-dashboard UI.
+</p>
 
-- Authentication flow
-- Repair ticket workflow
-- Asset management workflow
-- Dashboard overview using existing ticket and asset data
-- Responsive frontend layout for desktop, laptop, tablet, and mobile
-- Postman and manual API testing documentation for implemented APIs
+<p>
+  <a href="#preview"><b>Preview</b></a>
+  &nbsp;|&nbsp;
+  <a href="#key-features"><b>Features</b></a>
+  &nbsp;|&nbsp;
+  <a href="#local-development"><b>Run Locally</b></a>
+  &nbsp;|&nbsp;
+  <a href="./docs/testing-plan.md"><b>Testing</b></a>
+  &nbsp;|&nbsp;
+  <a href="./docs/system-overview.md"><b>System Overview</b></a>
+</p>
 
-Current frontend coverage:
+</div>
 
-- Login
-- Authenticated layout
-- Dashboard
-- Tickets
-- Ticket detail and workflow actions
-- Assets
-- Asset detail and workflow actions
-- Responsive desktop, laptop, tablet, and mobile layout with mobile navigation drawer
+<hr />
 
-Planned future work remains intentionally scoped, including booking, inventory, richer reports, automation, deployment documentation, and future AI-ready features.
+<h2 align="center">Overview</h2>
 
-## Completed Features
+<p align="center">
+  <b>CampusFlow</b> is an active full-stack portfolio project that simulates a smart campus or internal operations platform.
+</p>
 
-### Backend
+<p align="center">
+  It is not presented as a finished enterprise product. It is a portfolio-ready core workflow built in small milestones to show clean implementation, testing discipline, documentation, and product-focused iteration.
+</p>
 
-- Node.js, Express, and TypeScript API
-- PostgreSQL database with Prisma ORM
-- Prisma migrations and seed data
-- JWT authentication
-- bcrypt password hashing
-- Zod request validation
-- Role-based authorization middleware
-- Consistent API response and error handling patterns
+<div align="center">
 
-### Authentication
+| Area | Current Status |
+| ---- | -------------- |
+| Project Type | Full-stack portfolio project |
+| Core Workflow | Authentication, tickets, assets, dashboard |
+| Frontend Status | Responsive desktop, laptop, tablet, and mobile UI |
+| Backend Status | Auth, Ticket, and Asset APIs implemented |
+| Testing Status | Postman collection and manual testing docs included |
+| Future Modules | Booking, inventory, reports, automation, deployment |
 
-- Register
-- Login
-- Current authenticated user
-- Frontend token storage
-- Protected frontend routes
-- Logout behavior
+</div>
 
-### Ticket Management
+<hr />
 
-- Ticket categories
-- Create ticket
-- Ticket list
-- Ticket detail
-- Update ticket status
-- Assign technician
-- Add ticket comments
-- Ticket status history
-- Frontend ticket list, detail, create, status, assignment, and comment UI
+<h2 id="preview" align="center">Preview</h2>
 
-### Asset Management
+<div align="center">
+  <img src="./docs/screenshots/02-dashboard.png" width="900" alt="CampusFlow Dashboard Preview" />
+</div>
 
-- Asset categories
-- Create asset
-- Asset list
-- Asset detail
-- Update asset information
-- Update asset status
-- Archive or retire asset safely without hard delete
-- Asset status history
-- Frontend asset list, detail, create, update, status, archive, search/filter, and dashboard summary UI
+<br />
 
-### Frontend Experience
+<div align="center">
+  <img src="./docs/screenshots/03-tickets.png" width="430" alt="CampusFlow Tickets Preview" />
+  &nbsp;
+  <img src="./docs/screenshots/06-assets.png" width="430" alt="CampusFlow Assets Preview" />
+</div>
 
-- Login page connected to backend authentication
-- Authenticated layout with current user profile and logout
-- Dashboard overview for tickets and assets
-- Ticket list with pagination, latest-first sorting, and responsive card/table layouts
-- Ticket detail workflow for status updates, assignment, and comments
-- Asset list with search/filter, pagination, latest-first sorting, and responsive card/table layouts
-- Asset detail workflow for editing, status updates, and safe archive/retire action
-- Modal workflows for ticket and asset creation
-- Mobile top navigation and drawer menu for smaller screens
+<br />
 
-### Dashboard
+<div align="center">
+  <img src="./docs/screenshots/09-mobile-dashboard.png" width="260" alt="CampusFlow Mobile Dashboard" />
+  &nbsp;
+  <img src="./docs/screenshots/10-mobile-navigation.png" width="260" alt="CampusFlow Mobile Navigation" />
+</div>
 
-- Ticket summary cards
-- Asset summary cards
-- Recent tickets
-- Recent assets
-- Loading, empty, and error states
-- Responsive frontend polish for desktop, laptop, tablet, and mobile
+<hr />
 
-### Testing and Documentation
+<h2 id="key-features" align="center">Key Features</h2>
 
-- Postman local environment
-- Postman collection for Auth, Ticket, and Asset APIs
-- Manual API testing documentation
-- Testing plan with frontend and API checklist coverage
-- Changelog and project planning documentation
+<table align="center">
+  <tr>
+    <th>Feature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><b>Authentication</b></td>
+    <td>JWT login, current user lookup, protected frontend routes, and logout flow.</td>
+  </tr>
+  <tr>
+    <td><b>Ticket Management</b></td>
+    <td>Create, list, view, assign, update status, and add comments to repair tickets.</td>
+  </tr>
+  <tr>
+    <td><b>Asset Management</b></td>
+    <td>Create, list, view, update, change status, search/filter, and safely archive assets.</td>
+  </tr>
+  <tr>
+    <td><b>Dashboard</b></td>
+    <td>Ticket and asset summaries with recent activity using existing API data.</td>
+  </tr>
+  <tr>
+    <td><b>Role-Based Access</b></td>
+    <td>Backend authorization for admin, manager, technician, and user workflows.</td>
+  </tr>
+  <tr>
+    <td><b>Responsive UI</b></td>
+    <td>Desktop sidebar, mobile topbar/drawer, responsive cards, modals, tables, and pagination.</td>
+  </tr>
+  <tr>
+    <td><b>API Testing</b></td>
+    <td>Postman collection, local environment, response tests, and manual API testing documentation.</td>
+  </tr>
+</table>
 
-## Tech Stack
+<hr />
 
-### Frontend
+<h2 align="center">Built With</h2>
 
-- React
-- TypeScript
-- Vite
-- React Router
-- Axios
-- CSS
+<div align="center">
 
-### Backend
+| Frontend | Backend | Database | Testing / Tooling |
+| -------- | ------- | -------- | ----------------- |
+| React | Node.js | PostgreSQL | Postman |
+| TypeScript | Express | Prisma ORM | Manual QA docs |
+| Vite | JWT | Prisma migrations | Docker Compose |
+| React Router | bcrypt | Seed data | API checklists |
+| Axios | Zod | Relational models | Responsive QA |
+| CSS | Role middleware | Status logs | GitHub docs |
 
-- Node.js
-- Express
-- TypeScript
-- Prisma ORM
-- PostgreSQL
-- JWT
-- bcrypt
-- Zod
+</div>
 
-### Testing and Tooling
+<hr />
 
-- Postman
-- Manual API testing
-- Manual frontend testing
-- Docker Compose for local PostgreSQL
+<h2 align="center">Application Flow</h2>
 
-## API Features
+```txt
+User
+  |
+  v
+Login with demo account
+  |
+  v
+JWT authentication
+  |
+  v
+Protected React routes
+  |
+  v
+Dashboard / Tickets / Assets
+  |
+  v
+Express API
+  |
+  v
+Prisma ORM
+  |
+  v
+PostgreSQL database
+```
+
+<hr />
+
+<h2 align="center">Screenshots</h2>
+
+<h3 align="center">Login</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/01-login.png" width="900" alt="CampusFlow Login" />
+</div>
+
+<br />
+
+<h3 align="center">Dashboard</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/02-dashboard.png" width="900" alt="CampusFlow Dashboard" />
+</div>
+
+<br />
+
+<h3 align="center">Tickets</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/03-tickets.png" width="900" alt="CampusFlow Ticket List" />
+</div>
+
+<br />
+
+<h3 align="center">Ticket Detail</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/05-ticket-detail.png" width="900" alt="CampusFlow Ticket Detail" />
+</div>
+
+<br />
+
+<h3 align="center">Assets</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/06-assets.png" width="900" alt="CampusFlow Asset List" />
+</div>
+
+<br />
+
+<h3 align="center">Asset Detail</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/08-asset-detail.png" width="900" alt="CampusFlow Asset Detail" />
+</div>
+
+<br />
+
+<h3 align="center">Mobile Responsive</h3>
+
+<div align="center">
+  <img src="./docs/screenshots/09-mobile-dashboard.png" width="260" alt="CampusFlow Mobile Dashboard" />
+  &nbsp;
+  <img src="./docs/screenshots/10-mobile-navigation.png" width="260" alt="CampusFlow Mobile Navigation" />
+</div>
+
+<hr />
+
+<h2 align="center">Backend API</h2>
 
 ### Auth API
 
-| Method | Endpoint             | Description                        |
-| ------ | -------------------- | ---------------------------------- |
-| POST   | `/api/auth/register` | Register a new user                |
-| POST   | `/api/auth/login`    | Login and receive JWT token        |
-| GET    | `/api/auth/me`       | Get the current authenticated user |
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login and receive JWT token |
+| GET | `/api/auth/me` | Get current authenticated user |
 
 ### Ticket API
 
-| Method | Endpoint                    | Description                 |
-| ------ | --------------------------- | --------------------------- |
-| GET    | `/api/ticket-categories`    | Get ticket categories       |
-| POST   | `/api/tickets`              | Create ticket               |
-| GET    | `/api/tickets`              | Get ticket list             |
-| GET    | `/api/tickets/:id`          | Get ticket detail           |
-| PATCH  | `/api/tickets/:id/status`   | Update ticket status        |
-| PATCH  | `/api/tickets/:id/assign`   | Assign ticket to technician |
-| POST   | `/api/tickets/:id/comments` | Add ticket comment          |
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET | `/api/ticket-categories` | Get ticket categories |
+| POST | `/api/tickets` | Create ticket |
+| GET | `/api/tickets` | Get ticket list |
+| GET | `/api/tickets/:id` | Get ticket detail |
+| PATCH | `/api/tickets/:id/status` | Update ticket status |
+| PATCH | `/api/tickets/:id/assign` | Assign ticket to technician |
+| POST | `/api/tickets/:id/comments` | Add ticket comment |
 
 ### Asset API
 
-| Method | Endpoint                    | Description                   |
-| ------ | --------------------------- | ----------------------------- |
-| GET    | `/api/asset-categories`     | Get asset categories          |
-| POST   | `/api/assets`               | Create asset                  |
-| GET    | `/api/assets`               | Get asset list                |
-| GET    | `/api/assets/:id`           | Get asset detail              |
-| PATCH  | `/api/assets/:id`           | Update asset information      |
-| PATCH  | `/api/assets/:id/status`    | Update asset status           |
-| PATCH  | `/api/assets/:id/archive`   | Safely archive or retire asset |
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET | `/api/asset-categories` | Get asset categories |
+| POST | `/api/assets` | Create asset |
+| GET | `/api/assets` | Get asset list |
+| GET | `/api/assets/:id` | Get asset detail |
+| PATCH | `/api/assets/:id` | Update asset information |
+| PATCH | `/api/assets/:id/status` | Update asset status |
+| PATCH | `/api/assets/:id/archive` | Safely archive or retire asset |
 
-## Demo Accounts
+<hr />
 
-Seed data includes demo accounts for local development and testing.
+<h2 align="center">Demo Accounts</h2>
 
-| Role       | Email                       | Password       |
-| ---------- | --------------------------- | -------------- |
-| Admin      | `admin@campusflow.dev`      | `Password123!` |
+Seed data includes local demo users for testing the implemented workflows.
+
+| Role | Email | Password |
+| ---- | ----- | -------- |
+| Admin | `admin@campusflow.dev` | `Password123!` |
 | Technician | `technician@campusflow.dev` | `Password123!` |
-| User       | `user@campusflow.dev`       | `Password123!` |
-| Manager    | `manager@campusflow.dev`    | `Password123!` |
+| User | `user@campusflow.dev` | `Password123!` |
+| Manager | `manager@campusflow.dev` | `Password123!` |
 
 Do not use these credentials outside local development.
 
-## Repository Structure
+<hr />
 
-```txt
-campusflow-platform/
-├── apps/
-│   ├── api/              # Express, TypeScript, Prisma backend
-│   └── web/              # Vite, React, TypeScript frontend
-├── docs/                 # Architecture, API, testing, and planning docs
-├── postman/              # Postman collection and local environment
-├── packages/shared/      # Placeholder for future shared code
-├── docker/               # Local database documentation
-├── docker-compose.yml    # Local PostgreSQL service
-├── PROJECT_CONTEXT.md
-├── PROJECT_PLAN.md
-├── ROADMAP.md
-├── CHANGELOG.md
-└── README.md
-```
+<h2 id="local-development" align="center">Local Development</h2>
 
-## Local Development
+### 1. Start PostgreSQL
 
-### Backend API
-
-From the backend app:
-
-```bash
-cd apps/api
-npm install
-```
-
-Start PostgreSQL from the repository root:
+From the repository root:
 
 ```bash
 docker compose up -d
 ```
 
-Run Prisma migrations and seed data:
+### 2. Run the Backend API
 
 ```bash
+cd apps/api
+npm install
 npx prisma migrate dev
 npm run db:seed
-```
-
-Start the backend:
-
-```bash
 npm run dev
 ```
 
@@ -250,9 +322,7 @@ Backend type check:
 npm run check
 ```
 
-### Frontend Web App
-
-From the frontend app:
+### 3. Run the Frontend Web App
 
 ```bash
 cd apps/web
@@ -266,54 +336,117 @@ Frontend URL:
 http://localhost:5173
 ```
 
-Production build check:
+Frontend production build:
 
 ```bash
 npm run build
 ```
 
-### Postman Testing
+<hr />
 
-Postman files are stored in:
+<h2 align="center">Postman Testing</h2>
+
+Postman files are included for local API testing:
 
 ```txt
 postman/collections/CampusFlow API.postman_collection.json
 postman/environments/CampusFlow Local.postman_environment.json
 ```
 
-The local environment includes variables for API base URL, demo login credentials, auth token, ticket IDs, technician ID, category IDs, and asset IDs.
+The collection covers the implemented Auth, Ticket, and Asset APIs. The local environment uses demo credentials, localhost URLs, captured IDs, and an empty secret token variable.
 
-## Screenshots
+<hr />
 
-Recommended screenshot paths for the current portfolio showcase are listed below. Add captured images under `docs/screenshots` when preparing the GitHub README or portfolio page.
+<h2 align="center">Documentation</h2>
 
-| Screen | Path |
-| ------ | ---- |
-| Login | `docs/screenshots/01-login.png` |
-| Dashboard | `docs/screenshots/02-dashboard.png` |
-| Tickets | `docs/screenshots/03-tickets.png` |
-| Create Ticket modal | `docs/screenshots/04-create-ticket-modal.png` |
-| Ticket Detail | `docs/screenshots/05-ticket-detail.png` |
-| Assets | `docs/screenshots/06-assets.png` |
-| Create Asset modal | `docs/screenshots/07-create-asset-modal.png` |
-| Asset Detail | `docs/screenshots/08-asset-detail.png` |
-| Mobile Dashboard | `docs/screenshots/09-mobile-dashboard.png` |
-| Mobile Navigation | `docs/screenshots/10-mobile-navigation.png` |
+<table align="center">
+  <tr>
+    <th>Document</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><a href="./PROJECT_CONTEXT.md"><code>PROJECT_CONTEXT.md</code></a></td>
+    <td>Project identity, goals, modules, users, and development strategy.</td>
+  </tr>
+  <tr>
+    <td><a href="./docs/system-overview.md"><code>docs/system-overview.md</code></a></td>
+    <td>System purpose, workflows, roles, and architecture direction.</td>
+  </tr>
+  <tr>
+    <td><a href="./docs/api-design.md"><code>docs/api-design.md</code></a></td>
+    <td>Implemented and planned API route design.</td>
+  </tr>
+  <tr>
+    <td><a href="./docs/database-design.md"><code>docs/database-design.md</code></a></td>
+    <td>Database entities, relationships, and Prisma model notes.</td>
+  </tr>
+  <tr>
+    <td><a href="./docs/testing-plan.md"><code>docs/testing-plan.md</code></a></td>
+    <td>Manual QA, role checks, responsive checks, and build verification.</td>
+  </tr>
+  <tr>
+    <td><a href="./docs/manual-api-testing.md"><code>docs/manual-api-testing.md</code></a></td>
+    <td>Manual API testing guide for Auth, Ticket, and Asset APIs.</td>
+  </tr>
+  <tr>
+    <td><a href="./docs/showcase-checklist.md"><code>docs/showcase-checklist.md</code></a></td>
+    <td>Screenshot and portfolio showcase checklist.</td>
+  </tr>
+</table>
 
-## Future Work
+<hr />
 
-Planned future milestones:
+<h2 align="center">Repository Structure</h2>
+
+```txt
+campusflow-platform/
+├── apps/
+│   ├── api/              # Express, TypeScript, Prisma backend
+│   └── web/              # Vite, React, TypeScript frontend
+├── docs/                 # Architecture, API, testing, screenshots, showcase docs
+├── postman/              # Postman collection and local environment
+├── packages/shared/      # Placeholder for future shared code
+├── docker/               # Local database documentation
+├── docker-compose.yml    # Local PostgreSQL service
+├── PROJECT_CONTEXT.md
+├── PROJECT_PLAN.md
+├── ROADMAP.md
+├── CHANGELOG.md
+└── README.md
+```
+
+<hr />
+
+<h2 align="center">Future Improvements</h2>
 
 - Booking system
 - Inventory and spare parts tracking
 - More dashboard reporting and charts
 - Deployment documentation
 - n8n notification workflows
-- Automated tests
+- Automated test coverage
 - AI-ready knowledge base and assistant structure
 
-## Portfolio Goal
+<hr />
 
-CampusFlow is designed to show the ability to plan, build, document, test, and iterate on a realistic full-stack application.
+<h2 align="center">Portfolio Goal</h2>
 
-The project is suitable for GitHub portfolio review, personal website screenshots, and technical discussion in software developer or QA-focused interviews.
+<p align="center">
+  CampusFlow is designed to show the ability to plan, build, document, test, and iterate on a realistic full-stack application.
+</p>
+
+<p align="center">
+  It is suitable for GitHub portfolio review, personal website screenshots, and technical discussion in software developer or QA-focused interviews.
+</p>
+
+<hr />
+
+<div align="center">
+
+<p>
+  <b>Thank you for reviewing CampusFlow.</b>
+</p>
+
+</div>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:334155,45:1e3a8a,75:0f172a,100:020617&height=100&section=footer" alt="CampusFlow Footer" />
