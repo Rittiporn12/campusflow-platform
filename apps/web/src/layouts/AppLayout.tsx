@@ -4,6 +4,22 @@ import { clearAuthToken } from "../lib/auth";
 import { getCurrentUser, type CurrentUser } from "../lib/authApi";
 import { formatUserRole } from "../lib/displayLabels";
 
+function getUserInitials(name: string | null | undefined, email: string | null | undefined) {
+  const displayName = name?.trim();
+
+  if (displayName) {
+    const nameParts = displayName.split(/\s+/).filter(Boolean);
+    const initials = nameParts
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("");
+
+    return initials || "CF";
+  }
+
+  return email?.charAt(0).toUpperCase() || "CF";
+}
+
 export default function AppLayout() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
@@ -51,13 +67,26 @@ export default function AppLayout() {
   }, [navigate]);
 
   const accountSummary = isLoadingUser ? (
-    <span>Loading account...</span>
+    <div className="profile-card profile-card-loading">
+      <span className="profile-avatar" aria-hidden="true">
+        CF
+      </span>
+      <div className="profile-copy">
+        <strong>Loading account</strong>
+        <span>Preparing your workspace...</span>
+      </div>
+    </div>
   ) : currentUser ? (
-    <>
-      <strong>{currentUser.name || "CampusFlow User"}</strong>
-      <span>{currentUser.email}</span>
-      <span>{formatUserRole(currentUser.role)}</span>
-    </>
+    <div className="profile-card">
+      <span className="profile-avatar" aria-hidden="true">
+        {getUserInitials(currentUser.name, currentUser.email)}
+      </span>
+      <div className="profile-copy">
+        <strong>{currentUser.name || "CampusFlow User"}</strong>
+        <span title={currentUser.email}>{currentUser.email}</span>
+        <span className="profile-role">{formatUserRole(currentUser.role)}</span>
+      </div>
+    </div>
   ) : null;
 
   return (

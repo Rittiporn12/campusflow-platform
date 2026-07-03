@@ -161,41 +161,107 @@ a {
 
 .user-summary {
   display: grid;
-  gap: 5px;
   margin-top: auto;
-  border-top: 1px solid rgba(216, 224, 235, 0.16);
-  color: #a9b8ce;
-  font-size: 0.85rem;
-  padding-top: 22px;
+  border-top: 1px solid rgba(216, 224, 235, 0.12);
+  padding-top: 20px;
 }
 
-.user-summary strong {
+.profile-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(216, 224, 235, 0.14);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 12px;
+}
+
+.profile-card-loading {
+  color: #a9b8ce;
+}
+
+.profile-avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(147, 197, 253, 0.28);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(29, 78, 216, 0.9));
+  box-shadow: 0 12px 26px rgba(5, 12, 24, 0.22);
   color: #ffffff;
-  font-size: 0.96rem;
+  font-size: 0.86rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.profile-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.profile-copy strong,
+.profile-copy span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-copy strong {
+  color: #ffffff;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.profile-copy span {
+  color: #a9b8ce;
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.profile-role {
+  justify-self: start;
+  border: 1px solid rgba(147, 197, 253, 0.24);
+  border-radius: 999px;
+  background: rgba(96, 165, 250, 0.12);
+  color: #dbeafe !important;
+  font-size: 0.7rem !important;
+  font-weight: 850;
+  letter-spacing: 0.045em;
+  padding: 4px 8px;
+  text-transform: uppercase;
 }
 
 .logout-button {
   width: 100%;
-  border: 1px solid rgba(216, 224, 235, 0.18);
+  border: 1px solid rgba(248, 113, 113, 0.24);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.06);
-  color: #d8e2f2;
+  background: rgba(255, 255, 255, 0.035);
+  color: #f2c9c9;
   cursor: pointer;
   font: inherit;
   font-weight: 800;
-  margin-top: 18px;
+  margin-top: 12px;
   padding: 12px 14px;
-  text-align: left;
+  text-align: center;
   transition:
     background 0.18s ease,
     border-color 0.18s ease,
-    color 0.18s ease;
+    color 0.18s ease,
+    transform 0.18s ease;
 }
 
 .logout-button:hover {
-  background: rgba(255, 241, 241, 0.12);
-  border-color: rgba(242, 197, 197, 0.35);
+  background: rgba(220, 38, 38, 0.13);
+  border-color: rgba(248, 113, 113, 0.42);
   color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .main-content {
@@ -1613,10 +1679,32 @@ p {
 
   .user-summary {
     margin-top: 18px;
+    padding-top: 16px;
+  }
+
+  .profile-card {
+    border-radius: var(--radius-md);
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .profile-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+  }
+
+  .profile-copy strong {
+    font-size: 0.9rem;
+  }
+
+  .profile-copy span {
+    font-size: 0.75rem;
   }
 
   .logout-button {
-    margin-top: 14px;
+    margin-top: 10px;
   }
 
   .main-content {
@@ -1822,6 +1910,11 @@ body {
 
 .user-summary {
   border-top-color: rgba(216, 224, 235, 0.14);
+}
+
+.profile-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.045));
 }
 
 .logout-button {
