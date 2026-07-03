@@ -408,41 +408,55 @@ export default function AssetsPage() {
 
       {!isLoading && !errorMessage && filteredAssets.length > 0 ? (
         <div className="ticket-list resource-list asset-resource-list">
+          <div className="resource-table-header asset-table-header" aria-hidden="true">
+            <span>Asset</span>
+            <span>Code</span>
+            <span>Category</span>
+            <span>Status</span>
+            <span>Brand / model</span>
+            <span>Location</span>
+            <span>Created</span>
+            <span>Action</span>
+          </div>
+
           {filteredAssets.map((asset) => (
             <article className="ticket-card" key={asset.id}>
-              <div>
+              <div className="resource-primary">
                 <h2>{asset.name}</h2>
-                <p>{asset.assetCode || "No asset code"}</p>
+                <p>{asset.department?.name ?? "No department"}</p>
               </div>
 
-              <div className="ticket-meta">
+              <div className="resource-cell" data-label="Code">
+                {asset.assetCode || "No asset code"}
+              </div>
+
+              <div className="resource-cell" data-label="Category">
+                {asset.category?.name ?? "Uncategorized"}
+              </div>
+
+              <div className="resource-cell" data-label="Status">
                 <span className={getAssetStatusBadgeClass(asset.status)}>
                   {asset.status}
                 </span>
-                <span className="badge badge-category">
-                  {asset.category?.name ?? "Uncategorized"}
-                </span>
-                <span>{asset.department?.name ?? "No department"}</span>
               </div>
 
-              <dl className="asset-summary-grid">
-                <div>
-                  <dt>Location</dt>
-                  <dd>{formatLocation(asset)}</dd>
-                </div>
-                <div>
-                  <dt>Brand / model</dt>
-                  <dd>{formatBrandModel(asset)}</dd>
-                </div>
-                <div>
-                  <dt>Created</dt>
-                  <dd>{formatDate(asset.createdAt)}</dd>
-                </div>
-              </dl>
+              <div className="resource-cell" data-label="Brand / model">
+                {formatBrandModel(asset)}
+              </div>
 
-              <Link className="secondary-link" to={`/assets/${asset.id}`}>
-                View detail
-              </Link>
+              <div className="resource-cell" data-label="Location">
+                {formatLocation(asset)}
+              </div>
+
+              <div className="resource-cell resource-date" data-label="Created">
+                {formatDate(asset.createdAt)}
+              </div>
+
+              <div className="resource-action">
+                <Link className="outline-button compact-button" to={`/assets/${asset.id}`}>
+                  View detail
+                </Link>
+              </div>
             </article>
           ))}
         </div>

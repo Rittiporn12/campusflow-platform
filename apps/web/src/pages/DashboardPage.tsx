@@ -102,12 +102,25 @@ export default function DashboardPage() {
 
   return (
     <section className="page-section">
-      <p className="eyebrow">Overview</p>
-      <h1>Dashboard</h1>
-      <p>
-        Welcome back. Here is a quick overview of visible campus operations
-        activity.
-      </p>
+      <div className="dashboard-hero">
+        <div>
+          <p className="eyebrow">Operations overview</p>
+          <h1>Dashboard</h1>
+          <p>
+            Monitor visible campus repair work and asset readiness from one
+            operations view.
+          </p>
+        </div>
+
+        <div className="dashboard-actions" aria-label="Dashboard quick actions">
+          <Link className="primary-button" to="/tickets">
+            Manage tickets
+          </Link>
+          <Link className="outline-button" to="/assets">
+            Manage assets
+          </Link>
+        </div>
+      </div>
 
       {isLoading ? <p className="state-message">Loading dashboard...</p> : null}
 
@@ -117,64 +130,72 @@ export default function DashboardPage() {
 
       {!isLoading && !errorMessage ? (
         <>
-          <div className="dashboard-section">
+          <div className="dashboard-section dashboard-overview-card">
             <div className="section-heading">
               <h2>Ticket overview</h2>
-              <Link className="secondary-link" to="/tickets">
+              <Link className="ghost-button compact-button" to="/tickets">
                 View tickets
               </Link>
             </div>
 
             <div className="summary-grid">
-              <article className="summary-card">
+              <article className="summary-card summary-card-primary">
                 <span>Total tickets</span>
                 <strong>{totalTickets}</strong>
+                <small>Visible repair requests</small>
               </article>
 
               <article className="summary-card">
                 <span>Open tickets</span>
                 <strong>{summary.open}</strong>
+                <small>Pending or assigned</small>
               </article>
 
               <article className="summary-card">
                 <span>In progress</span>
                 <strong>{summary.inProgress}</strong>
+                <small>Active repair work</small>
               </article>
 
               <article className="summary-card">
                 <span>Resolved or closed</span>
                 <strong>{summary.resolved}</strong>
+                <small>Completed outcomes</small>
               </article>
             </div>
           </div>
 
-          <div className="dashboard-section">
+          <div className="dashboard-section dashboard-overview-card">
             <div className="section-heading">
               <h2>Asset overview</h2>
-              <Link className="secondary-link" to="/assets">
+              <Link className="ghost-button compact-button" to="/assets">
                 View assets
               </Link>
             </div>
 
             <div className="summary-grid">
-              <article className="summary-card">
+              <article className="summary-card summary-card-primary">
                 <span>Total assets</span>
                 <strong>{assetSummary.total}</strong>
+                <small>Tracked campus resources</small>
               </article>
 
               <article className="summary-card">
                 <span>Available</span>
                 <strong>{assetSummary.available}</strong>
+                <small>Ready for use</small>
               </article>
 
               <article className="summary-card">
                 <span>In use</span>
                 <strong>{assetSummary.inUse}</strong>
+                <small>Currently assigned</small>
               </article>
 
               <article className="summary-card">
                 <span>Under maintenance</span>
                 <strong>{assetSummary.underMaintenance}</strong>
+                <small>Needs attention</small>
               </article>
             </div>
           </div>
@@ -183,7 +204,7 @@ export default function DashboardPage() {
             <article className="detail-panel dashboard-panel">
               <div className="section-heading">
                 <h2>Recent tickets</h2>
-                <Link className="secondary-link" to="/tickets">
+                <Link className="ghost-button compact-button" to="/tickets">
                   Manage tickets
                 </Link>
               </div>
@@ -206,7 +227,7 @@ export default function DashboardPage() {
                         </span>
                       </div>
 
-                      <Link className="secondary-link" to={`/tickets/${ticket.id}`}>
+                      <Link className="outline-button compact-button" to={`/tickets/${ticket.id}`}>
                         View detail
                       </Link>
                     </div>
@@ -220,7 +241,7 @@ export default function DashboardPage() {
             <article className="detail-panel dashboard-panel">
               <div className="section-heading">
                 <h2>Recent assets</h2>
-                <Link className="secondary-link" to="/assets">
+                <Link className="ghost-button compact-button" to="/assets">
                   Manage assets
                 </Link>
               </div>
@@ -243,7 +264,7 @@ export default function DashboardPage() {
                         </span>
                       </div>
 
-                      <Link className="secondary-link" to={`/assets/${asset.id}`}>
+                      <Link className="outline-button compact-button" to={`/assets/${asset.id}`}>
                         View detail
                       </Link>
                     </div>

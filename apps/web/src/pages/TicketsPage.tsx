@@ -279,33 +279,54 @@ export default function TicketsPage() {
 
       {!isLoading && !errorMessage && tickets.length === 0 ? (
         <p className="state-message">
-          No tickets found. Create a ticket above to start tracking a repair
+          No tickets found. Create a ticket to start tracking a repair
           request.
         </p>
       ) : null}
 
       {!isLoading && !errorMessage && tickets.length > 0 ? (
         <div className="ticket-list resource-list ticket-resource-list">
+          <div className="resource-table-header ticket-table-header" aria-hidden="true">
+            <span>Ticket</span>
+            <span>Location</span>
+            <span>Status</span>
+            <span>Priority</span>
+            <span>Created</span>
+            <span>Action</span>
+          </div>
+
           {tickets.map((ticket) => (
             <article className="ticket-card" key={ticket.id}>
-              <div>
+              <div className="resource-primary">
                 <h2>{ticket.title}</h2>
-                <p>{formatLocation(ticket)}</p>
+                <p>Repair request</p>
               </div>
 
-              <div className="ticket-meta">
+              <div className="resource-cell" data-label="Location">
+                {formatLocation(ticket)}
+              </div>
+
+              <div className="resource-cell" data-label="Status">
                 <span className={getTicketStatusBadgeClass(ticket.status)}>
                   {ticket.status}
                 </span>
+              </div>
+
+              <div className="resource-cell" data-label="Priority">
                 <span className={getTicketPriorityBadgeClass(ticket.priority)}>
                   {ticket.priority}
                 </span>
-                <span>{formatDate(ticket.createdAt)}</span>
               </div>
 
-              <Link className="secondary-link" to={`/tickets/${ticket.id}`}>
-                View detail
-              </Link>
+              <div className="resource-cell resource-date" data-label="Created">
+                {formatDate(ticket.createdAt)}
+              </div>
+
+              <div className="resource-action">
+                <Link className="outline-button compact-button" to={`/tickets/${ticket.id}`}>
+                  View detail
+                </Link>
+              </div>
             </article>
           ))}
         </div>
