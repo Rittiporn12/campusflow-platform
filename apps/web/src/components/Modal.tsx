@@ -30,7 +30,7 @@ export default function Modal({
       >
         <div className="modal-header">
           <div>
-            <p className="eyebrow">Action</p>
+            <p className="eyebrow">CampusFlow action</p>
             <h2 id="modal-title">{title}</h2>
           </div>
           <button
@@ -39,7 +39,7 @@ export default function Modal({
             onClick={onClose}
             aria-label="Close modal"
           >
-            Close
+            ×
           </button>
         </div>
 

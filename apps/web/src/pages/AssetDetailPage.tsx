@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { Link, useParams } from "react-router-dom";
+import Modal from "../components/Modal";
 import {
   archiveAsset,
   getAssetById,
@@ -60,7 +61,7 @@ export default function AssetDetailPage() {
   const [isUpdatingAsset, setIsUpdatingAsset] = useState(false);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [isArchivingAsset, setIsArchivingAsset] = useState(false);
-  const [isEditingAsset, setIsEditingAsset] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [editMessage, setEditMessage] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
@@ -173,7 +174,7 @@ export default function AssetDetailPage() {
       });
 
       setEditMessage(response.message || "Asset updated successfully.");
-      setIsEditingAsset(false);
+      setIsEditModalOpen(false);
       await loadAsset();
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
@@ -282,6 +283,116 @@ export default function AssetDetailPage() {
           ) : null}
         </div>
       </div>
+
+      <Modal
+        title="Edit asset"
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        footer={
+          <>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => setIsEditModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="primary-button"
+              type="submit"
+              form="edit-asset-form"
+              disabled={isUpdatingAsset || isLoadingCategories}
+            >
+              {isUpdatingAsset ? "Saving..." : "Save changes"}
+            </button>
+          </>
+        }
+      >
+        <form
+          id="edit-asset-form"
+          className="modal-form"
+          onSubmit={handleAssetUpdate}
+        >
+          <div className="form-grid">
+            <label className="form-field" htmlFor="edit-asset-name">
+              <span>Name</span>
+              <input
+                id="edit-asset-name"
+                value={editName}
+                onChange={(event) => setEditName(event.target.value)}
+              />
+            </label>
+
+            <label className="form-field" htmlFor="edit-asset-category">
+              <span>Category</span>
+              <select
+                id="edit-asset-category"
+                value={editCategoryId}
+                onChange={(event) => setEditCategoryId(event.target.value)}
+                disabled={isLoadingCategories}
+              >
+                <option value="">Select category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <label className="form-field" htmlFor="edit-asset-description">
+            <span>Description</span>
+            <textarea
+              id="edit-asset-description"
+              value={editDescription}
+              onChange={(event) => setEditDescription(event.target.value)}
+              rows={3}
+            />
+          </label>
+
+          <div className="form-grid">
+            <label className="form-field" htmlFor="edit-asset-brand">
+              <span>Brand</span>
+              <input
+                id="edit-asset-brand"
+                value={editBrand}
+                onChange={(event) => setEditBrand(event.target.value)}
+              />
+            </label>
+
+            <label className="form-field" htmlFor="edit-asset-model">
+              <span>Model</span>
+              <input
+                id="edit-asset-model"
+                value={editModel}
+                onChange={(event) => setEditModel(event.target.value)}
+              />
+            </label>
+          </div>
+
+          <label className="form-field" htmlFor="edit-asset-serial-number">
+            <span>Serial number</span>
+            <input
+              id="edit-asset-serial-number"
+              value={editSerialNumber}
+              onChange={(event) => setEditSerialNumber(event.target.value)}
+            />
+          </label>
+
+          <label className="form-field" htmlFor="edit-asset-notes">
+            <span>Notes</span>
+            <textarea
+              id="edit-asset-notes"
+              value={editNotes}
+              onChange={(event) => setEditNotes(event.target.value)}
+              rows={3}
+            />
+          </label>
+
+          {editMessage ? <p className="form-message">{editMessage}</p> : null}
+        </form>
+      </Modal>
 
       {isLoading ? <p className="state-message">Loading asset...</p> : null}
 
@@ -404,122 +515,28 @@ export default function AssetDetailPage() {
           </div>
 
           <aside className="detail-sidebar">
-            <article className="detail-panel action-panel">
+            <article className="detail-panel action-panel action-card-compact">
               <div className="action-panel-header">
                 <div>
+                  <p className="eyebrow">Record action</p>
                   <h2>Edit asset</h2>
                   <p className="helper-text">
-                    Update descriptive details without changing lifecycle status.
+                    Update descriptive information such as name, category, brand,
+                    model, serial number, and notes.
                   </p>
                 </div>
-
-                <button
-                  className="outline-button compact-button"
-                  type="button"
-                  onClick={() => setIsEditingAsset((current) => !current)}
-                >
-                  {isEditingAsset ? "Cancel editing" : "Edit asset information"}
-                </button>
               </div>
 
-              {isEditingAsset ? (
-                <form className="status-update-form" onSubmit={handleAssetUpdate}>
-                  <div className="form-grid">
-                    <label className="form-field" htmlFor="edit-asset-name">
-                      <span>Name</span>
-                      <input
-                        id="edit-asset-name"
-                        value={editName}
-                        onChange={(event) => setEditName(event.target.value)}
-                      />
-                    </label>
-
-                    <label className="form-field" htmlFor="edit-asset-category">
-                      <span>Category</span>
-                      <select
-                        id="edit-asset-category"
-                        value={editCategoryId}
-                        onChange={(event) => setEditCategoryId(event.target.value)}
-                        disabled={isLoadingCategories}
-                      >
-                        <option value="">Select category</option>
-                        {categories.map((category) => (
-                          <option key={category.id} value={category.id}>
-                            {category.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-
-                  <label className="form-field" htmlFor="edit-asset-description">
-                    <span>Description</span>
-                    <textarea
-                      id="edit-asset-description"
-                      value={editDescription}
-                      onChange={(event) => setEditDescription(event.target.value)}
-                      rows={3}
-                    />
-                  </label>
-
-                  <div className="form-grid">
-                    <label className="form-field" htmlFor="edit-asset-brand">
-                      <span>Brand</span>
-                      <input
-                        id="edit-asset-brand"
-                        value={editBrand}
-                        onChange={(event) => setEditBrand(event.target.value)}
-                      />
-                    </label>
-
-                    <label className="form-field" htmlFor="edit-asset-model">
-                      <span>Model</span>
-                      <input
-                        id="edit-asset-model"
-                        value={editModel}
-                        onChange={(event) => setEditModel(event.target.value)}
-                      />
-                    </label>
-                  </div>
-
-                  <label className="form-field" htmlFor="edit-asset-serial-number">
-                    <span>Serial number</span>
-                    <input
-                      id="edit-asset-serial-number"
-                      value={editSerialNumber}
-                      onChange={(event) => setEditSerialNumber(event.target.value)}
-                    />
-                  </label>
-
-                  <label className="form-field" htmlFor="edit-asset-notes">
-                    <span>Notes</span>
-                    <textarea
-                      id="edit-asset-notes"
-                      value={editNotes}
-                      onChange={(event) => setEditNotes(event.target.value)}
-                      rows={3}
-                    />
-                  </label>
-
-                  <div className="action-button-row">
-                    <button
-                      className="secondary-button"
-                      type="button"
-                      onClick={() => setIsEditingAsset(false)}
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      className="primary-button"
-                      type="submit"
-                      disabled={isUpdatingAsset || isLoadingCategories}
-                    >
-                      {isUpdatingAsset ? "Saving..." : "Save asset"}
-                    </button>
-                  </div>
-                </form>
-              ) : null}
+              <button
+                className="outline-button"
+                type="button"
+                onClick={() => {
+                  setEditMessage("");
+                  setIsEditModalOpen(true);
+                }}
+              >
+                Edit asset information
+              </button>
 
               {editMessage ? <p className="form-message">{editMessage}</p> : null}
             </article>

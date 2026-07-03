@@ -295,7 +295,7 @@ export default function TicketDetailPage() {
                 <h2>Comments</h2>
               </div>
 
-              <form className="status-update-form" onSubmit={handleAddComment}>
+              <form className="status-update-form comment-form" onSubmit={handleAddComment}>
                 <label className="form-field" htmlFor="ticket-comment">
                   <span>Add comment</span>
                   <textarea

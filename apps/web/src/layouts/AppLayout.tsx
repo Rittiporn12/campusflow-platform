@@ -75,7 +75,7 @@ export default function AppLayout() {
           aria-label="Open navigation menu"
           aria-expanded={isMobileMenuOpen}
         >
-          Menu
+          <span aria-hidden="true">☰</span>
         </button>
       </header>
 
@@ -97,7 +97,7 @@ export default function AppLayout() {
             onClick={closeMobileMenu}
             aria-label="Close navigation menu"
           >
-            Close
+            ×
           </button>
         </div>
 
