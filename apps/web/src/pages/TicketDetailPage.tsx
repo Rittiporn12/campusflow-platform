@@ -45,6 +45,10 @@ function getTicketStatusBadgeClass(status: TicketStatus) {
   return `badge badge-ticket-status badge-ticket-status-${status.toLowerCase().replace(/_/g, "-")}`;
 }
 
+function getTicketPriorityBadgeClass(priority: TicketDetail["priority"]) {
+  return `badge badge-priority badge-priority-${priority.toLowerCase()}`;
+}
+
 export default function TicketDetailPage() {
   const { id } = useParams();
   const [ticket, setTicket] = useState<TicketDetail | null>(null);
@@ -224,7 +228,9 @@ export default function TicketDetailPage() {
               <span className={getTicketStatusBadgeClass(ticket.status)}>
                 {ticket.status}
               </span>
-              <span className="badge badge-priority">{ticket.priority}</span>
+              <span className={getTicketPriorityBadgeClass(ticket.priority)}>
+                {ticket.priority}
+              </span>
               <span className="badge badge-category">{ticket.category.name}</span>
             </div>
 

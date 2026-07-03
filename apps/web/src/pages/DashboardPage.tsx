@@ -29,6 +29,10 @@ function getTicketStatusBadgeClass(status: TicketStatus) {
   return `badge badge-ticket-status badge-ticket-status-${status.toLowerCase().replace(/_/g, "-")}`;
 }
 
+function getTicketPriorityBadgeClass(priority: TicketListItem["priority"]) {
+  return `badge badge-priority badge-priority-${priority.toLowerCase()}`;
+}
+
 function getAssetStatusBadgeClass(status: AssetListItem["status"]) {
   return `badge badge-status badge-status-${status.toLowerCase().replace(/_/g, "-")}`;
 }
@@ -197,7 +201,7 @@ export default function DashboardPage() {
                         <span className={getTicketStatusBadgeClass(ticket.status)}>
                           {ticket.status}
                         </span>
-                        <span className="badge badge-priority">
+                        <span className={getTicketPriorityBadgeClass(ticket.priority)}>
                           {ticket.priority}
                         </span>
                       </div>

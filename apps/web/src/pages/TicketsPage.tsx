@@ -37,6 +37,10 @@ function getTicketStatusBadgeClass(status: TicketListItem["status"]) {
   return `badge badge-ticket-status badge-ticket-status-${status.toLowerCase().replace(/_/g, "-")}`;
 }
 
+function getTicketPriorityBadgeClass(priority: TicketPriority) {
+  return `badge badge-priority badge-priority-${priority.toLowerCase()}`;
+}
+
 export default function TicketsPage() {
   const [tickets, setTickets] = useState<TicketListItem[]>([]);
   const [categories, setCategories] = useState<TicketCategory[]>([]);
@@ -281,7 +285,7 @@ export default function TicketsPage() {
       ) : null}
 
       {!isLoading && !errorMessage && tickets.length > 0 ? (
-        <div className="ticket-list card-grid">
+        <div className="ticket-list resource-list ticket-resource-list">
           {tickets.map((ticket) => (
             <article className="ticket-card" key={ticket.id}>
               <div>
@@ -293,7 +297,9 @@ export default function TicketsPage() {
                 <span className={getTicketStatusBadgeClass(ticket.status)}>
                   {ticket.status}
                 </span>
-                <span className="badge badge-priority">{ticket.priority}</span>
+                <span className={getTicketPriorityBadgeClass(ticket.priority)}>
+                  {ticket.priority}
+                </span>
                 <span>{formatDate(ticket.createdAt)}</span>
               </div>
 

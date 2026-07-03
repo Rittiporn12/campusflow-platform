@@ -48,6 +48,12 @@ function formatLocation(asset: AssetListItem) {
   return parts.join(" - ");
 }
 
+function formatBrandModel(asset: AssetListItem) {
+  const parts = [asset.brand, asset.model].filter(Boolean);
+
+  return parts.length > 0 ? parts.join(" / ") : "Not provided";
+}
+
 export default function AssetsPage() {
   const [assets, setAssets] = useState<AssetListItem[]>([]);
   const [categories, setCategories] = useState<AssetCategory[]>([]);
@@ -401,7 +407,7 @@ export default function AssetsPage() {
       ) : null}
 
       {!isLoading && !errorMessage && filteredAssets.length > 0 ? (
-        <div className="ticket-list card-grid">
+        <div className="ticket-list resource-list asset-resource-list">
           {filteredAssets.map((asset) => (
             <article className="ticket-card" key={asset.id}>
               <div>
@@ -423,6 +429,10 @@ export default function AssetsPage() {
                 <div>
                   <dt>Location</dt>
                   <dd>{formatLocation(asset)}</dd>
+                </div>
+                <div>
+                  <dt>Brand / model</dt>
+                  <dd>{formatBrandModel(asset)}</dd>
                 </div>
                 <div>
                   <dt>Created</dt>

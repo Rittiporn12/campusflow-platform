@@ -20,12 +20,13 @@ export default function Modal({
   }
 
   return (
-    <div className="modal-backdrop" role="presentation">
+    <div className="modal-backdrop" role="presentation" onClick={onClose}>
       <section
         className="modal-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
+        onClick={(event) => event.stopPropagation()}
       >
         <div className="modal-header">
           <h2 id="modal-title">{title}</h2>

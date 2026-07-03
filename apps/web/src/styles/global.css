@@ -69,6 +69,12 @@ a {
   grid-template-columns: 264px minmax(0, 1fr);
 }
 
+.mobile-topbar,
+.mobile-drawer-header,
+.drawer-backdrop {
+  display: none;
+}
+
 .sidebar {
   position: sticky;
   top: 0;
@@ -125,6 +131,20 @@ a {
 .nav-list a:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+}
+
+.nav-list a:focus-visible,
+.logout-button:focus-visible,
+.menu-button:focus-visible,
+.modal-close-button:focus-visible,
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.outline-button:focus-visible,
+.ghost-button:focus-visible,
+.danger-button:focus-visible,
+.secondary-link:focus-visible {
+  outline: 3px solid rgba(36, 95, 213, 0.32);
+  outline-offset: 3px;
 }
 
 .nav-list a:hover {
@@ -360,6 +380,25 @@ a {
   transform: translateY(-1px);
 }
 
+.resource-list {
+  gap: 10px;
+}
+
+.resource-list .ticket-card {
+  align-items: center;
+  gap: 18px;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(220px, 1fr) minmax(120px, auto);
+  padding: 18px 20px;
+}
+
+.asset-resource-list .ticket-card {
+  grid-template-columns: minmax(220px, 1.1fr) minmax(320px, 1.4fr) minmax(130px, auto);
+}
+
+.resource-list .secondary-link {
+  justify-self: end;
+}
+
 .ticket-card h2 {
   margin: 0 0 6px;
   color: var(--color-text);
@@ -431,13 +470,48 @@ a {
   color: var(--color-muted);
 }
 
-.ticket-meta .badge-ticket-status-pending {
+.ticket-meta .badge-priority-low {
+  background: #eef1f5;
+  color: var(--color-muted);
+}
+
+.ticket-meta .badge-priority-medium {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.ticket-meta .badge-priority-high {
   background: var(--color-warning-soft);
   color: var(--color-warning);
 }
 
-.ticket-meta .badge-ticket-status-assigned,
+.ticket-meta .badge-priority-critical {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.ticket-meta .badge-ticket-status-pending {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.ticket-meta .badge-ticket-status-assigned {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
 .ticket-meta .badge-ticket-status-in-progress {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.ticket-meta .badge-ticket-status-resolved,
+.ticket-meta .badge-ticket-status-completed {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.ticket-meta .badge-ticket-status-open {
   background: var(--color-primary-soft);
   color: var(--color-primary-strong);
 }
@@ -447,12 +521,13 @@ a {
   color: var(--color-purple);
 }
 
-.ticket-meta .badge-ticket-status-completed {
-  background: var(--color-success-soft);
-  color: var(--color-success);
+.ticket-meta .badge-ticket-status-closed,
+.ticket-meta .badge-ticket-status-cancelled {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
-.ticket-meta .badge-ticket-status-cancelled {
+.ticket-meta .badge-ticket-status-closed {
   background: #eef1f5;
   color: var(--color-muted);
 }
@@ -509,6 +584,40 @@ a {
 
 .secondary-button:hover {
   background: var(--color-surface-soft);
+}
+
+.outline-button,
+.ghost-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  padding: 12px 16px;
+}
+
+.outline-button {
+  border: 1px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-primary-strong);
+}
+
+.outline-button:hover {
+  background: var(--color-primary-soft);
+}
+
+.ghost-button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-muted);
+}
+
+.ghost-button:hover {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
 }
 
 .detail-stack {
@@ -641,6 +750,7 @@ a {
   place-items: center;
   overflow-y: auto;
   background: rgba(15, 27, 47, 0.58);
+  backdrop-filter: blur(6px);
   padding: 24px;
 }
 
@@ -770,6 +880,10 @@ a {
   box-shadow: 0 10px 18px rgba(36, 95, 213, 0.16);
 }
 
+.page-header .primary-button {
+  min-width: 148px;
+}
+
 .primary-button:hover {
   background: var(--color-primary-strong);
   border-color: var(--color-primary-strong);
@@ -878,6 +992,16 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .resource-list .ticket-card,
+  .asset-resource-list .ticket-card {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .resource-list .secondary-link {
+    justify-self: start;
+  }
+
   .dashboard-content-grid {
     grid-template-columns: 1fr;
   }
@@ -888,26 +1012,93 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
-    position: static;
-    min-height: auto;
-    border-right: 0;
+  .mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid rgba(216, 224, 235, 0.16);
+    background: #0f1b2f;
+    padding: 12px 16px;
+  }
+
+  .mobile-topbar .brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+
+  .menu-button {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(216, 224, 235, 0.22);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 800;
+    padding: 9px 12px;
+  }
+
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    display: block;
+    border: 0;
+    background: rgba(15, 27, 47, 0.52);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    width: min(84vw, 320px);
+    min-height: 100dvh;
+    border-right: 1px solid rgba(216, 224, 235, 0.16);
+    border-bottom: 0;
     padding: 18px;
+    transform: translateX(-105%);
+    transition: transform 0.2s ease;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .sidebar > .brand {
+    display: none;
   }
 
   .nav-list {
-    display: flex;
+    display: grid;
     gap: 8px;
-    margin-top: 18px;
-    overflow-x: auto;
-    padding-bottom: 2px;
+    margin-top: 0;
+    overflow-x: visible;
+    padding-bottom: 0;
   }
 
   .nav-list a {
-    flex: 0 0 auto;
+    flex: initial;
     padding: 10px 12px;
-    text-align: center;
+    text-align: left;
   }
 
   .user-summary {
@@ -949,6 +1140,8 @@ p {
 
   .primary-button,
   .secondary-button,
+  .outline-button,
+  .ghost-button,
   .danger-button {
     width: 100%;
   }
