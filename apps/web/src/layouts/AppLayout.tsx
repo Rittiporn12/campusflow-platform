@@ -68,24 +68,33 @@ export default function AppLayout() {
 
   const accountSummary = isLoadingUser ? (
     <div className="profile-card profile-card-loading">
-      <span className="profile-avatar" aria-hidden="true">
-        CF
-      </span>
-      <div className="profile-copy">
-        <strong>Loading account</strong>
-        <span>Preparing your workspace...</span>
+      <div className="profile-main">
+        <span className="profile-avatar" aria-hidden="true">
+          CF
+        </span>
+        <div className="profile-heading">
+          <strong>Loading account</strong>
+          <span className="profile-role">Loading</span>
+        </div>
       </div>
+      <span className="profile-email">Preparing your workspace...</span>
     </div>
   ) : currentUser ? (
     <div className="profile-card">
-      <span className="profile-avatar" aria-hidden="true">
-        {getUserInitials(currentUser.name, currentUser.email)}
-      </span>
-      <div className="profile-copy">
-        <strong>{currentUser.name || "CampusFlow User"}</strong>
-        <span title={currentUser.email}>{currentUser.email}</span>
-        <span className="profile-role">{formatUserRole(currentUser.role)}</span>
+      <div className="profile-main">
+        <span className="profile-avatar" aria-hidden="true">
+          {getUserInitials(currentUser.name, currentUser.email)}
+        </span>
+        <div className="profile-heading">
+          <strong title={currentUser.name || "CampusFlow User"}>
+            {currentUser.name || "CampusFlow User"}
+          </strong>
+          <span className="profile-role">{formatUserRole(currentUser.role)}</span>
+        </div>
       </div>
+      <span className="profile-email" title={currentUser.email}>
+        {currentUser.email}
+      </span>
     </div>
   ) : null;
 
