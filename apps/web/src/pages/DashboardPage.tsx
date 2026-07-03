@@ -219,7 +219,9 @@ export default function DashboardPage() {
                   {recentTickets.map((ticket) => (
                     <div className="activity-item dashboard-ticket" key={ticket.id}>
                       <div>
-                        <strong>{ticket.title}</strong>
+                        <strong className="truncate" title={ticket.title}>
+                          {ticket.title}
+                        </strong>
                         <span>{formatDate(ticket.createdAt)}</span>
                       </div>
 
@@ -256,7 +258,9 @@ export default function DashboardPage() {
                   {recentAssets.map((asset) => (
                     <div className="activity-item dashboard-ticket" key={asset.id}>
                       <div>
-                        <strong>{asset.name}</strong>
+                        <strong className="truncate" title={asset.name}>
+                          {asset.name}
+                        </strong>
                         <span>{asset.assetCode || "No asset code"}</span>
                       </div>
 

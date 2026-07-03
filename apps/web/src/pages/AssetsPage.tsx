@@ -423,7 +423,9 @@ export default function AssetsPage() {
           {filteredAssets.map((asset) => (
             <article className="ticket-card" key={asset.id}>
               <div className="resource-primary">
-                <h2>{asset.name}</h2>
+                <h2 className="truncate" title={asset.name}>
+                  {asset.name}
+                </h2>
                 <p>{asset.department?.name ?? "No department"}</p>
               </div>
 

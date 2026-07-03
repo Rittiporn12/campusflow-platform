@@ -299,7 +299,9 @@ export default function TicketsPage() {
           {tickets.map((ticket) => (
             <article className="ticket-card" key={ticket.id}>
               <div className="resource-primary">
-                <h2>{ticket.title}</h2>
+                <h2 className="truncate" title={ticket.title}>
+                  {ticket.title}
+                </h2>
                 <p>Repair request</p>
               </div>
 
