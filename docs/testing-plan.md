@@ -99,7 +99,7 @@ Status:
 
 API testing will be done with Postman.
 
-The current Postman collection covers the Auth API and Ticket API. Future modules should extend the collection as they are implemented.
+The current Postman collection covers the Auth API, Ticket API, and implemented Asset API endpoints. Future modules should extend the collection as they are implemented.
 
 API testing should cover:
 
@@ -144,7 +144,7 @@ Current and planned Postman variables:
 - userEmail
 - managerEmail
 - defaultPassword
-- assetId in a later phase
+- assetId
 - bookingId in a later phase
 - inventoryItemId in a later phase
 
@@ -443,16 +443,60 @@ Planned tests:
 
 ## Dashboard Test Areas
 
-Dashboard tests should be added when dashboard API is implemented.
+The current frontend dashboard uses existing ticket and asset APIs. A dedicated dashboard API can be added later if reporting becomes more complex.
 
-Planned tests:
+Current dashboard tests:
 
-- Admin can view dashboard summary.
-- Manager can view dashboard summary.
-- User cannot access admin dashboard.
-- Ticket count matches database data.
+- Authenticated user can view dashboard.
+- Ticket summary cards load from existing ticket data.
+- Asset summary cards load from existing asset data.
+- Recent tickets link to ticket detail pages.
+- Recent assets link to asset detail pages.
+
+Later dashboard tests:
+
+- Manager-specific reports.
+- Ticket count matches database data from a dedicated reporting API.
+- Asset and inventory report counts match database data.
 - Low stock count matches inventory data.
 - Critical ticket count matches ticket data.
+
+## Final Manual Testing Checklist
+
+Use this checklist before recording portfolio screenshots or tagging a stable demo milestone.
+
+Preconditions:
+
+- Local PostgreSQL is running.
+- Backend dependencies are installed.
+- Frontend dependencies are installed.
+- Prisma migrations and seed data have been applied.
+- Backend API is running.
+- Frontend app is running.
+
+Checklist:
+
+1. Log in with the admin demo account.
+2. Confirm the dashboard loads ticket and asset summaries.
+3. Confirm dashboard recent ticket and asset links open detail pages.
+4. Open the ticket list.
+5. Create a ticket with valid title, description, category, and priority.
+6. Open ticket detail.
+7. Update ticket status.
+8. Assign a technician by technician ID.
+9. Add a ticket comment.
+10. Return to the ticket list and confirm the ticket is still visible.
+11. Open the asset list.
+12. Create an asset with asset code, name, and category.
+13. Open asset detail.
+14. Update asset information.
+15. Update asset status.
+16. Archive or retire the asset.
+17. Confirm the asset status changes to `RETIRED`.
+18. Confirm the archive action is disabled or hidden after retirement.
+19. Check the main pages on a narrow viewport for responsive layout issues.
+20. Run backend type check with `npm run check` in `apps/api`.
+21. Run frontend production build with `npm run build` in `apps/web`.
 
 ## n8n Automation Test Areas
 

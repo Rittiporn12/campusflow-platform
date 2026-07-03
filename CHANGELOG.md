@@ -137,6 +137,7 @@ This project follows a simple changelog format to make the development history c
 - Used safe archive behavior instead of hard deleting asset records.
 - Verified manual backend, Postman, frontend, and production build testing.
 - Kept hard delete, advanced asset reports, and charts for later if needed.
+- Added showcase checklist documentation for future portfolio screenshots.
 
 ### Changed
 
@@ -150,6 +151,13 @@ This project follows a simple changelog format to make the development history c
 - Improved layout consistency by removing the redundant Login link from the authenticated app sidebar.
 - Kept existing frontend functionality working, including Login, dashboard overview, ticket list, ticket detail, create ticket, update status, assign ticket, add comment, and logout.
 - No new feature module was added in this polish milestone.
+- Improved dashboard summary for tickets and assets.
+- Improved loading, empty, and error state copy across main frontend pages.
+- Improved visual consistency of status badges and dashboard cards.
+- Polished main frontend pages for portfolio readiness.
+- Verified the manual frontend flow and `npm run build`.
+- Updated root `README.md` to reflect the current full-stack portfolio project status.
+- Updated testing documentation with a final manual testing checklist.
 
 ### Fixed
 

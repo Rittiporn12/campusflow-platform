@@ -8,6 +8,18 @@ The platform is planned as a long-term full-stack portfolio project. It will sta
 
 The project should be developed step by step with clear documentation, small commits, and realistic software development workflow.
 
+## Current Implementation Snapshot
+
+The current implemented portfolio slice includes:
+
+- Authentication with JWT, bcrypt password hashing, and current-user lookup.
+- Repair ticket management across backend API, Postman testing, and frontend UI.
+- Asset management across backend API, Postman testing, and frontend UI.
+- Dashboard overview using existing ticket and asset data.
+- Manual testing documentation and portfolio-oriented project documentation.
+
+Booking, inventory, advanced reports, automation, deployment documentation, and AI-ready knowledge base features remain future milestones.
+
 ## System Purpose
 
 CampusFlow is designed to solve common operational problems in universities, offices, condos, and organizations.

@@ -1,236 +1,130 @@
 # CampusFlow — Smart Campus Operations Platform
 
-CampusFlow is a long-term full-stack portfolio project designed to simulate a smart campus or organization operations platform.
+CampusFlow is an active full-stack portfolio project that simulates a smart campus or internal operations platform.
 
-The system is planned to manage repair tickets, assets, room and equipment bookings, inventory, internal tasks, dashboards, automation workflows, API documentation, QA testing, deployment documentation, security notes, and future AI assistant integration.
+It is built to demonstrate practical work across frontend development, backend API design, database modeling, authentication, role-based authorization, QA documentation, Postman testing, and portfolio-ready project documentation.
 
-This project is intentionally developed step by step like a real software project.  
-The goal is not to finish everything in one day, but to build a clean, maintainable, and well-documented system over time.
+CampusFlow is intentionally developed in small milestones. It is not presented as a finished enterprise product; it is a growing showcase of clean, maintainable full-stack development.
 
-## Project Purpose
+## Current Project Status
 
-CampusFlow is created as a portfolio showcase project to demonstrate practical software development skills across multiple areas:
+Status: Active development
 
-- Full-stack web development
-- Frontend development
-- Backend API development
-- Database design
-- Authentication and authorization
-- Role-based access control
-- QA documentation
-- Postman API testing
-- Dashboard and reporting
-- n8n automation workflow
-- Security awareness
-- Docker-based local development
-- Deployment documentation
-- Future AI assistant integration
+Current production-like completed areas:
 
-## Main System Modules
+- Authentication flow
+- Repair ticket workflow
+- Asset management workflow
+- Dashboard overview using existing ticket and asset data
+- Postman and manual API testing documentation for implemented APIs
 
-The planned modules include:
+Current frontend coverage:
 
-1. Authentication and role-based access control
-2. Repair ticket management
-3. Asset management
-4. Room and equipment booking
-5. Inventory and spare parts management
-6. Internal task management
-7. Dashboard and reports
-8. n8n notification automation
-9. AI-ready knowledge base and assistant
-10. API documentation
-11. QA and testing documentation
-12. Docker and deployment documentation
-13. Security notes and audit logs
+- Login
+- Authenticated layout
+- Dashboard
+- Tickets
+- Ticket detail and workflow actions
+- Assets
+- Asset detail and workflow actions
 
-## User Roles
+Planned future work remains intentionally scoped, including booking, inventory, richer reports, automation, deployment documentation, and future AI-ready features.
 
-| Role       | Description                                                               |
-| ---------- | ------------------------------------------------------------------------- |
-| User       | Can create repair requests, view own tickets, and create booking requests |
-| Technician | Can view assigned repair tickets and update repair progress               |
-| Admin      | Can manage users, tickets, assets, bookings, inventory, and system data   |
-| Manager    | Can view dashboards, reports, and operational summaries                   |
+## Completed Features
+
+### Backend
+
+- Node.js, Express, and TypeScript API
+- PostgreSQL database with Prisma ORM
+- Prisma migrations and seed data
+- JWT authentication
+- bcrypt password hashing
+- Zod request validation
+- Role-based authorization middleware
+- Consistent API response and error handling patterns
+
+### Authentication
+
+- Register
+- Login
+- Current authenticated user
+- Frontend token storage
+- Protected frontend routes
+- Logout behavior
+
+### Ticket Management
+
+- Ticket categories
+- Create ticket
+- Ticket list
+- Ticket detail
+- Update ticket status
+- Assign technician
+- Add ticket comments
+- Ticket status history
+- Frontend ticket list, detail, create, status, assignment, and comment UI
+
+### Asset Management
+
+- Asset categories
+- Create asset
+- Asset list
+- Asset detail
+- Update asset information
+- Update asset status
+- Archive or retire asset safely without hard delete
+- Asset status history
+- Frontend asset list, detail, create, update, status, archive, search/filter, and dashboard summary UI
+
+### Dashboard
+
+- Ticket summary cards
+- Asset summary cards
+- Recent tickets
+- Recent assets
+- Loading, empty, and error states
+- Responsive frontend polish for the main pages
+
+### Testing and Documentation
+
+- Postman local environment
+- Postman collection for Auth, Ticket, and Asset APIs
+- Manual API testing documentation
+- Testing plan with frontend and API checklist coverage
+- Changelog and project planning documentation
 
 ## Tech Stack
 
 ### Frontend
-
-Planned frontend stack:
 
 - React
 - TypeScript
 - Vite
 - React Router
 - Axios
-- CSS or Tailwind CSS
-- Recharts
+- CSS
 
 ### Backend
-
-Current backend stack:
 
 - Node.js
 - Express
 - TypeScript
 - Prisma ORM
 - PostgreSQL
-- JWT authentication
+- JWT
 - bcrypt
-- Zod validation
+- Zod
 
-### Database
+### Testing and Tooling
 
-- PostgreSQL
-- Prisma ORM
-- Prisma migrations
-- Seed data for demo users and ticket categories
-
-### Testing and Documentation
-
-- Manual API test documentation
-- Postman environment
-- Postman collection
-- API testing documentation
-- Future automated tests
-
-### Automation
-
-Planned automation:
-
-- n8n webhook integration
-- Notification workflows
-
-### Local Development
-
+- Postman
+- Manual API testing
+- Manual frontend testing
 - Docker Compose for local PostgreSQL
-- Environment variables documented with `.env.example`
 
-### Deployment
+## API Features
 
-Planned deployment options:
-
-- Frontend: Vercel or Cloudflare Pages
-- Backend: Render, Railway, or Fly.io
-- Database: Neon, Supabase, or Railway PostgreSQL
-
-## Development Strategy
-
-This project is developed in small milestones.
-
-Completed development order:
-
-1. Project context and documentation
-2. Project planning documents
-3. Monorepo structure
-4. Backend base setup
-5. PostgreSQL and Prisma setup
-6. Authentication backend
-7. Repair ticket database schema
-8. Repair ticket backend API
-9. Postman environment setup
-10. Postman collection for Auth API and Ticket API
-11. Manual API testing documentation
-12. Frontend base setup
-13. Frontend authentication UI
-14. Frontend ticket list UI
-15. Frontend ticket detail UI
-16. Frontend create ticket UI
-17. Frontend ticket status update UI
-18. Frontend ticket assignment UI
-19. Frontend ticket comments UI
-20. Frontend ticket workflow review and cleanup
-21. Frontend dashboard overview UI
-
-Next planned milestones:
-
-1. Asset Management planning or backend design
-2. Booking system
-3. Inventory system
-4. Dashboard and reports expansion
-5. n8n automation
-6. AI-ready knowledge base
-7. Docker and deployment documentation
-8. QA documentation improvements
-9. Portfolio showcase preparation
-
-## Current Status
-
-Project status: Active development
-
-Completed:
-
-- Repository initialized
-- Project context documented
-- Codex agent guidelines added
-- README created
-- Changelog created
-- Project plan added
-- Roadmap added
-- System overview documentation added
-- Module documentation added
-- Database design documentation added
-- API design documentation added
-- Security notes documentation added
-- Testing plan documentation added
-- Manual API testing documentation added
-- Initial monorepo folder structure added
-- Backend base setup added
-- Express and TypeScript API setup added
-- Health check endpoint added
-- Error handling middleware added
-- Not found middleware added
-- Prisma setup added
-- Prisma v7 configuration added
-- PostgreSQL schema added
-- Local PostgreSQL Docker Compose setup added
-- Prisma migration added
-- Demo seed data script added
-- Demo users, organization, departments, locations, and ticket categories added
-- Authentication backend added
-- Register, login, and current user API routes added
-- JWT authentication added
-- bcrypt password hashing added
-- Zod request validation added
-- Repair ticket database schema added
-- Repair ticket backend API added
-- Ticket category, creation, list, detail, assignment, status update, and comment routes added
-- Postman local environment added
-- Postman collection for Auth API and Ticket API added
-- Manual API test cases for Auth API and Ticket API added
-- Frontend base setup completed
-- Vite, React, and TypeScript frontend skeleton added in `apps/web`
-- Placeholder frontend routes added for Login, Dashboard, Tickets, and Ticket Detail
-- Login page UI added
-- Login API integration added
-- Frontend auth route protection added
-- Current authenticated user integration added
-- Ticket list UI added
-- Ticket detail UI added
-- Create ticket UI added
-- Ticket status update UI added
-- Ticket assignment UI added
-- Ticket comments UI added
-- Frontend ticket workflow review and cleanup completed
-- Dashboard overview UI added using existing ticket data
-
-Current production-like completed module:
-
-- Repair ticket workflow, including backend API, Postman testing, manual API testing documentation, and frontend UI for list, detail, create, status update, assignment, comments, and dashboard overview.
-
-Current milestone:
-
-- Asset Management planning or backend design
-
-Next planned work:
-
-- Start Asset Management planning or backend design after documentation is current
-- Keep the next module scoped and avoid starting multiple systems at once
-
-## API Features Completed
-
-### Authentication API
+### Auth API
 
 | Method | Endpoint             | Description                        |
 | ------ | -------------------- | ---------------------------------- |
@@ -243,16 +137,28 @@ Next planned work:
 | Method | Endpoint                    | Description                 |
 | ------ | --------------------------- | --------------------------- |
 | GET    | `/api/ticket-categories`    | Get ticket categories       |
-| POST   | `/api/tickets`              | Create a new ticket         |
+| POST   | `/api/tickets`              | Create ticket               |
 | GET    | `/api/tickets`              | Get ticket list             |
 | GET    | `/api/tickets/:id`          | Get ticket detail           |
 | PATCH  | `/api/tickets/:id/status`   | Update ticket status        |
 | PATCH  | `/api/tickets/:id/assign`   | Assign ticket to technician |
 | POST   | `/api/tickets/:id/comments` | Add ticket comment          |
 
+### Asset API
+
+| Method | Endpoint                    | Description                   |
+| ------ | --------------------------- | ----------------------------- |
+| GET    | `/api/asset-categories`     | Get asset categories          |
+| POST   | `/api/assets`               | Create asset                  |
+| GET    | `/api/assets`               | Get asset list                |
+| GET    | `/api/assets/:id`           | Get asset detail              |
+| PATCH  | `/api/assets/:id`           | Update asset information      |
+| PATCH  | `/api/assets/:id/status`    | Update asset status           |
+| PATCH  | `/api/assets/:id/archive`   | Safely archive or retire asset |
+
 ## Demo Accounts
 
-Seed data includes the following demo accounts:
+Seed data includes demo accounts for local development and testing.
 
 | Role       | Email                       | Password       |
 | ---------- | --------------------------- | -------------- |
@@ -261,125 +167,58 @@ Seed data includes the following demo accounts:
 | User       | `user@campusflow.dev`       | `Password123!` |
 | Manager    | `manager@campusflow.dev`    | `Password123!` |
 
-These accounts are for local development and testing only.
+Do not use these credentials outside local development.
 
 ## Repository Structure
-
-Current structure:
 
 ```txt
 campusflow-platform/
 ├── apps/
-│   ├── web/
-│   │   ├── src/
-│   │   │   ├── layouts/
-│   │   │   ├── lib/
-│   │   │   ├── pages/
-│   │   │   ├── styles/
-│   │   │   ├── App.tsx
-│   │   │   └── main.tsx
-│   │   ├── .env.example
-│   │   ├── index.html
-│   │   ├── package.json
-│   │   ├── package-lock.json
-│   │   ├── tsconfig.json
-│   │   ├── tsconfig.node.json
-│   │   ├── vite.config.ts
-│   │   └── README.md
-│   └── api/
-│       ├── prisma/
-│       │   ├── migrations/
-│       │   ├── schema.prisma
-│       │   └── seed.ts
-│       ├── src/
-│       │   ├── config/
-│       │   ├── lib/
-│       │   │   └── prisma.ts
-│       │   ├── middlewares/
-│       │   ├── modules/
-│       │   ├── routes/
-│       │   ├── utils/
-│       │   ├── app.ts
-│       │   └── server.ts
-│       ├── .env.example
-│       ├── package.json
-│       ├── package-lock.json
-│       ├── prisma.config.ts
-│       ├── tsconfig.json
-│       └── README.md
-├── packages/
-│   └── shared/
-│       └── README.md
-├── docs/
-│   ├── system-overview.md
-│   ├── modules.md
-│   ├── database-design.md
-│   ├── api-design.md
-│   ├── security-notes.md
-│   ├── testing-plan.md
-│   └── manual-api-testing.md
-├── postman/
-│   ├── collections/
-│   │   └── CampusFlow API.postman_collection.json
-│   ├── environments/
-│   │   └── CampusFlow Local.postman_environment.json
-│   └── README.md
-├── docker/
-│   └── README.md
-├── docker-compose.yml
-├── AGENTS.md
+│   ├── api/              # Express, TypeScript, Prisma backend
+│   └── web/              # Vite, React, TypeScript frontend
+├── docs/                 # Architecture, API, testing, and planning docs
+├── postman/              # Postman collection and local environment
+├── packages/shared/      # Placeholder for future shared code
+├── docker/               # Local database documentation
+├── docker-compose.yml    # Local PostgreSQL service
 ├── PROJECT_CONTEXT.md
 ├── PROJECT_PLAN.md
 ├── ROADMAP.md
-├── README.md
 ├── CHANGELOG.md
-├── .gitignore
-└── .gitkeep
+└── README.md
 ```
-
-The structure will expand as additional modules, automation, deployment, and testing assets are added.
 
 ## Local Development
 
 ### Backend API
 
-Go to the backend app:
+From the backend app:
 
 ```bash
 cd apps/api
-```
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Start local PostgreSQL from the repository root:
+Start PostgreSQL from the repository root:
 
 ```bash
 docker compose up -d
 ```
 
-Run Prisma migration:
+Run Prisma migrations and seed data:
 
 ```bash
 npx prisma migrate dev
-```
-
-Run seed data:
-
-```bash
 npm run db:seed
 ```
 
-Start the backend development server:
+Start the backend:
 
 ```bash
 npm run dev
 ```
 
-Local backend API:
+Backend URL:
 
 ```txt
 http://localhost:4000
@@ -391,85 +230,59 @@ Health check:
 GET http://localhost:4000/health
 ```
 
+Backend type check:
+
+```bash
+npm run check
+```
+
 ### Frontend Web App
 
-Go to the frontend app:
+From the frontend app:
 
 ```bash
 cd apps/web
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Start the frontend development server:
-
-```bash
 npm run dev
 ```
 
-Build the frontend app:
-
-```bash
-npm run build
-```
-
-Local frontend app:
+Frontend URL:
 
 ```txt
 http://localhost:5173
 ```
 
-### Postman Testing
+Production build check:
 
-Postman resources are stored in:
-
-```txt
-postman/
+```bash
+npm run build
 ```
 
-Included files:
+### Postman Testing
+
+Postman files are stored in:
 
 ```txt
 postman/collections/CampusFlow API.postman_collection.json
 postman/environments/CampusFlow Local.postman_environment.json
 ```
 
-The Postman environment includes variables such as:
+The local environment includes variables for API base URL, demo login credentials, auth token, ticket IDs, technician ID, category IDs, and asset IDs.
 
-- `baseUrl`
-- `authToken`
-- `ticketId`
-- `categoryId`
-- `technicianId`
-- `adminEmail`
-- `technicianEmail`
-- `userEmail`
-- `managerEmail`
-- `defaultPassword`
+## Future Work
 
-## Important Notes
+Planned future milestones:
 
-This project is for portfolio and learning purposes.
-
-No real production secrets, API keys, passwords, database URLs, or private credentials should be committed to this repository.
-
-Environment variables should be documented using `.env.example` files.
-
-Demo credentials are only for local development and testing.
+- Booking system
+- Inventory and spare parts tracking
+- More dashboard reporting
+- Deployment documentation
+- n8n notification workflows
+- Automated tests
+- AI-ready knowledge base and assistant structure
 
 ## Portfolio Goal
 
-CampusFlow should show that the developer can plan, build, document, test, and deploy a realistic full-stack system step by step.
+CampusFlow is designed to show the ability to plan, build, document, test, and iterate on a realistic full-stack application.
 
-The final project should be suitable for:
-
-- GitHub portfolio
-- Personal website showcase
-- Job application discussion
-- Software Developer portfolio
-- QA / Software Tester portfolio
-- Full-stack project demonstration
+The project is suitable for GitHub portfolio review, personal website screenshots, and technical discussion in software developer or QA-focused interviews.
