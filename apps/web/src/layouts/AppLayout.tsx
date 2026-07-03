@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { clearAuthToken } from "../lib/auth";
 import { getCurrentUser, type CurrentUser } from "../lib/authApi";
+import { formatUserRole } from "../lib/displayLabels";
 
 export default function AppLayout() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function AppLayout() {
     <>
       <strong>{currentUser.name || "CampusFlow User"}</strong>
       <span>{currentUser.email}</span>
-      <span>{currentUser.role}</span>
+      <span>{formatUserRole(currentUser.role)}</span>
     </>
   ) : null;
 

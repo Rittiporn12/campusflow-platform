@@ -418,7 +418,7 @@ export default function AssetDetailPage() {
                   type="button"
                   onClick={() => setIsEditingAsset((current) => !current)}
                 >
-                  {isEditingAsset ? "Close editor" : "Edit asset information"}
+                  {isEditingAsset ? "Cancel editing" : "Edit asset information"}
                 </button>
               </div>
 

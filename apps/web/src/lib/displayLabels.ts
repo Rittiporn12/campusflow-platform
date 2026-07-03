@@ -1,6 +1,8 @@
 import type { AssetStatus } from "./assetsApi";
 import type { TicketPriority, TicketStatus } from "./ticketsApi";
 
+type UserRole = "USER" | "TECHNICIAN" | "ADMIN" | "MANAGER";
+
 const ticketStatusLabels: Record<TicketStatus, string> = {
   PENDING: "Pending",
   ASSIGNED: "Assigned",
@@ -23,6 +25,13 @@ const assetStatusLabels: Record<AssetStatus, string> = {
   UNDER_MAINTENANCE: "Under Maintenance",
   RETIRED: "Retired",
   LOST: "Lost",
+};
+
+const userRoleLabels: Record<UserRole, string> = {
+  USER: "User",
+  TECHNICIAN: "Technician",
+  ADMIN: "Admin",
+  MANAGER: "Manager",
 };
 
 export function formatEnumLabel(value: string | null | undefined) {
@@ -48,4 +57,10 @@ export function formatTicketPriority(priority: TicketPriority | null | undefined
 
 export function formatAssetStatus(status: AssetStatus | null | undefined) {
   return status ? assetStatusLabels[status] : formatEnumLabel(status);
+}
+
+export function formatUserRole(role: string | null | undefined) {
+  return role && role in userRoleLabels
+    ? userRoleLabels[role as UserRole]
+    : formatEnumLabel(role);
 }
