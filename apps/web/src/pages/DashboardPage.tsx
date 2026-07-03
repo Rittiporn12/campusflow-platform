@@ -25,6 +25,14 @@ function isResolvedStatus(status: TicketStatus) {
   return status === "COMPLETED" || status === "CANCELLED";
 }
 
+function getTicketStatusBadgeClass(status: TicketStatus) {
+  return `badge badge-ticket-status badge-ticket-status-${status.toLowerCase().replace(/_/g, "-")}`;
+}
+
+function getAssetStatusBadgeClass(status: AssetListItem["status"]) {
+  return `badge badge-status badge-status-${status.toLowerCase().replace(/_/g, "-")}`;
+}
+
 export default function DashboardPage() {
   const [tickets, setTickets] = useState<TicketListItem[]>([]);
   const [assets, setAssets] = useState<AssetListItem[]>([]);
@@ -86,12 +94,16 @@ export default function DashboardPage() {
   }, [assets]);
 
   const recentTickets = tickets.slice(0, 5);
+  const recentAssets = assets.slice(0, 5);
 
   return (
     <section className="page-section">
       <p className="eyebrow">Overview</p>
       <h1>Dashboard</h1>
-      <p>Welcome back. Here is a quick overview of visible ticket activity.</p>
+      <p>
+        Welcome back. Here is a quick overview of visible campus operations
+        activity.
+      </p>
 
       {isLoading ? <p className="state-message">Loading dashboard...</p> : null}
 
@@ -101,50 +113,75 @@ export default function DashboardPage() {
 
       {!isLoading && !errorMessage ? (
         <>
-          <div className="summary-grid">
-            <article className="summary-card">
-              <span>Total tickets</span>
-              <strong>{totalTickets}</strong>
-            </article>
+          <div className="dashboard-section">
+            <div className="section-heading">
+              <h2>Ticket overview</h2>
+              <Link className="secondary-link" to="/tickets">
+                View tickets
+              </Link>
+            </div>
 
-            <article className="summary-card">
-              <span>Open tickets</span>
-              <strong>{summary.open}</strong>
-            </article>
+            <div className="summary-grid">
+              <article className="summary-card">
+                <span>Total tickets</span>
+                <strong>{totalTickets}</strong>
+              </article>
 
-            <article className="summary-card">
-              <span>In progress</span>
-              <strong>{summary.inProgress}</strong>
-            </article>
+              <article className="summary-card">
+                <span>Open tickets</span>
+                <strong>{summary.open}</strong>
+              </article>
 
-            <article className="summary-card">
-              <span>Resolved or closed</span>
-              <strong>{summary.resolved}</strong>
-            </article>
+              <article className="summary-card">
+                <span>In progress</span>
+                <strong>{summary.inProgress}</strong>
+              </article>
 
-            <article className="summary-card">
-              <span>Total assets</span>
-              <strong>{assetSummary.total}</strong>
-            </article>
+              <article className="summary-card">
+                <span>Resolved or closed</span>
+                <strong>{summary.resolved}</strong>
+              </article>
+            </div>
+          </div>
 
-            <article className="summary-card">
-              <span>Available</span>
-              <strong>{assetSummary.available}</strong>
-            </article>
+          <div className="dashboard-section">
+            <div className="section-heading">
+              <h2>Asset overview</h2>
+              <Link className="secondary-link" to="/assets">
+                View assets
+              </Link>
+            </div>
 
-            <article className="summary-card">
-              <span>In use</span>
-              <strong>{assetSummary.inUse}</strong>
-            </article>
+            <div className="summary-grid">
+              <article className="summary-card">
+                <span>Total assets</span>
+                <strong>{assetSummary.total}</strong>
+              </article>
 
-            <article className="summary-card">
-              <span>Under maintenance</span>
-              <strong>{assetSummary.underMaintenance}</strong>
-            </article>
+              <article className="summary-card">
+                <span>Available</span>
+                <strong>{assetSummary.available}</strong>
+              </article>
+
+              <article className="summary-card">
+                <span>In use</span>
+                <strong>{assetSummary.inUse}</strong>
+              </article>
+
+              <article className="summary-card">
+                <span>Under maintenance</span>
+                <strong>{assetSummary.underMaintenance}</strong>
+              </article>
+            </div>
           </div>
 
           <article className="detail-panel dashboard-panel">
-            <h2>Recent tickets</h2>
+            <div className="section-heading">
+              <h2>Recent tickets</h2>
+              <Link className="secondary-link" to="/tickets">
+                Manage tickets
+              </Link>
+            </div>
 
             {recentTickets.length > 0 ? (
               <div className="activity-list">
@@ -156,8 +193,12 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="ticket-meta">
-                      <span>{ticket.status}</span>
-                      <span>{ticket.priority}</span>
+                      <span className={getTicketStatusBadgeClass(ticket.status)}>
+                        {ticket.status}
+                      </span>
+                      <span className="badge badge-priority">
+                        {ticket.priority}
+                      </span>
                     </div>
 
                     <Link className="secondary-link" to={`/tickets/${ticket.id}`}>
@@ -167,7 +208,44 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <p>No tickets found yet.</p>
+              <p>No ticket activity yet. New repair requests will appear here.</p>
+            )}
+          </article>
+
+          <article className="detail-panel dashboard-panel">
+            <div className="section-heading">
+              <h2>Recent assets</h2>
+              <Link className="secondary-link" to="/assets">
+                Manage assets
+              </Link>
+            </div>
+
+            {recentAssets.length > 0 ? (
+              <div className="activity-list">
+                {recentAssets.map((asset) => (
+                  <div className="activity-item dashboard-ticket" key={asset.id}>
+                    <div>
+                      <strong>{asset.name}</strong>
+                      <span>{asset.assetCode || "No asset code"}</span>
+                    </div>
+
+                    <div className="ticket-meta">
+                      <span className={getAssetStatusBadgeClass(asset.status)}>
+                        {asset.status}
+                      </span>
+                      <span className="badge badge-category">
+                        {asset.category?.name ?? "Uncategorized"}
+                      </span>
+                    </div>
+
+                    <Link className="secondary-link" to={`/assets/${asset.id}`}>
+                      View detail
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No assets found yet. Created asset records will appear here.</p>
             )}
           </article>
         </>

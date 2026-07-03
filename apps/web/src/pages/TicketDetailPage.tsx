@@ -41,6 +41,10 @@ function formatLocation(ticket: TicketDetail) {
   return parts.join(" - ");
 }
 
+function getTicketStatusBadgeClass(status: TicketStatus) {
+  return `badge badge-ticket-status badge-ticket-status-${status.toLowerCase().replace(/_/g, "-")}`;
+}
+
 export default function TicketDetailPage() {
   const { id } = useParams();
   const [ticket, setTicket] = useState<TicketDetail | null>(null);
@@ -217,9 +221,11 @@ export default function TicketDetailPage() {
         <div className="detail-stack">
           <article className="detail-panel">
             <div className="ticket-meta">
-              <span>{ticket.status}</span>
-              <span>{ticket.priority}</span>
-              <span>{ticket.category.name}</span>
+              <span className={getTicketStatusBadgeClass(ticket.status)}>
+                {ticket.status}
+              </span>
+              <span className="badge badge-priority">{ticket.priority}</span>
+              <span className="badge badge-category">{ticket.category.name}</span>
             </div>
 
             <p>{ticket.description}</p>

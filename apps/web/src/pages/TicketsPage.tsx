@@ -32,6 +32,10 @@ function formatLocation(ticket: TicketListItem) {
   return parts.join(" - ");
 }
 
+function getTicketStatusBadgeClass(status: TicketListItem["status"]) {
+  return `badge badge-ticket-status badge-ticket-status-${status.toLowerCase().replace(/_/g, "-")}`;
+}
+
 export default function TicketsPage() {
   const [tickets, setTickets] = useState<TicketListItem[]>([]);
   const [categories, setCategories] = useState<TicketCategory[]>([]);
@@ -226,7 +230,10 @@ export default function TicketsPage() {
       ) : null}
 
       {!isLoading && !errorMessage && tickets.length === 0 ? (
-        <p className="state-message">No tickets found.</p>
+        <p className="state-message">
+          No tickets found. Create a ticket above to start tracking a repair
+          request.
+        </p>
       ) : null}
 
       {!isLoading && !errorMessage && tickets.length > 0 ? (
@@ -239,8 +246,10 @@ export default function TicketsPage() {
               </div>
 
               <div className="ticket-meta">
-                <span>{ticket.status}</span>
-                <span>{ticket.priority}</span>
+                <span className={getTicketStatusBadgeClass(ticket.status)}>
+                  {ticket.status}
+                </span>
+                <span className="badge badge-priority">{ticket.priority}</span>
                 <span>{formatDate(ticket.createdAt)}</span>
               </div>
 
