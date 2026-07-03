@@ -1,7 +1,8 @@
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { AxiosError } from "axios";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
+import PaginationControls from "../components/PaginationControls";
 import {
   createTicket,
   getTicketCategories,
@@ -12,11 +13,17 @@ import {
 } from "../lib/ticketsApi";
 import { formatTicketPriority, formatTicketStatus } from "../lib/displayLabels";
 
+const PAGE_SIZE = 10;
+
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
+}
+
+function getSortableDate(ticket: TicketListItem & { updatedAt?: string }) {
+  return new Date(ticket.createdAt || ticket.updatedAt || 0).getTime();
 }
 
 function formatLocation(ticket: TicketListItem) {
@@ -45,6 +52,7 @@ function getTicketPriorityBadgeClass(priority: TicketPriority) {
 export default function TicketsPage() {
   const [tickets, setTickets] = useState<TicketListItem[]>([]);
   const [categories, setCategories] = useState<TicketCategory[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
@@ -147,6 +155,7 @@ export default function TicketsPage() {
       setPriority("MEDIUM");
       setCategoryId(categories[0]?.id ?? "");
       await loadTickets();
+      setCurrentPage(1);
       setIsCreateModalOpen(false);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
@@ -158,6 +167,25 @@ export default function TicketsPage() {
       setIsCreating(false);
     }
   }
+
+  const sortedTickets = useMemo(() => {
+    return [...tickets].sort((firstTicket, secondTicket) => {
+      return getSortableDate(secondTicket) - getSortableDate(firstTicket);
+    });
+  }, [tickets]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedTickets.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedTickets = sortedTickets.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   return (
     <section className="page-section">
@@ -285,7 +313,7 @@ export default function TicketsPage() {
         </p>
       ) : null}
 
-      {!isLoading && !errorMessage && tickets.length > 0 ? (
+      {!isLoading && !errorMessage && sortedTickets.length > 0 ? (
         <div className="ticket-list resource-list ticket-resource-list">
           <div className="resource-table-header ticket-table-header" aria-hidden="true">
             <span>Ticket</span>
@@ -296,7 +324,7 @@ export default function TicketsPage() {
             <span>Action</span>
           </div>
 
-          {tickets.map((ticket) => (
+          {paginatedTickets.map((ticket) => (
             <article className="ticket-card" key={ticket.id}>
               <div className="resource-primary">
                 <h2 className="truncate" title={ticket.title}>
@@ -332,6 +360,15 @@ export default function TicketsPage() {
               </div>
             </article>
           ))}
+
+          <PaginationControls
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            totalItems={sortedTickets.length}
+            pageSize={PAGE_SIZE}
+            itemLabel="tickets"
+            onPageChange={setCurrentPage}
+          />
         </div>
       ) : null}
     </section>

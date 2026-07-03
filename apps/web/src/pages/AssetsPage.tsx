@@ -2,6 +2,7 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { AxiosError } from "axios";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
+import PaginationControls from "../components/PaginationControls";
 import {
   createAsset,
   getAssetCategories,
@@ -11,6 +12,8 @@ import {
   type AssetStatus,
 } from "../lib/assetsApi";
 import { formatAssetStatus } from "../lib/displayLabels";
+
+const PAGE_SIZE = 10;
 
 type AssetStatusFilter = "ALL" | AssetStatus;
 
@@ -58,6 +61,7 @@ function formatBrandModel(asset: AssetListItem) {
 export default function AssetsPage() {
   const [assets, setAssets] = useState<AssetListItem[]>([]);
   const [categories, setCategories] = useState<AssetCategory[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
@@ -174,6 +178,7 @@ export default function AssetsPage() {
       setSerialNumber("");
       setNotes("");
       await loadAssets();
+      setCurrentPage(1);
       setIsCreateModalOpen(false);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
@@ -211,6 +216,32 @@ export default function AssetsPage() {
       return matchesStatus && matchesSearch;
     });
   }, [assets, searchTerm, statusFilter]);
+
+  const sortedAssets = useMemo(() => {
+    return [...filteredAssets].sort((firstAsset, secondAsset) => {
+      const firstDate = new Date(firstAsset.createdAt || firstAsset.updatedAt).getTime();
+      const secondDate = new Date(secondAsset.createdAt || secondAsset.updatedAt).getTime();
+
+      return secondDate - firstDate;
+    });
+  }, [filteredAssets]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedAssets.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedAssets = sortedAssets.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, statusFilter]);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   return (
     <section className="page-section">
@@ -407,7 +438,7 @@ export default function AssetsPage() {
         <p className="state-message">No assets match the current filters.</p>
       ) : null}
 
-      {!isLoading && !errorMessage && filteredAssets.length > 0 ? (
+      {!isLoading && !errorMessage && sortedAssets.length > 0 ? (
         <div className="ticket-list resource-list asset-resource-list">
           <div className="resource-table-header asset-table-header" aria-hidden="true">
             <span>Asset</span>
@@ -420,7 +451,7 @@ export default function AssetsPage() {
             <span>Action</span>
           </div>
 
-          {filteredAssets.map((asset) => (
+          {paginatedAssets.map((asset) => (
             <article className="ticket-card" key={asset.id}>
               <div className="resource-primary">
                 <h2 className="truncate" title={asset.name}>
@@ -462,6 +493,15 @@ export default function AssetsPage() {
               </div>
             </article>
           ))}
+
+          <PaginationControls
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            totalItems={sortedAssets.length}
+            pageSize={PAGE_SIZE}
+            itemLabel="assets"
+            onPageChange={setCurrentPage}
+          />
         </div>
       ) : null}
     </section>

@@ -22,6 +22,10 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+function getSortableDate(item: { createdAt?: string; updatedAt?: string }) {
+  return new Date(item.createdAt || item.updatedAt || 0).getTime();
+}
+
 function isOpenStatus(status: TicketStatus) {
   return status === "PENDING" || status === "ASSIGNED";
 }
@@ -102,8 +106,21 @@ export default function DashboardPage() {
     };
   }, [assets]);
 
-  const recentTickets = tickets.slice(0, 5);
-  const recentAssets = assets.slice(0, 5);
+  const recentTickets = useMemo(() => {
+    return [...tickets]
+      .sort((firstTicket, secondTicket) => {
+        return getSortableDate(secondTicket) - getSortableDate(firstTicket);
+      })
+      .slice(0, 5);
+  }, [tickets]);
+
+  const recentAssets = useMemo(() => {
+    return [...assets]
+      .sort((firstAsset, secondAsset) => {
+        return getSortableDate(secondAsset) - getSortableDate(firstAsset);
+      })
+      .slice(0, 5);
+  }, [assets]);
 
   return (
     <section className="page-section">
