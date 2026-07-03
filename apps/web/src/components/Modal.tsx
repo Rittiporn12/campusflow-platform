@@ -1,0 +1,48 @@
+import { type ReactNode } from "react";
+
+type ModalProps = {
+  title: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
+  footer?: ReactNode;
+};
+
+export default function Modal({
+  title,
+  isOpen,
+  onClose,
+  children,
+  footer,
+}: ModalProps) {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="modal-backdrop" role="presentation">
+      <section
+        className="modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
+        <div className="modal-header">
+          <h2 id="modal-title">{title}</h2>
+          <button
+            className="modal-close-button"
+            type="button"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="modal-body">{children}</div>
+
+        {footer ? <div className="modal-footer">{footer}</div> : null}
+      </section>
+    </div>
+  );
+}

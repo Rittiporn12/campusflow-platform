@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { AxiosError } from "axios";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
 import {
   createAsset,
   getAssetCategories,
@@ -53,8 +54,10 @@ export default function AssetsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [formMessage, setFormMessage] = useState("");
+  const [pageMessage, setPageMessage] = useState("");
   const [assetCode, setAssetCode] = useState("");
   const [name, setName] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -154,6 +157,7 @@ export default function AssetsPage() {
       });
 
       setFormMessage(response.message || "Asset created successfully.");
+      setPageMessage(response.message || "Asset created successfully.");
       setAssetCode("");
       setName("");
       setCategoryId(categories[0]?.id ?? "");
@@ -163,6 +167,7 @@ export default function AssetsPage() {
       setSerialNumber("");
       setNotes("");
       await loadAssets();
+      setIsCreateModalOpen(false);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
       setFormMessage(
@@ -202,116 +207,153 @@ export default function AssetsPage() {
 
   return (
     <section className="page-section">
-      <p className="eyebrow">Asset management</p>
-      <h1>Assets</h1>
-      <p>Review campus assets visible to your current role.</p>
-
-      <form className="create-ticket-form" onSubmit={handleCreateAsset}>
-        <h2>Create asset</h2>
-
-        <div className="form-grid">
-          <label className="form-field" htmlFor="asset-code">
-            <span>Asset code</span>
-            <input
-              id="asset-code"
-              value={assetCode}
-              onChange={(event) => setAssetCode(event.target.value)}
-              placeholder="ASSET-001"
-            />
-          </label>
-
-          <label className="form-field" htmlFor="asset-name">
-            <span>Name</span>
-            <input
-              id="asset-name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Classroom projector"
-            />
-          </label>
+      <div className="page-header">
+        <div>
+          <p className="eyebrow">Asset management</p>
+          <h1>Assets</h1>
+          <p>Review campus assets visible to your current role.</p>
         </div>
-
-        <label className="form-field" htmlFor="asset-category">
-          <span>Category</span>
-          <select
-            id="asset-category"
-            value={categoryId}
-            onChange={(event) => setCategoryId(event.target.value)}
-            disabled={isLoadingCategories}
-          >
-            <option value="">Select category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="form-field" htmlFor="asset-description">
-          <span>Description</span>
-          <textarea
-            id="asset-description"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder="Optional asset description"
-            rows={3}
-          />
-        </label>
-
-        <div className="form-grid">
-          <label className="form-field" htmlFor="asset-brand">
-            <span>Brand</span>
-            <input
-              id="asset-brand"
-              value={brand}
-              onChange={(event) => setBrand(event.target.value)}
-              placeholder="Optional brand"
-            />
-          </label>
-
-          <label className="form-field" htmlFor="asset-model">
-            <span>Model</span>
-            <input
-              id="asset-model"
-              value={model}
-              onChange={(event) => setModel(event.target.value)}
-              placeholder="Optional model"
-            />
-          </label>
-        </div>
-
-        <label className="form-field" htmlFor="asset-serial-number">
-          <span>Serial number</span>
-          <input
-            id="asset-serial-number"
-            value={serialNumber}
-            onChange={(event) => setSerialNumber(event.target.value)}
-            placeholder="Optional serial number"
-          />
-        </label>
-
-        <label className="form-field" htmlFor="asset-notes">
-          <span>Notes</span>
-          <textarea
-            id="asset-notes"
-            value={notes}
-            onChange={(event) => setNotes(event.target.value)}
-            placeholder="Optional asset notes"
-            rows={3}
-          />
-        </label>
 
         <button
           className="primary-button"
-          type="submit"
-          disabled={isCreating || isLoadingCategories}
+          type="button"
+          onClick={() => {
+            setFormMessage("");
+            setPageMessage("");
+            setIsCreateModalOpen(true);
+          }}
         >
-          {isCreating ? "Creating..." : "Create asset"}
+          Create asset
         </button>
+      </div>
 
-        {formMessage ? <p className="form-message">{formMessage}</p> : null}
-      </form>
+      {pageMessage ? <p className="form-message">{pageMessage}</p> : null}
+
+      <Modal
+        title="Create asset"
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        footer={
+          <>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => setIsCreateModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="primary-button"
+              type="submit"
+              form="create-asset-form"
+              disabled={isCreating || isLoadingCategories}
+            >
+              {isCreating ? "Creating..." : "Create asset"}
+            </button>
+          </>
+        }
+      >
+        <form
+          id="create-asset-form"
+          className="modal-form"
+          onSubmit={handleCreateAsset}
+        >
+          <div className="form-grid">
+            <label className="form-field" htmlFor="asset-code">
+              <span>Asset code</span>
+              <input
+                id="asset-code"
+                value={assetCode}
+                onChange={(event) => setAssetCode(event.target.value)}
+                placeholder="ASSET-001"
+              />
+            </label>
+
+            <label className="form-field" htmlFor="asset-name">
+              <span>Name</span>
+              <input
+                id="asset-name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Classroom projector"
+              />
+            </label>
+          </div>
+
+          <label className="form-field" htmlFor="asset-category">
+            <span>Category</span>
+            <select
+              id="asset-category"
+              value={categoryId}
+              onChange={(event) => setCategoryId(event.target.value)}
+              disabled={isLoadingCategories}
+            >
+              <option value="">Select category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="form-field" htmlFor="asset-description">
+            <span>Description</span>
+            <textarea
+              id="asset-description"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="Optional asset description"
+              rows={3}
+            />
+          </label>
+
+          <div className="form-grid">
+            <label className="form-field" htmlFor="asset-brand">
+              <span>Brand</span>
+              <input
+                id="asset-brand"
+                value={brand}
+                onChange={(event) => setBrand(event.target.value)}
+                placeholder="Optional brand"
+              />
+            </label>
+
+            <label className="form-field" htmlFor="asset-model">
+              <span>Model</span>
+              <input
+                id="asset-model"
+                value={model}
+                onChange={(event) => setModel(event.target.value)}
+                placeholder="Optional model"
+              />
+            </label>
+          </div>
+
+          <label className="form-field" htmlFor="asset-serial-number">
+            <span>Serial number</span>
+            <input
+              id="asset-serial-number"
+              value={serialNumber}
+              onChange={(event) => setSerialNumber(event.target.value)}
+              placeholder="Optional serial number"
+            />
+          </label>
+
+          <label className="form-field" htmlFor="asset-notes">
+            <span>Notes</span>
+            <textarea
+              id="asset-notes"
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              placeholder="Optional asset notes"
+              rows={3}
+            />
+          </label>
+
+          {formMessage ? <p className="form-message">{formMessage}</p> : null}
+        </form>
+      </Modal>
 
       {isLoading ? <p className="state-message">Loading assets...</p> : null}
 
@@ -359,7 +401,7 @@ export default function AssetsPage() {
       ) : null}
 
       {!isLoading && !errorMessage && filteredAssets.length > 0 ? (
-        <div className="ticket-list">
+        <div className="ticket-list card-grid">
           {filteredAssets.map((asset) => (
             <article className="ticket-card" key={asset.id}>
               <div>

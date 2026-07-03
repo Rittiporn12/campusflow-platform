@@ -175,79 +175,81 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <article className="detail-panel dashboard-panel">
-            <div className="section-heading">
-              <h2>Recent tickets</h2>
-              <Link className="secondary-link" to="/tickets">
-                Manage tickets
-              </Link>
-            </div>
-
-            {recentTickets.length > 0 ? (
-              <div className="activity-list">
-                {recentTickets.map((ticket) => (
-                  <div className="activity-item dashboard-ticket" key={ticket.id}>
-                    <div>
-                      <strong>{ticket.title}</strong>
-                      <span>{formatDate(ticket.createdAt)}</span>
-                    </div>
-
-                    <div className="ticket-meta">
-                      <span className={getTicketStatusBadgeClass(ticket.status)}>
-                        {ticket.status}
-                      </span>
-                      <span className="badge badge-priority">
-                        {ticket.priority}
-                      </span>
-                    </div>
-
-                    <Link className="secondary-link" to={`/tickets/${ticket.id}`}>
-                      View detail
-                    </Link>
-                  </div>
-                ))}
+          <div className="dashboard-content-grid">
+            <article className="detail-panel dashboard-panel">
+              <div className="section-heading">
+                <h2>Recent tickets</h2>
+                <Link className="secondary-link" to="/tickets">
+                  Manage tickets
+                </Link>
               </div>
-            ) : (
-              <p>No ticket activity yet. New repair requests will appear here.</p>
-            )}
-          </article>
 
-          <article className="detail-panel dashboard-panel">
-            <div className="section-heading">
-              <h2>Recent assets</h2>
-              <Link className="secondary-link" to="/assets">
-                Manage assets
-              </Link>
-            </div>
+              {recentTickets.length > 0 ? (
+                <div className="activity-list">
+                  {recentTickets.map((ticket) => (
+                    <div className="activity-item dashboard-ticket" key={ticket.id}>
+                      <div>
+                        <strong>{ticket.title}</strong>
+                        <span>{formatDate(ticket.createdAt)}</span>
+                      </div>
 
-            {recentAssets.length > 0 ? (
-              <div className="activity-list">
-                {recentAssets.map((asset) => (
-                  <div className="activity-item dashboard-ticket" key={asset.id}>
-                    <div>
-                      <strong>{asset.name}</strong>
-                      <span>{asset.assetCode || "No asset code"}</span>
+                      <div className="ticket-meta">
+                        <span className={getTicketStatusBadgeClass(ticket.status)}>
+                          {ticket.status}
+                        </span>
+                        <span className="badge badge-priority">
+                          {ticket.priority}
+                        </span>
+                      </div>
+
+                      <Link className="secondary-link" to={`/tickets/${ticket.id}`}>
+                        View detail
+                      </Link>
                     </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No ticket activity yet. New repair requests will appear here.</p>
+              )}
+            </article>
 
-                    <div className="ticket-meta">
-                      <span className={getAssetStatusBadgeClass(asset.status)}>
-                        {asset.status}
-                      </span>
-                      <span className="badge badge-category">
-                        {asset.category?.name ?? "Uncategorized"}
-                      </span>
-                    </div>
-
-                    <Link className="secondary-link" to={`/assets/${asset.id}`}>
-                      View detail
-                    </Link>
-                  </div>
-                ))}
+            <article className="detail-panel dashboard-panel">
+              <div className="section-heading">
+                <h2>Recent assets</h2>
+                <Link className="secondary-link" to="/assets">
+                  Manage assets
+                </Link>
               </div>
-            ) : (
-              <p>No assets found yet. Created asset records will appear here.</p>
-            )}
-          </article>
+
+              {recentAssets.length > 0 ? (
+                <div className="activity-list">
+                  {recentAssets.map((asset) => (
+                    <div className="activity-item dashboard-ticket" key={asset.id}>
+                      <div>
+                        <strong>{asset.name}</strong>
+                        <span>{asset.assetCode || "No asset code"}</span>
+                      </div>
+
+                      <div className="ticket-meta">
+                        <span className={getAssetStatusBadgeClass(asset.status)}>
+                          {asset.status}
+                        </span>
+                        <span className="badge badge-category">
+                          {asset.category?.name ?? "Uncategorized"}
+                        </span>
+                      </div>
+
+                      <Link className="secondary-link" to={`/assets/${asset.id}`}>
+                        View detail
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No assets found yet. Created asset records will appear here.</p>
+              )}
+            </article>
+          </div>
         </>
       ) : null}
     </section>

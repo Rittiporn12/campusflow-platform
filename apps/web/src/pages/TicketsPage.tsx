@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
 import {
   createTicket,
   getTicketCategories,
@@ -42,8 +43,10 @@ export default function TicketsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [formMessage, setFormMessage] = useState("");
+  const [pageMessage, setPageMessage] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -133,11 +136,13 @@ export default function TicketsPage() {
       });
 
       setFormMessage(response.message || "Ticket created successfully.");
+      setPageMessage(response.message || "Ticket created successfully.");
       setTitle("");
       setDescription("");
       setPriority("MEDIUM");
       setCategoryId(categories[0]?.id ?? "");
       await loadTickets();
+      setIsCreateModalOpen(false);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
       setFormMessage(
@@ -151,77 +156,116 @@ export default function TicketsPage() {
 
   return (
     <section className="page-section">
-      <p className="eyebrow">Repair workflow</p>
-      <h1>Tickets</h1>
-      <p>Review repair requests visible to your current role.</p>
-
-      <form className="create-ticket-form" onSubmit={handleCreateTicket}>
-        <h2>Create ticket</h2>
-
-        <label className="form-field" htmlFor="ticket-title">
-          <span>Title</span>
-          <input
-            id="ticket-title"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            placeholder="Briefly describe the issue"
-          />
-        </label>
-
-        <label className="form-field" htmlFor="ticket-description">
-          <span>Description</span>
-          <textarea
-            id="ticket-description"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder="Add details about the problem"
-            rows={4}
-          />
-        </label>
-
-        <div className="form-grid">
-          <label className="form-field" htmlFor="ticket-category">
-            <span>Category</span>
-            <select
-              id="ticket-category"
-              value={categoryId}
-              onChange={(event) => setCategoryId(event.target.value)}
-              disabled={isLoadingCategories}
-            >
-              <option value="">Select category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="form-field" htmlFor="ticket-priority">
-            <span>Priority</span>
-            <select
-              id="ticket-priority"
-              value={priority}
-              onChange={(event) => setPriority(event.target.value as TicketPriority)}
-            >
-              <option value="LOW">LOW</option>
-              <option value="MEDIUM">MEDIUM</option>
-              <option value="HIGH">HIGH</option>
-              <option value="CRITICAL">CRITICAL</option>
-            </select>
-          </label>
+      <div className="page-header">
+        <div>
+          <p className="eyebrow">Repair workflow</p>
+          <h1>Tickets</h1>
+          <p>Review repair requests visible to your current role.</p>
         </div>
 
         <button
           className="primary-button"
-          type="submit"
-          disabled={isCreating || isLoadingCategories}
+          type="button"
+          onClick={() => {
+            setFormMessage("");
+            setPageMessage("");
+            setIsCreateModalOpen(true);
+          }}
         >
-          {isCreating ? "Creating..." : "Create ticket"}
+          Create ticket
         </button>
+      </div>
 
-        {formMessage ? <p className="form-message">{formMessage}</p> : null}
-      </form>
+      {pageMessage ? <p className="form-message">{pageMessage}</p> : null}
+
+      <Modal
+        title="Create ticket"
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        footer={
+          <>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => setIsCreateModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="primary-button"
+              type="submit"
+              form="create-ticket-form"
+              disabled={isCreating || isLoadingCategories}
+            >
+              {isCreating ? "Creating..." : "Create ticket"}
+            </button>
+          </>
+        }
+      >
+        <form
+          id="create-ticket-form"
+          className="modal-form"
+          onSubmit={handleCreateTicket}
+        >
+          <label className="form-field" htmlFor="ticket-title">
+            <span>Title</span>
+            <input
+              id="ticket-title"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              placeholder="Briefly describe the issue"
+            />
+          </label>
+
+          <label className="form-field" htmlFor="ticket-description">
+            <span>Description</span>
+            <textarea
+              id="ticket-description"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="Add details about the problem"
+              rows={4}
+            />
+          </label>
+
+          <div className="form-grid">
+            <label className="form-field" htmlFor="ticket-category">
+              <span>Category</span>
+              <select
+                id="ticket-category"
+                value={categoryId}
+                onChange={(event) => setCategoryId(event.target.value)}
+                disabled={isLoadingCategories}
+              >
+                <option value="">Select category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="form-field" htmlFor="ticket-priority">
+              <span>Priority</span>
+              <select
+                id="ticket-priority"
+                value={priority}
+                onChange={(event) =>
+                  setPriority(event.target.value as TicketPriority)
+                }
+              >
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+                <option value="CRITICAL">CRITICAL</option>
+              </select>
+            </label>
+          </div>
+
+          {formMessage ? <p className="form-message">{formMessage}</p> : null}
+        </form>
+      </Modal>
 
       {isLoading ? <p className="state-message">Loading tickets...</p> : null}
 
@@ -237,7 +281,7 @@ export default function TicketsPage() {
       ) : null}
 
       {!isLoading && !errorMessage && tickets.length > 0 ? (
-        <div className="ticket-list">
+        <div className="ticket-list card-grid">
           {tickets.map((ticket) => (
             <article className="ticket-card" key={ticket.id}>
               <div>
