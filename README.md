@@ -1,14 +1,14 @@
 # CampusFlow — Smart Campus Operations Platform
 
-CampusFlow is an active full-stack portfolio project that simulates a smart campus or internal operations platform.
+CampusFlow is an active full-stack portfolio project that simulates a smart campus or internal operations platform for campus repair requests, asset tracking, and operations visibility.
 
 It is built to demonstrate practical work across frontend development, backend API design, database modeling, authentication, role-based authorization, QA documentation, Postman testing, and portfolio-ready project documentation.
 
-CampusFlow is intentionally developed in small milestones. It is not presented as a finished enterprise product; it is a growing showcase of clean, maintainable full-stack development.
+CampusFlow is intentionally developed in small milestones. It is not presented as a finished enterprise product; it is a portfolio-ready showcase of clean, maintainable full-stack development across API design, database modeling, frontend workflows, testing, and documentation.
 
 ## Current Project Status
 
-Status: Active development
+Status: Portfolio-ready core workflow, active development continues
 
 Current production-like completed areas:
 
@@ -16,6 +16,7 @@ Current production-like completed areas:
 - Repair ticket workflow
 - Asset management workflow
 - Dashboard overview using existing ticket and asset data
+- Responsive frontend layout for desktop, laptop, tablet, and mobile
 - Postman and manual API testing documentation for implemented APIs
 
 Current frontend coverage:
@@ -27,6 +28,7 @@ Current frontend coverage:
 - Ticket detail and workflow actions
 - Assets
 - Asset detail and workflow actions
+- Responsive desktop, laptop, tablet, and mobile layout with mobile navigation drawer
 
 Planned future work remains intentionally scoped, including booking, inventory, richer reports, automation, deployment documentation, and future AI-ready features.
 
@@ -76,6 +78,18 @@ Planned future work remains intentionally scoped, including booking, inventory, 
 - Asset status history
 - Frontend asset list, detail, create, update, status, archive, search/filter, and dashboard summary UI
 
+### Frontend Experience
+
+- Login page connected to backend authentication
+- Authenticated layout with current user profile and logout
+- Dashboard overview for tickets and assets
+- Ticket list with pagination, latest-first sorting, and responsive card/table layouts
+- Ticket detail workflow for status updates, assignment, and comments
+- Asset list with search/filter, pagination, latest-first sorting, and responsive card/table layouts
+- Asset detail workflow for editing, status updates, and safe archive/retire action
+- Modal workflows for ticket and asset creation
+- Mobile top navigation and drawer menu for smaller screens
+
 ### Dashboard
 
 - Ticket summary cards
@@ -83,7 +97,7 @@ Planned future work remains intentionally scoped, including booking, inventory, 
 - Recent tickets
 - Recent assets
 - Loading, empty, and error states
-- Responsive frontend polish for the main pages
+- Responsive frontend polish for desktop, laptop, tablet, and mobile
 
 ### Testing and Documentation
 
@@ -269,13 +283,30 @@ postman/environments/CampusFlow Local.postman_environment.json
 
 The local environment includes variables for API base URL, demo login credentials, auth token, ticket IDs, technician ID, category IDs, and asset IDs.
 
+## Screenshots
+
+Recommended screenshot paths for the current portfolio showcase are listed below. Add captured images under `docs/screenshots` when preparing the GitHub README or portfolio page.
+
+| Screen | Path |
+| ------ | ---- |
+| Login | `docs/screenshots/01-login.png` |
+| Dashboard | `docs/screenshots/02-dashboard.png` |
+| Tickets | `docs/screenshots/03-tickets.png` |
+| Create Ticket modal | `docs/screenshots/04-create-ticket-modal.png` |
+| Ticket Detail | `docs/screenshots/05-ticket-detail.png` |
+| Assets | `docs/screenshots/06-assets.png` |
+| Create Asset modal | `docs/screenshots/07-create-asset-modal.png` |
+| Asset Detail | `docs/screenshots/08-asset-detail.png` |
+| Mobile Dashboard | `docs/screenshots/09-mobile-dashboard.png` |
+| Mobile Navigation | `docs/screenshots/10-mobile-navigation.png` |
+
 ## Future Work
 
 Planned future milestones:
 
 - Booking system
 - Inventory and spare parts tracking
-- More dashboard reporting
+- More dashboard reporting and charts
 - Deployment documentation
 - n8n notification workflows
 - Automated tests

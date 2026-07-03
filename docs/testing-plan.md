@@ -476,27 +476,30 @@ Preconditions:
 
 Checklist:
 
-1. Log in with the admin demo account.
-2. Confirm the dashboard loads ticket and asset summaries.
-3. Confirm dashboard recent ticket and asset links open detail pages.
-4. Open the ticket list.
-5. Create a ticket with valid title, description, category, and priority.
-6. Open ticket detail.
-7. Update ticket status.
-8. Assign a technician by technician ID.
-9. Add a ticket comment.
-10. Return to the ticket list and confirm the ticket is still visible.
-11. Open the asset list.
-12. Create an asset with asset code, name, and category.
-13. Open asset detail.
-14. Update asset information.
-15. Update asset status.
-16. Archive or retire the asset.
-17. Confirm the asset status changes to `RETIRED`.
-18. Confirm the archive action is disabled or hidden after retirement.
-19. Check the main pages on a narrow viewport for responsive layout issues.
-20. Run backend type check with `npm run check` in `apps/api`.
-21. Run frontend production build with `npm run build` in `apps/web`.
+1. Auth flow: log in with the admin demo account.
+2. Auth flow: confirm the app redirects to the dashboard and shows the current user profile.
+3. Dashboard: confirm ticket and asset summary cards load.
+4. Dashboard: confirm recent ticket and asset links open detail pages.
+5. Ticket workflow: open the ticket list.
+6. Ticket workflow: create a ticket with valid title, description, category, and priority.
+7. Ticket workflow: open ticket detail.
+8. Ticket workflow: update ticket status.
+9. Ticket workflow: assign a technician by technician ID.
+10. Ticket workflow: add a ticket comment.
+11. Ticket workflow: return to the ticket list and confirm the ticket is still visible.
+12. Asset workflow: open the asset list.
+13. Asset workflow: create an asset with asset code, name, and category.
+14. Asset workflow: open asset detail.
+15. Asset workflow: update asset information.
+16. Asset workflow: update asset status.
+17. Asset workflow: archive or retire the asset.
+18. Asset workflow: confirm the asset status changes to `RETIRED`.
+19. Asset workflow: confirm the archive action is disabled or hidden after retirement.
+20. Responsive check: review dashboard, tickets, ticket detail, assets, asset detail, modals, and pagination at desktop, tablet, and mobile widths.
+21. Responsive check: confirm mobile navigation uses the compact top bar and drawer instead of the desktop sidebar.
+22. Responsive check: confirm there is no horizontal scrolling on narrow mobile widths around 390px and 375px.
+23. Backend check: run `npm run check` in `apps/api`.
+24. Frontend build: run `npm run build` in `apps/web`.
 
 ## n8n Automation Test Areas
 

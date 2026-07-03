@@ -138,6 +138,7 @@ This project follows a simple changelog format to make the development history c
 - Verified manual backend, Postman, frontend, and production build testing.
 - Kept hard delete, advanced asset reports, and charts for later if needed.
 - Added showcase checklist documentation for future portfolio screenshots.
+- Added final showcase documentation updates for GitHub and portfolio presentation.
 
 ### Changed
 
@@ -158,10 +159,13 @@ This project follows a simple changelog format to make the development history c
 - Verified the manual frontend flow and `npm run build`.
 - Updated root `README.md` to reflect the current full-stack portfolio project status.
 - Updated testing documentation with a final manual testing checklist.
+- Prepared the project documentation for screenshots and portfolio showcase.
 
 ### Fixed
 
-- No fixes yet.
+- Fixed responsive app layout so mobile and tablet views use the compact top navigation and drawer instead of the desktop sidebar.
+- Improved mobile navigation and drawer behavior for authenticated pages.
+- Improved mobile layouts for the dashboard, tickets, assets, detail pages, modals, and pagination.
 
 ## [0.0.1] - Initial Planning
 
