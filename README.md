@@ -73,17 +73,20 @@
 <br />
 
 <div align="center">
-  <img src="./docs/screenshots/03-tickets.png" width="430" alt="CampusFlow Tickets Preview" />
-  &nbsp;
-  <img src="./docs/screenshots/06-assets.png" width="430" alt="CampusFlow Assets Preview" />
+  <img src="./docs/screenshots/03-tickets.png" width="900" alt="CampusFlow Tickets Preview" />
+</div>
+
+<br />
+<div align="center">
+  <img src="./docs/screenshots/06-assets.png" width="900" alt="CampusFlow Assets Preview" />
 </div>
 
 <br />
 
 <div align="center">
-  <img src="./docs/screenshots/09-mobile-dashboard.png" width="260" alt="CampusFlow Mobile Dashboard" />
+  <img src="./docs/screenshots/09-mobile-dashboard.png" width="360" alt="CampusFlow Mobile Dashboard" />
   &nbsp;
-  <img src="./docs/screenshots/10-mobile-navigation.png" width="260" alt="CampusFlow Mobile Navigation" />
+  <img src="./docs/screenshots/10-mobile-navigation.png" width="360" alt="CampusFlow Mobile Navigation" />
 </div>
 
 <hr />
